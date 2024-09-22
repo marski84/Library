@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: library
+
+  datasource:
+#    url: jdbc:postgresql://localhost:5433/library
+#    url: jdbc:postgresql://172.17.0.2:5433/library
+    url: jdbc:postgresql://localhost:5433/library
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  data:
+    rest:
+      base-path: /api/
+

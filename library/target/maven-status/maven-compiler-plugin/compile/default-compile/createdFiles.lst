@@ -1,0 +1,11 @@
+org/localhost/library/book/BookController.class
+org/localhost/library/library/LibraryService.class
+org/localhost/library/book/BookRepository.class
+org/localhost/library/user/UserController.class
+org/localhost/library/book/BookService.class
+org/localhost/library/models/User.class
+org/localhost/library/user/UserRepository.class
+org/localhost/library/library/LibraryController.class
+org/localhost/library/models/Book.class
+org/localhost/library/user/UserService.class
+org/localhost/library/LibraryApplication.class
