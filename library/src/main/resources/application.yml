@@ -5,7 +5,10 @@ spring:
   datasource:
 #    url: jdbc:postgresql://localhost:5433/library
 #    url: jdbc:postgresql://172.17.0.2:5433/library
-    url: jdbc:postgresql://localhost:5433/library
+    spring:
+      datasource:
+#    url: jdbc:postgresql://host.docker.internal:5433/library
+    url: jdbc:postgresql://db:5432/library
     username: admin
     password: admin
     driver-class-name: org.postgresql.Driver
