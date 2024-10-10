@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "users", indexes = {@Index(name = "idx_users_user_name", columnList = "user_name")}, uniqueConstraints = {@UniqueConstraint(name = "uq_users_user_name", columnNames = {"user_name"})})
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

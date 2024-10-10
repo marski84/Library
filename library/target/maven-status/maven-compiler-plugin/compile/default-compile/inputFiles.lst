@@ -3,9 +3,9 @@
 /Users/marcinochmanski/Desktop/java/Library/library/src/main/java/org/localhost/library/library/LibraryController.java
 /Users/marcinochmanski/Desktop/java/Library/library/src/main/java/org/localhost/library/user/UserService.java
 /Users/marcinochmanski/Desktop/java/Library/library/src/main/java/org/localhost/library/book/BookRepository.java
-/Users/marcinochmanski/Desktop/java/Library/library/src/main/java/org/localhost/library/models/Book.java
 /Users/marcinochmanski/Desktop/java/Library/library/src/main/java/org/localhost/library/book/BookService.java
 /Users/marcinochmanski/Desktop/java/Library/library/src/main/java/org/localhost/library/user/UserRepository.java
+/Users/marcinochmanski/Desktop/java/Library/library/src/main/java/org/localhost/library/book/model/Book.java
 /Users/marcinochmanski/Desktop/java/Library/library/src/main/java/org/localhost/library/LibraryApplication.java
-/Users/marcinochmanski/Desktop/java/Library/library/src/main/java/org/localhost/library/models/User.java
 /Users/marcinochmanski/Desktop/java/Library/library/src/main/java/org/localhost/library/library/LibraryService.java
+/Users/marcinochmanski/Desktop/java/Library/library/src/main/java/org/localhost/library/user/model/User.java

@@ -13,6 +13,7 @@ import org.localhost.library.user.model.User;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "books")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +37,6 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
 
 
 }

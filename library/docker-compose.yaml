@@ -11,6 +11,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5433/library
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=admin
+      - SPRING_PROFILES_ACTIVE=dev
 
   db:
     image: postgres:14
@@ -23,6 +24,12 @@ services:
       - POSTGRES_PASSWORD=admin
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+        test: [ "CMD-SHELL", "pg_isready -U admin" ]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+
 
 volumes:
   postgres_data:
