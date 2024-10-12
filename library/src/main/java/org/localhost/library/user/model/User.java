@@ -9,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,6 +27,9 @@ public class User {
 
     @Column(nullable = false)
     private String lastName;
+
+    @Column(nullable = false)
+    private int age;
 
     private int penaltyPoints = 0;
     private boolean isBlocked = false;

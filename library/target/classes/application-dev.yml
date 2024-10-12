@@ -1,8 +1,9 @@
 spring:
   datasource:
-    url: jdbc:postgresql://db:5432/library
-    username: admin
-    password: admin
+    url: jdbc:postgresql://db:5432//${POSTGRES_DB}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
   jpa:
     show-sql: true
     defer-datasource-initialization: true
@@ -13,6 +14,9 @@ spring:
     init:
       mode: always
       schema-locations: classpath:schema.sql
+  data:
+    rest:
+      base-path: /api/
 
 logging:
   level:
