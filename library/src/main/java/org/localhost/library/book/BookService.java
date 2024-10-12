@@ -1,7 +1,8 @@
 package org.localhost.library.book;
 
-import org.springframework.stereotype.Service;
+import org.localhost.library.book.dto.BookRegistrationDto;
+import org.localhost.library.book.model.Book;
 
-@Service
-public class BookService {
+public interface BookService {
+    Book registerBook(BookRegistrationDto bookData);
 }

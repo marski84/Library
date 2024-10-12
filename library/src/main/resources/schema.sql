@@ -21,8 +21,8 @@ CREATE TABLE IF NOT EXISTS books
     title     VARCHAR(255) NOT NULL,
     author    VARCHAR(255) NOT NULL,
     publisher VARCHAR(255) NOT NULL,
-    isbn      VARCHAR(255) NOT NULL,
-    pages     VARCHAR(255) NOT NULL,
+    isbn      VARCHAR(50) NULL,
+    pages     INTEGER NOT NULL,
     user_id   BIGINT,
     CONSTRAINT fk_user
         FOREIGN KEY (user_id)

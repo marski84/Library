@@ -2,15 +2,12 @@ package org.localhost.library.book.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.localhost.library.user.model.User;
 
 @Entity
 @Getter
-@Builder
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "books")
@@ -32,7 +29,7 @@ public class Book {
     private String isbn;
 
     @Column(nullable = false)
-    private String pages;
+    private int pages;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

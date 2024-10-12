@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.localhost.library.Repositories.InMemoryUserRepository;
+import org.localhost.library.repositories.InMemoryUserRepository;
 import org.localhost.library.user.dto.EditUserDataDto;
 import org.localhost.library.user.dto.RegisteredUserDto;
 import org.localhost.library.user.dto.UserDto;

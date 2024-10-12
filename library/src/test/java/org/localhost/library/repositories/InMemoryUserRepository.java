@@ -1,4 +1,4 @@
-package org.localhost.library.Repositories;
+package org.localhost.library.repositories;
 
 import org.localhost.library.user.UserRepository;
 import org.localhost.library.user.model.User;

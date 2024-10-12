@@ -1,7 +1,9 @@
 package org.localhost.library.user.exceptions;
 
+import org.localhost.library.user.exceptions.messages.UserExceptionMessages;
+
 public class UserAlreadyExistsException extends RuntimeException {
     public UserAlreadyExistsException() {
-        super(ExceptionMessages.USER_EXISTS);
+        super(UserExceptionMessages.USER_EXISTS);
     }
 }
