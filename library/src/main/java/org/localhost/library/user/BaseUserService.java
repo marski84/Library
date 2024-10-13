@@ -1,5 +1,6 @@
 package org.localhost.library.user;
 
+import org.localhost.library.book.utils.AppLogger;
 import org.localhost.library.user.dto.EditUserDataDto;
 import org.localhost.library.user.dto.RegisteredUserDto;
 import org.localhost.library.user.dto.UserDto;
@@ -10,7 +11,6 @@ import org.localhost.library.user.model.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
@@ -27,10 +27,12 @@ public class BaseUserService implements UserService {
     @Transactional
     public RegisteredUserDto registerUser(UserRegistrationDto userRegistrationDto) {
         if (userRegistrationDto == null) {
+            AppLogger.logInfo("UserRegistrationDto is null");
             throw new IllegalArgumentException("userRegistrationDto cannot be null");
         }
 
         if (userRepository.existsByUserName(userRegistrationDto.getUserName())) {
+            AppLogger.logInfo("User name already exists: " + userRegistrationDto.getUserName());
             throw new UserAlreadyExistsException();
         }
 
@@ -71,6 +73,7 @@ public class BaseUserService implements UserService {
     @Transactional
     public UserDto updateUser(long userId, EditUserDataDto userDto) {
         if (userDto == null) {
+            AppLogger.logInfo("UserDto is null for " + userId);
             throw new IllegalArgumentException("userDto cannot be null");
         }
         validateUserId(userId);
@@ -131,6 +134,7 @@ public class BaseUserService implements UserService {
 
     private void validateUserId(long userId) {
         if (userId <= 0) {
+            AppLogger.logInfo("User id is null");
             throw new IllegalArgumentException("userId cannot be null");
         }
     }

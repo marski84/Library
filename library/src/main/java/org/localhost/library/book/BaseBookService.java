@@ -6,6 +6,7 @@ import org.localhost.library.book.dto.EditBookDto;
 import org.localhost.library.book.exceptions.BookAlreadyExistsException;
 import org.localhost.library.book.exceptions.BookNotFoundException;
 import org.localhost.library.book.model.Book;
+import org.localhost.library.book.utils.AppLogger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ public class BaseBookService implements BookService {
 
     private final BookRepository bookRepository;
 
+
     public BaseBookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
@@ -25,11 +27,13 @@ public class BaseBookService implements BookService {
     @Transactional
     public Book registerBook(BookRegistrationDto bookData) {
         if (bookData == null) {
+            AppLogger.logError("Book registration data cannot be null");
             throw new IllegalArgumentException("Book registration data cannot be null");
         }
 
 //        ISBN is unique- we have to validate it
         if (bookRepository.existsBookByIsbn(bookData.getIsbn())) {
+            AppLogger.logError("Book already exists " + bookData.getIsbn());
             throw new BookAlreadyExistsException();
         }
         Book book = new Book();
@@ -46,9 +50,12 @@ public class BaseBookService implements BookService {
     @Transactional
     public BookDto removeBook(long bookId) {
         validateBookId(bookId);
-        Book bookToRemove = bookRepository.findById(bookId).orElseThrow(
-                BookNotFoundException::new
-        );
+        Book bookToRemove = bookRepository.findById(bookId)
+                .orElseThrow(() -> {
+                    AppLogger.logError("Book with ID " + bookId + " not found");
+                    return new BookNotFoundException();
+                });
+
 
         bookRepository.delete(bookToRemove);
         return BookDto.builder()
@@ -62,7 +69,11 @@ public class BaseBookService implements BookService {
     public BookDto getBookById(long bookId) {
         validateBookId(bookId);
 
-        Book book = bookRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
+        Book book = bookRepository.findById(bookId).orElseThrow(
+                () -> {
+                    AppLogger.logError("Book with ID " + bookId + " not found");
+                    return new BookNotFoundException();
+                });
         return BookDto.builder()
                 .title(book.getTitle())
                 .author(book.getAuthor())
@@ -90,6 +101,7 @@ public class BaseBookService implements BookService {
         validateBookId(bookId);
 
         if (bookData == null) {
+            AppLogger.logError("edit book data cannot be null for id: " + bookId);
             throw new IllegalArgumentException("Book edit data cannot be null");
         }
 
@@ -115,6 +127,7 @@ public class BaseBookService implements BookService {
 
     private void validateBookId(long bookId) {
         if (bookId <= 0) {
+            AppLogger.logError("book id cannot be null or negative");
             throw new IllegalArgumentException("Book id cannot be less than zero");
         }
     }
