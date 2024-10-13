@@ -16,5 +16,4 @@ public class UserDto {
     private int age;
     private int penaltyPoints;
     private boolean isBlocked;
-    private List<Book> books;
 }

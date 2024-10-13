@@ -167,8 +167,7 @@ class BaseUserServiceTest {
                 () -> assertEquals(activeUser.getId(), testResult.getId()),
                 () -> assertEquals(activeUser.getUserName(), testResult.getUserName()),
                 () -> assertEquals(activeUser.getPenaltyPoints(), testResult.getPenaltyPoints()),
-                () -> assertFalse(testResult.isBlocked()),
-                () -> assertNotNull(testResult.getBooks())
+                () -> assertFalse(testResult.isBlocked())
         );
     }
 
@@ -235,4 +234,5 @@ class BaseUserServiceTest {
                 ()-> assertEquals(secondUser.getId(), testResultList.get(1).getId())
         );
     }
+
 }

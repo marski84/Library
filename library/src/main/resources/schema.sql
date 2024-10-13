@@ -23,10 +23,6 @@ CREATE TABLE IF NOT EXISTS books
     publisher VARCHAR(255) NOT NULL,
     isbn      VARCHAR(50) NULL,
     pages     INTEGER NOT NULL,
-    user_id   BIGINT,
-    CONSTRAINT fk_user
-        FOREIGN KEY (user_id)
-            REFERENCES users (id),
     CONSTRAINT uq_books_isbn UNIQUE (isbn),
     CONSTRAINT chk_books_pages CHECK (CAST(pages AS INTEGER) > 0)
 );

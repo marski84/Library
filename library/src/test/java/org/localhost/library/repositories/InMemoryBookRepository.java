@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.StreamSupport;
 
 public class InMemoryBookRepository implements BookRepository {
     Map<Long, Book> books = new HashMap<>();
@@ -37,24 +38,25 @@ public class InMemoryBookRepository implements BookRepository {
     }
 
     @Override
-    public Optional<Book> findById(Integer integer) {
-        return Optional.empty();
+    public Optional<Book> findById(Long aLong) {
+        return books.values().stream().filter(book -> book.getId() == aLong).findFirst();
     }
 
     @Override
-    public boolean existsById(Integer integer) {
+    public boolean existsById(Long aLong) {
         return false;
     }
 
     @Override
     public Iterable<Book> findAll() {
-        return null;
+        return books.values();
     }
 
     @Override
-    public Iterable<Book> findAllById(Iterable<Integer> integers) {
+    public Iterable<Book> findAllById(Iterable<Long> longs) {
         return null;
     }
+
 
     @Override
     public long count() {
@@ -62,17 +64,19 @@ public class InMemoryBookRepository implements BookRepository {
     }
 
     @Override
-    public void deleteById(Integer integer) {
+    public void deleteById(Long aLong) {
 
     }
+
+
 
     @Override
     public void delete(Book entity) {
-
+        books.remove(entity.getId());
     }
 
     @Override
-    public void deleteAllById(Iterable<? extends Integer> integers) {
+    public void deleteAllById(Iterable<? extends Long> longs) {
 
     }
 

@@ -33,9 +33,6 @@ public class User {
     private int penaltyPoints = 0;
     private boolean isBlocked = false;
 
-    @OneToMany(mappedBy = "user")
-    private List<Book> books = new ArrayList<>();
-
 
     public void blockUser() {
         isBlocked = true;

@@ -108,7 +108,6 @@ public class BaseUserService implements UserService {
                 .userName(user.getUserName())
                 .penaltyPoints(user.getPenaltyPoints())
                 .isBlocked(user.isBlocked())
-                .books(user.getBooks())
                 .build();
     }
 

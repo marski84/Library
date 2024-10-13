@@ -30,10 +30,4 @@ public class Book {
 
     @Column(nullable = false)
     private int pages;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-
 }
