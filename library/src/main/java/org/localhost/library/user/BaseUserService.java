@@ -1,6 +1,7 @@
 package org.localhost.library.user;
 
 import org.localhost.library.book.utils.AppLogger;
+import org.localhost.library.library.RentalStatus;
 import org.localhost.library.user.dto.EditUserDataDto;
 import org.localhost.library.user.dto.RegisteredUserDto;
 import org.localhost.library.user.dto.UserDto;
@@ -27,12 +28,12 @@ public class BaseUserService implements UserService {
     @Transactional
     public RegisteredUserDto registerUser(UserRegistrationDto userRegistrationDto) {
         if (userRegistrationDto == null) {
-            AppLogger.logInfo("UserRegistrationDto is null");
+            AppLogger.logError("UserRegistrationDto is null");
             throw new IllegalArgumentException("userRegistrationDto cannot be null");
         }
 
         if (userRepository.existsByUserName(userRegistrationDto.getUserName())) {
-            AppLogger.logInfo("User name already exists: " + userRegistrationDto.getUserName());
+            AppLogger.logError("User name already exists: " + userRegistrationDto.getUserName());
             throw new UserAlreadyExistsException();
         }
 
@@ -43,6 +44,7 @@ public class BaseUserService implements UserService {
         newUser.setLastName(userRegistrationDto.getLastName());
 
         User registeredUser = userRepository.save(newUser);
+        AppLogger.logInfo("Registered user: " + registeredUser.toString());
 
         return RegisteredUserDto.builder()
                 .id(registeredUser.getId())
@@ -62,6 +64,8 @@ public class BaseUserService implements UserService {
         User userToRemove = findUserById(userId);
 
         userRepository.delete(userToRemove);
+
+        AppLogger.logInfo("Removed user with id: " + userToRemove.getId());
 
         return UserDto.builder()
                 .id(userToRemove.getId())
@@ -92,6 +96,9 @@ public class BaseUserService implements UserService {
 
         User updatedUser = userRepository.save(userToEdit);
 
+        AppLogger.logInfo("Updated user with id: " + updatedUser.getId());
+
+
         return UserDto.builder()
                 .userName(updatedUser.getUserName())
                 .firstName(userDto.getFirstName())
@@ -101,10 +108,56 @@ public class BaseUserService implements UserService {
     }
 
     @Override
+    @Transactional
+    public void blockUser(long id) {
+        validateUserId(id);
+        User userToBlock = findUserById(id);
+        if (userToBlock.isBlocked()) {
+            return;
+        }
+        userToBlock.setBlocked(true);
+        userRepository.save(userToBlock);
+    }
+
+    @Override
+    @Transactional
+    public void unblockUser(long id) {
+        validateUserId(id);
+        User userToBlock = findUserById(id);
+        if (!userToBlock.isBlocked()) {
+            return;
+        }
+        userToBlock.setBlocked(false);
+        userRepository.save(userToBlock);
+    }
+
+    @Override
+    @Transactional
+    public void updateUserPenaltyPoints(long userId, int maxPenaltyPoints, RentalStatus rentalStatus) {
+        validateUserId(userId);
+        User userToUpdate = findUserById(userId);
+        switch (rentalStatus) {
+            case DUE_TODAY -> userToUpdate.setPenaltyPoints(2);
+            case OVERDUE -> userToUpdate.setPenaltyPoints(5);
+        }
+
+
+        if (userToUpdate.getPenaltyPoints() >= maxPenaltyPoints ) {
+            userToUpdate.setBlocked(true);
+        }
+
+        userRepository.save(userToUpdate);
+
+    }
+
+    @Override
     public UserDto getUserStatus(long userId) {
         validateUserId(userId);
 
         User user = findUserById(userId);
+
+        AppLogger.logInfo("Collected data for user with id: " + user.getId());
+
 
         return UserDto.builder()
                 .id(user.getId())
@@ -119,6 +172,8 @@ public class BaseUserService implements UserService {
         Iterable<User> usersIterable = userRepository.findAll();
         List<User> userList = StreamSupport.stream(usersIterable.spliterator(), false)
                 .toList();
+
+        AppLogger.logInfo("Found " + userList.size() + " users");
         return userList.stream()
                 .map(user -> UserDto.builder()
                         .id(user.getId())
@@ -132,9 +187,11 @@ public class BaseUserService implements UserService {
         return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
+
+
     private void validateUserId(long userId) {
         if (userId <= 0) {
-            AppLogger.logInfo("User id is null");
+            AppLogger.logError("User id is null");
             throw new IllegalArgumentException("userId cannot be null");
         }
     }

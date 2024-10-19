@@ -1,5 +1,6 @@
 package org.localhost.library.user;
 
+import org.localhost.library.library.RentalStatus;
 import org.localhost.library.user.dto.EditUserDataDto;
 import org.localhost.library.user.dto.RegisteredUserDto;
 import org.localhost.library.user.dto.UserDto;
@@ -20,4 +21,10 @@ public interface UserService {
     List<UserDto> getAllUsers();
 
     User findUserById(long id);
+
+    void blockUser(long id);
+
+    void unblockUser(long id);
+
+    void updateUserPenaltyPoints(long userId, int maxPenaltyPoints, RentalStatus rentalStatus);
 }

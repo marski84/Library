@@ -10,7 +10,7 @@ import java.util.List;
 public interface BookService {
     Book registerBook(BookRegistrationDto bookData);
     BookDto removeBook(long bookId);
-    BookDto getBookById(long bookId);
+    Book getBookById(long bookId);
     List<BookDto> getAllBooks();
     BookDto editBook(long bookId, EditBookDto bookData);
 }

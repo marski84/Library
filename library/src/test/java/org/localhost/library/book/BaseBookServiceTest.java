@@ -114,7 +114,7 @@ class BaseBookServiceTest {
 //        given
         Book book = objectUnderTest.registerBook(bookRegistrationDto);
 //        when
-        BookDto testResult = objectUnderTest.getBookById(book.getId());
+        Book testResult = objectUnderTest.getBookById(book.getId());
 //        then
         assertAll(
                 ()-> assertEquals(book.getTitle(), testResult.getTitle()),

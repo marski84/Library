@@ -235,4 +235,28 @@ class BaseUserServiceTest {
         );
     }
 
+    @Test
+    @DisplayName("blockUser should successfully block user")
+    void blockUser() {
+//        given
+        RegisteredUserDto testUser = objectUnderTest.registerUser(testUserDto);
+//        when
+        objectUnderTest.blockUser(testUser.getId());
+        User testResult = objectUnderTest.findUserById(testUser.getId());
+//        then
+        assertTrue(testResult.isBlocked());
+    }
+
+    @Test
+    @DisplayName("unblockUser should activate blocked user")
+    void unblockUser() {
+//        given
+        RegisteredUserDto testUser = objectUnderTest.registerUser(testUserDto);
+        objectUnderTest.blockUser(testUser.getId());
+//        when
+        objectUnderTest.unblockUser(testUser.getId());
+        User testResult = objectUnderTest.findUserById(testUser.getId());
+//        then
+        assertFalse(testResult.isBlocked());
+    }
 }

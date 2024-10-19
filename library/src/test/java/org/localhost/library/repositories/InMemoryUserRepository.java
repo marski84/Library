@@ -7,21 +7,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class InMemoryUserRepository implements UserRepository {
-    private Map<Integer, User> users = new HashMap<>();
-    private AtomicInteger userId = new AtomicInteger(1);
+    private Map<Long, User> users = new HashMap<>();
+    private AtomicLong userId = new AtomicLong(1);
 
     @Override
     public User save(User entity) {
         if (entity.getId() == 0) {
-            int userId = this.userId.getAndIncrement();
+            long userId = this.userId.getAndIncrement();
             entity.setId(userId);
             users.put(userId, entity);
             return users.get(userId);
         } else {
-            users.replace((int) entity.getId(), entity);
-            return users.get((int) entity.getId());
+            users.replace(entity.getId(), entity);
+            return users.get(entity.getId());
         }
     }
 

@@ -10,6 +10,7 @@ import org.localhost.library.user.model.User;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Table(name = "books")
 public class Book {
     @Id

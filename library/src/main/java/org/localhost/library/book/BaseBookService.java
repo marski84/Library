@@ -43,6 +43,7 @@ public class BaseBookService implements BookService {
         book.setIsbn(bookData.getIsbn());
         book.setPages(bookData.getPages());
 
+        AppLogger.logInfo("Book registration successful for " + book.toString());
         return bookRepository.save(book);
     }
 
@@ -58,6 +59,7 @@ public class BaseBookService implements BookService {
 
 
         bookRepository.delete(bookToRemove);
+        AppLogger.logInfo("Book with ID " + bookId + " removed successfully");
         return BookDto.builder()
                 .id(bookToRemove.getId())
                 .isbn(bookToRemove.getIsbn())
@@ -66,7 +68,7 @@ public class BaseBookService implements BookService {
     }
 
     @Override
-    public BookDto getBookById(long bookId) {
+    public Book getBookById(long bookId) {
         validateBookId(bookId);
 
         Book book = bookRepository.findById(bookId).orElseThrow(
@@ -74,18 +76,14 @@ public class BaseBookService implements BookService {
                     AppLogger.logError("Book with ID " + bookId + " not found");
                     return new BookNotFoundException();
                 });
-        return BookDto.builder()
-                .title(book.getTitle())
-                .author(book.getAuthor())
-                .publisher(book.getPublisher())
-                .pages(book.getPages())
-                .isbn(book.getIsbn())
-                .build();
+        AppLogger.logInfo("Book with ID " + bookId + " found");
+        return book;
     }
 
     @Override
     public List<BookDto> getAllBooks() {
         Iterable<Book> books = bookRepository.findAll();
+        AppLogger.logInfo("Books found");
         return StreamSupport.stream(books.spliterator(), false)
                 .map(book -> BookDto.builder()
                         .id(book.getId())
@@ -113,6 +111,7 @@ public class BaseBookService implements BookService {
         bookToEdit.setPages(bookData.getPages());
 
         Book updateBook = bookRepository.save(bookToEdit);
+        AppLogger.logInfo("Book with ID " + bookId + " edited successfully");
 
         return BookDto.builder()
                 .id(updateBook.getId())
