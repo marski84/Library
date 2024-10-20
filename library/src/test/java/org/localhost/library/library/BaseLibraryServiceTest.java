@@ -10,6 +10,8 @@ import org.localhost.library.book.dto.BookRegistrationDto;
 import org.localhost.library.book.model.Book;
 import org.localhost.library.config.ConfigService;
 import org.localhost.library.library.dto.SuccessfulRentalDto;
+import org.localhost.library.library.exceptions.NotValidReturnDateException;
+import org.localhost.library.library.exceptions.RentalNotFoundException;
 import org.localhost.library.library.exceptions.RentalNotPossibleException;
 import org.localhost.library.library.model.Rental;
 import org.localhost.library.library.services.InMemoryConfigService;
@@ -23,6 +25,7 @@ import org.localhost.library.user.dto.RegisteredUserDto;
 import org.localhost.library.user.dto.UserRegistrationDto;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,7 +36,8 @@ class BaseLibraryServiceTest {
     private final String TEST_FIRST_NAME = "firstName";
     private final String TEST_LAST_NAME = "lastName";
     private final int TEST_AGE = 40;
-    private final Long NON_EXISTING_USER_ID = 4255L;
+    private final long NON_EXISTING_BOOK_ID = 4255l;
+    private final long NON_EXISTING_USER_ID = 4255l;
     private final String EDITED_USER_NAME = "editedName";
     private int testRentalTime;
 
@@ -151,6 +155,40 @@ class BaseLibraryServiceTest {
 //        then
         assertAll(
                 ()-> assertEquals(bookReturnConfirmation.getReturnDate(), returnData)
+        );
+    }
+
+    @Test
+    @DisplayName("registerBookReturn should throw when no book rental is found")
+    void registerBookReturnWhenNoBookRentalFound() {
+        assertThrows(
+                RentalNotFoundException.class,
+                () -> objectUnderTest.registerBookReturn(
+                        NON_EXISTING_BOOK_ID,
+                        NON_EXISTING_USER_ID,
+                        Instant.now()
+                )
+        );
+    }
+
+    @Test
+    @DisplayName("registerBookReturn should throw when return date is earlier than rent date")
+    void registerBookReturnWhenReturnDateIsEarlierThanRentDate() {
+        //        given
+        Book testBook = rentABook();
+        RegisteredUserDto testUser = testUser();
+        SuccessfulRentalDto testRental = objectUnderTest.rentBookToUser(
+                testBook.getId(), testUser.getId());
+
+        Instant sevenDaysEarlier = (Instant.now()).minus(7, ChronoUnit.DAYS);
+//        when, then
+        assertThrows(
+                NotValidReturnDateException.class
+                , () -> objectUnderTest.registerBookReturn(
+                        testBook.getId(),
+                        testUser.getId(),
+                        sevenDaysEarlier
+                )
         );
     }
 }

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.localhost.library.library.RentalStatus;
 import org.localhost.library.repositories.InMemoryUserRepository;
 import org.localhost.library.user.dto.EditUserDataDto;
 import org.localhost.library.user.dto.RegisteredUserDto;
@@ -258,5 +259,29 @@ class BaseUserServiceTest {
         User testResult = objectUnderTest.findUserById(testUser.getId());
 //        then
         assertFalse(testResult.isBlocked());
+    }
+
+    @Test
+    @DisplayName("updateUserPenaltyPoints should successfully update user penalty points")
+    void updateUserPenaltyPoints() {
+//        given
+        RegisteredUserDto testUser = objectUnderTest.registerUser(testUserDto);
+//        when
+        objectUnderTest.updateUserPenaltyPoints(testUser.getId(), 5, RentalStatus.OVERDUE);
+        User testResult = objectUnderTest.findUserById(testUser.getId());
+//        then
+        assertEquals(testUser.getPenaltyPoints() + 5, testResult.getPenaltyPoints());
+    }
+
+    @Test
+    @DisplayName("updateUserPenaltyPoints should block rental")
+    void updateUserPenaltyPointsBlocked() {
+//        given
+        RegisteredUserDto testUser = objectUnderTest.registerUser(testUserDto);
+//        when
+        objectUnderTest.updateUserPenaltyPoints(testUser.getId(), 1, RentalStatus.OVERDUE);
+        User testResult = objectUnderTest.findUserById(testUser.getId());
+//        then
+        assertTrue(testResult.isBlocked());
     }
 }

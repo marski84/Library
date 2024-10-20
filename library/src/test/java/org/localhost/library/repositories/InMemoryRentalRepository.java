@@ -4,6 +4,7 @@ import org.localhost.library.library.RentalRepository;
 import org.localhost.library.library.model.Rental;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
@@ -23,8 +24,18 @@ public class InMemoryRentalRepository implements RentalRepository {
     }
 
     @Override
-    public Optional<Rental> findByUserId(String userId) {
+    public Optional<Rental> findByUserId(long userId) {
         return null;
+    }
+
+    @Override
+    public Optional<Rental> findByBookId(long bookId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<List<Rental>> findAllByBookId(long bookId) {
+        return Optional.empty();
     }
 
     @Override
