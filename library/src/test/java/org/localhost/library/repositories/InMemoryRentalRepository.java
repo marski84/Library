@@ -3,17 +3,16 @@ package org.localhost.library.repositories;
 import org.localhost.library.library.RentalRepository;
 import org.localhost.library.library.model.Rental;
 
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.StreamSupport;
 
 public class InMemoryRentalRepository implements RentalRepository {
     Map<Long, Rental> rentals = new HashMap<>();
     AtomicLong idGenerator = new AtomicLong();
-
 
 
     @Override
@@ -34,8 +33,29 @@ public class InMemoryRentalRepository implements RentalRepository {
     }
 
     @Override
-    public Optional<List<Rental>> findAllByBookId(long bookId) {
-        return Optional.empty();
+    public List<Rental> findAllByBookId(long bookId) {
+        return rentals.values().stream()
+                .filter(rental -> rental.getBook().getId() == bookId)
+                .toList();
+    }
+
+    @Override
+    public List<Rental> findAllByUserId(long userId) {
+        return rentals.values().stream()
+                .filter(rental -> rental.getUser().getId() == userId)
+                .toList();
+    }
+
+    @Override
+    public List<Rental> findAllByReturnDateIsNull() {
+        return rentals.values().stream()
+                .filter(rental -> rental.getReturnDate() == null)
+                .toList();
+    }
+
+    @Override
+    public List<Rental> findOverdueRentals(ZonedDateTime now) {
+        return List.of();
     }
 
     @Override

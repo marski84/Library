@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS users
 );
 
 CREATE INDEX IF NOT EXISTS idx_users_user_name ON users (user_name);
+CREATE INDEX IF NOT EXISTS idx_user_id ON users (id);
 -----
 CREATE TABLE IF NOT EXISTS books
 (
@@ -27,6 +28,8 @@ CREATE TABLE IF NOT EXISTS books
 );
 
 CREATE INDEX IF NOT EXISTS idx_books_isbn ON books (isbn);
+CREATE INDEX IF NOT EXISTS idx_book_id ON books (id);
+
 
 ----
 CREATE TABLE IF NOT EXISTS rentals
@@ -46,9 +49,10 @@ CREATE TABLE IF NOT EXISTS rentals
             REFERENCES users (id)
 );
 
-CREATE INDEX idx_rentals_book_id ON rentals (book_id);
-CREATE INDEX idx_rentals_user_id ON rentals (user_id);
-CREATE INDEX idx_rentals_return_date ON rentals (return_date);
+CREATE INDEX IF NOT EXISTS idx_rental_id ON rentals (id);
+CREATE INDEX IF NOT EXISTS idx_rentals_book_id ON rentals (book_id);
+CREATE INDEX IF NOT EXISTS idx_rentals_user_id ON rentals (user_id);
+CREATE INDEX IF NOT EXISTS idx_rentals_return_date ON rentals (return_date);
 
 ALTER TABLE rentals
     ADD CONSTRAINT check_due_date
@@ -72,4 +76,4 @@ VALUES ('max_penalty_points', 10, 'Maksymalna liczba punktów karnych dla użytk
        ('late_return_fee', 0.50, 'Opłata za każdy dzień spóźnienia (w PLN)');
 
 -- Dodanie indeksu dla szybszego wyszukiwania (opcjonalne, ale zalecane dla większych tabel)
-CREATE INDEX idx_library_config_key ON library_config (config_key);
+CREATE INDEX IF NOT EXISTS idx_library_config_key ON library_config (config_key);

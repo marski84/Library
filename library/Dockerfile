@@ -8,7 +8,7 @@ EXPOSE 8080
 #COPY target/*.jar app.jar
 
 # Set environment variables for GraalVM optimization
-ENV JAVA_OPTS="-XX:+UseG1GC -XX:+UseStringDeduplication -XX:MaxGCPauseMillis=200 -Xmx512m"
+ENV JAVA_OPTS="Xms1024m -Xmx1024m -XX:+UseG1GC"
 
 # Run the application
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

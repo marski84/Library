@@ -4,7 +4,7 @@ package org.localhost.library.config;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @Service
 public class BaseConfigService implements ConfigService {
@@ -36,12 +36,12 @@ public class BaseConfigService implements ConfigService {
 //                .map(config -> new BigDecimal(config.getValue()));
 //    }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void updateConfig(String key, int value) {
         LibraryParams config = libraryParamsRepository.findById(key).orElseThrow();
         config.setKey(key);
         config.setValue(value);
-        config.setLastUpdated(Instant.now());
+        config.setLastUpdated(ZonedDateTime.now());
         libraryParamsRepository.save(config);
     }
 }

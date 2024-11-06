@@ -2,10 +2,11 @@ package org.localhost.library.book.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.localhost.library.user.model.User;
+import lombok.ToString;
 
 @Getter
 @Builder
+@ToString
 public class BookDto {
     private long id;
     private String title;

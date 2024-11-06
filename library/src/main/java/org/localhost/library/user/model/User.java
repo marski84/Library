@@ -2,10 +2,6 @@ package org.localhost.library.user.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.localhost.library.book.model.Book;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter

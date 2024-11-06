@@ -3,10 +3,10 @@ package org.localhost.library.book;
 import org.localhost.library.book.dto.BookDto;
 import org.localhost.library.book.dto.BookRegistrationDto;
 import org.localhost.library.book.dto.EditBookDto;
-import org.localhost.library.book.exceptions.BookAlreadyExistsException;
-import org.localhost.library.book.exceptions.BookNotFoundException;
+import org.localhost.library.book.exceptions.BookException;
+import org.localhost.library.book.exceptions.messages.BookError;
 import org.localhost.library.book.model.Book;
-import org.localhost.library.book.utils.AppLogger;
+import org.localhost.library.utils.AppLogger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +24,7 @@ public class BaseBookService implements BookService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Book registerBook(BookRegistrationDto bookData) {
         if (bookData == null) {
             AppLogger.logError("Book registration data cannot be null");
@@ -33,8 +33,9 @@ public class BaseBookService implements BookService {
 
 //        ISBN is unique- we have to validate it
         if (bookRepository.existsBookByIsbn(bookData.getIsbn())) {
-            AppLogger.logError("Book already exists " + bookData.getIsbn());
-            throw new BookAlreadyExistsException();
+            BookException bookExistsException = new BookException(BookError.BOOK_ALREADY_EXISTS);
+            AppLogger.logError(bookExistsException.getErrorCode() + " book isbn: " + bookData.getIsbn());
+            throw bookExistsException;
         }
         Book book = new Book();
         book.setTitle(bookData.getTitle());
@@ -43,18 +44,19 @@ public class BaseBookService implements BookService {
         book.setIsbn(bookData.getIsbn());
         book.setPages(bookData.getPages());
 
-        AppLogger.logInfo("Book registration successful for " + book.toString());
+        AppLogger.logInfo("Book registration successful for " + book);
         return bookRepository.save(book);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public BookDto removeBook(long bookId) {
         validateBookId(bookId);
         Book bookToRemove = bookRepository.findById(bookId)
                 .orElseThrow(() -> {
-                    AppLogger.logError("Book with ID " + bookId + " not found");
-                    return new BookNotFoundException();
+                    BookException bookNotFoundException = new BookException(BookError.BOOK_NOT_FOUND);
+                    AppLogger.logError(bookNotFoundException.getErrorCode() + "for bookId: " + bookId);
+                    return bookNotFoundException;
                 });
 
 
@@ -73,8 +75,9 @@ public class BaseBookService implements BookService {
 
         Book book = bookRepository.findById(bookId).orElseThrow(
                 () -> {
-                    AppLogger.logError("Book with ID " + bookId + " not found");
-                    return new BookNotFoundException();
+                    BookException bookNotFoundException = new BookException(BookError.BOOK_NOT_FOUND);
+                    AppLogger.logError(bookNotFoundException.getErrorCode() + " for bookId: " + bookId);
+                    return bookNotFoundException;
                 });
         AppLogger.logInfo("Book with ID " + bookId + " found");
         return book;
@@ -94,7 +97,7 @@ public class BaseBookService implements BookService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public BookDto editBook(long bookId, EditBookDto bookData) {
         validateBookId(bookId);
 
@@ -103,7 +106,7 @@ public class BaseBookService implements BookService {
             throw new IllegalArgumentException("Book edit data cannot be null");
         }
 
-        Book bookToEdit = bookRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
+        Book bookToEdit = bookRepository.findById(bookId).orElseThrow(() -> new BookException(BookError.BOOK_NOT_FOUND));
 
         bookToEdit.setTitle(bookData.getTitle());
         bookToEdit.setAuthor(bookData.getAuthor());
@@ -113,6 +116,7 @@ public class BaseBookService implements BookService {
         Book updateBook = bookRepository.save(bookToEdit);
         AppLogger.logInfo("Book with ID " + bookId + " edited successfully");
 
+        AppLogger.logDebug("creating book dto " + bookData);
         return BookDto.builder()
                 .id(updateBook.getId())
                 .isbn(updateBook.getIsbn())

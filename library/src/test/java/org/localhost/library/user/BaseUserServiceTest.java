@@ -11,8 +11,8 @@ import org.localhost.library.user.dto.EditUserDataDto;
 import org.localhost.library.user.dto.RegisteredUserDto;
 import org.localhost.library.user.dto.UserDto;
 import org.localhost.library.user.dto.UserRegistrationDto;
-import org.localhost.library.user.exceptions.UserAlreadyExistsException;
-import org.localhost.library.user.exceptions.UserNotFoundException;
+import org.localhost.library.user.exceptions.UserException;
+import org.localhost.library.user.exceptions.messages.UserError;
 import org.localhost.library.user.model.User;
 
 import java.util.List;
@@ -73,10 +73,13 @@ class BaseUserServiceTest {
         // given
         objectUnderTest.registerUser(testUserDto);
         // when & then
-        assertThrows(
-                UserAlreadyExistsException.class,
+        UserException userException = assertThrows(
+                UserException.class,
                 () -> objectUnderTest.registerUser(testUserDto));
+
+        assertEquals(UserError.USER_EXISTS.getCode(), userException.getError().getCode());
     }
+
 
     @Test
     @DisplayName("removeUser should successfully remove user")
@@ -93,10 +96,12 @@ class BaseUserServiceTest {
     @Test
     @DisplayName("removeUser should throw when no user found")
     void removeUserNoUser() {
-        assertThrows(
-                UserNotFoundException.class,
+        UserException userException = assertThrows(
+                UserException.class,
                 () -> objectUnderTest.removeUser(NON_EXISTING_USER_ID)
         );
+
+        assertEquals(UserError.USER_NOT_FOUND.getCode(), userException.getError().getCode());
     }
 
     @ParameterizedTest
@@ -150,10 +155,11 @@ class BaseUserServiceTest {
         EditUserDataDto editData = EditUserDataDto.builder().build();
         RegisteredUserDto activeUser = objectUnderTest.registerUser(testUserDto);
 //        when, then
-        assertThrows(
-                UserNotFoundException.class,
+        UserException userException = assertThrows(
+                UserException.class,
                 () -> objectUnderTest.updateUser(NON_EXISTING_USER_ID, editData)
         );
+        assertEquals(UserError.USER_NOT_FOUND.getCode(), userException.getError().getCode());
     }
 
     @Test
@@ -182,7 +188,7 @@ class BaseUserServiceTest {
 
     @Test
     @DisplayName("findUserById should find and return userData")
-    void findUserById() throws UserNotFoundException {
+    void findUserById() throws UserException {
 //        given
         RegisteredUserDto testUser = objectUnderTest.registerUser(testUserDto);
 //        when

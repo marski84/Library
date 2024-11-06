@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "library_params")
@@ -19,5 +19,5 @@ public class LibraryParams {
     private String key;
     private Integer value;
     private String description;
-    private Instant lastUpdated;
+    private ZonedDateTime lastUpdated;
 }

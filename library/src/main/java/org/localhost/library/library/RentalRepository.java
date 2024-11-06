@@ -13,8 +13,10 @@ public interface RentalRepository extends CrudRepository<Rental, Long> {
     Optional<Rental> findByBookIdAndRentDateIsEmpty(long bookId);
     Optional<Rental> findByUserId(long userId);
     Optional<Rental> findByBookId(long bookId);
-    Optional<List<Rental>> findAllByBookId(long bookId);
-    Optional<List<Rental>> findAllByUserId(long userId);
+
+    List<Rental> findAllByBookId(long bookId);
+
+    List<Rental> findAllByUserId(long userId);
     List<Rental> findAllByReturnDateIsNull();
 
     @Query("SELECT r FROM Rental r WHERE r.returnDate IS NULL AND r.dueDate < :now ORDER BY r.dueDate DESC")

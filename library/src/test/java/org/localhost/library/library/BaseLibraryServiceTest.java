@@ -9,10 +9,10 @@ import org.localhost.library.book.BookService;
 import org.localhost.library.book.dto.BookRegistrationDto;
 import org.localhost.library.book.model.Book;
 import org.localhost.library.config.ConfigService;
+import org.localhost.library.library.dto.RentalDto;
 import org.localhost.library.library.dto.SuccessfulRentalDto;
-import org.localhost.library.library.exceptions.NotValidReturnDateException;
-import org.localhost.library.library.exceptions.RentalNotFoundException;
-import org.localhost.library.library.exceptions.RentalNotPossibleException;
+import org.localhost.library.library.exceptions.RentalException;
+import org.localhost.library.library.exceptions.messages.RentalError;
 import org.localhost.library.library.model.Rental;
 import org.localhost.library.library.services.InMemoryConfigService;
 import org.localhost.library.repositories.InMemoryBookRepository;
@@ -24,8 +24,8 @@ import org.localhost.library.user.UserService;
 import org.localhost.library.user.dto.RegisteredUserDto;
 import org.localhost.library.user.dto.UserRegistrationDto;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.ZonedDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,8 +36,8 @@ class BaseLibraryServiceTest {
     private final String TEST_FIRST_NAME = "firstName";
     private final String TEST_LAST_NAME = "lastName";
     private final int TEST_AGE = 40;
-    private final long NON_EXISTING_BOOK_ID = 4255l;
-    private final long NON_EXISTING_USER_ID = 4255l;
+    private final long NON_EXISTING_BOOK_ID = 4255L;
+    private final long NON_EXISTING_USER_ID = 4255L;
     private final String EDITED_USER_NAME = "editedName";
     private int testRentalTime;
 
@@ -80,7 +80,7 @@ class BaseLibraryServiceTest {
 
     }
 
-    Book rentABook() {
+    Book rehisterBook() {
         return bookService.registerBook(bookRegistrationDto);
     }
 
@@ -93,19 +93,19 @@ class BaseLibraryServiceTest {
     @DisplayName("rentBookToUser should successfully process rental")
     void rentBookToUser() {
 //        given
-        Book testBook = rentABook();
+        Book testBook = rehisterBook();
         RegisteredUserDto testUser = testUser();
 //        when
         SuccessfulRentalDto testRental = objectUnderTest.rentBookToUser(
                 testBook.getId(), testUser.getId());
 //        then
-    assertAll(
-            ()-> assertEquals(testUser.getId(), testRental.getUserId()),
-            ()-> assertEquals(testBook.getId(), testBook.getId()),
-            ()-> assertEquals(testBook.getTitle(), testRental.getBookTitle()),
-            ()-> assertEquals(testBook.getAuthor(), testRental.getAuthor()),
-            ()-> assertEquals(testRentalTime, testRental.getRentalTime())
-    );
+        assertAll(
+                () -> assertEquals(testUser.getId(), testRental.getUserId()),
+                () -> assertEquals(testBook.getId(), testBook.getId()),
+                () -> assertEquals(testBook.getTitle(), testRental.getBookTitle()),
+                () -> assertEquals(testBook.getAuthor(), testRental.getAuthor()),
+                () -> assertEquals(testRentalTime, testRental.getRentalTime())
+        );
     }
 
     @Test
@@ -116,10 +116,11 @@ class BaseLibraryServiceTest {
         Book testBook = bookService.registerBook(bookRegistrationDto);
         objectUnderTest.rentBookToUser(testBook.getId(), testUser.getId());
 //        when, then
-        assertThrows(
-                RentalNotPossibleException.class,
+        RentalException rentalException = assertThrows(
+                RentalException.class,
                 () -> objectUnderTest.rentBookToUser(testBook.getId(), testUser.getId())
         );
+        assertEquals(RentalError.RENTAL_NOT_POSSIBLE.getCode(), rentalException.getErrorCode().getCode());
     }
 
     @Test
@@ -130,10 +131,11 @@ class BaseLibraryServiceTest {
         userService.blockUser(testUser.getId());
         Book book = bookService.registerBook(bookRegistrationDto);
 //        when, then
-        assertThrows(
-                RentalNotPossibleException.class,
+        RentalException rentalException = assertThrows(
+                RentalException.class,
                 () -> objectUnderTest.rentBookToUser(book.getId(), testUser.getId())
         );
+        assertEquals(RentalError.RENTAL_NOT_POSSIBLE.getCode(), rentalException.getErrorCode().getCode());
     }
 
 
@@ -141,11 +143,11 @@ class BaseLibraryServiceTest {
     @DisplayName("registerBookReturn should successfully register return od the book")
     void registerBookReturn() {
 //        given
-        Book testBook = rentABook();
+        Book testBook = rehisterBook();
         RegisteredUserDto testUser = testUser();
         SuccessfulRentalDto rental = objectUnderTest.rentBookToUser(testBook.getId(), testUser.getId());
         System.out.println(rental);
-        Instant returnData = Instant.now();
+        ZonedDateTime returnData = ZonedDateTime.now();
 //        when
         Rental bookReturnConfirmation = objectUnderTest.registerBookReturn(
                 testBook.getId(),
@@ -154,42 +156,141 @@ class BaseLibraryServiceTest {
         );
 //        then
         assertAll(
-                ()-> assertEquals(bookReturnConfirmation.getReturnDate(), returnData)
+                () -> assertEquals(bookReturnConfirmation.getReturnDate(), returnData)
         );
     }
 
     @Test
     @DisplayName("registerBookReturn should throw when no book rental is found")
     void registerBookReturnWhenNoBookRentalFound() {
-        assertThrows(
-                RentalNotFoundException.class,
+        RentalException rentalException = assertThrows(
+                RentalException.class,
                 () -> objectUnderTest.registerBookReturn(
                         NON_EXISTING_BOOK_ID,
                         NON_EXISTING_USER_ID,
-                        Instant.now()
+                        ZonedDateTime.now()
                 )
         );
+        assertEquals(RentalError.RENTAL_NOT_FOUND.getCode(), rentalException.getErrorCode().getCode());
+
     }
 
     @Test
     @DisplayName("registerBookReturn should throw when return date is earlier than rent date")
     void registerBookReturnWhenReturnDateIsEarlierThanRentDate() {
         //        given
-        Book testBook = rentABook();
+        Book testBook = rehisterBook();
         RegisteredUserDto testUser = testUser();
         SuccessfulRentalDto testRental = objectUnderTest.rentBookToUser(
                 testBook.getId(), testUser.getId());
 
-        Instant sevenDaysEarlier = (Instant.now()).minus(7, ChronoUnit.DAYS);
+        ZonedDateTime sevenDaysEarlier = (ZonedDateTime.now()).minusDays(7);
 //        when, then
-        assertThrows(
-                NotValidReturnDateException.class
+        RentalException rentalException = assertThrows(
+                RentalException.class
                 , () -> objectUnderTest.registerBookReturn(
                         testBook.getId(),
                         testUser.getId(),
                         sevenDaysEarlier
                 )
         );
+        assertEquals(RentalError.NOT_VALID_RETURN_DATE.getCode(), rentalException.getErrorCode().getCode());
+
+    }
+
+    @Test
+    @DisplayName("getRentalDataForBook should return rental data for book id")
+    void getRentalDataForBook() {
+//        given
+        Book testBook = rehisterBook();
+        RegisteredUserDto testUser = testUser();
+        SuccessfulRentalDto testRental = objectUnderTest.rentBookToUser(
+                testBook.getId(), testUser.getId()
+        );
+//        when
+        List<RentalDto> testResult = objectUnderTest.getRentalDataForBook(testBook.getId());
+
+//        then
+
+        assertAll(
+                () -> assertEquals(testRental.getIsbn(), testResult.get(0).getIsbn()),
+                () -> assertEquals(testRental.getAuthor(), testResult.get(0).getAuthor()),
+                () -> assertEquals(testRental.getUserId(), testResult.get(0).getUserId()),
+                () -> assertEquals(testRental.getRentalTime(), testResult.get(0).getRentalTime())
+        );
+    }
+
+    @Test
+    @DisplayName("getRentalDataForUser should return rentals for user")
+    void getRentalDataForUser() {
+//        given
+        Book testBook = rehisterBook();
+        RegisteredUserDto testUser = testUser();
+        SuccessfulRentalDto testRental = objectUnderTest.rentBookToUser(
+                testBook.getId(), testUser.getId());
+
+
+        bookRegistrationDto = BookRegistrationDto.builder()
+                .title("second")
+                .author("second")
+                .pages(555555)
+                .publisher("test publisher")
+                .isbn("987654321")
+                .build();
+        Book secondBook = bookService.registerBook(bookRegistrationDto);
+
+        SuccessfulRentalDto secondTestRental = objectUnderTest.rentBookToUser(secondBook.getId(), testUser.getId());
+
+        int expectedResultSize = List.of(testRental, secondTestRental).size();
+
+//        when
+        List<RentalDto> testResult = objectUnderTest.getRentalDataForUser(testUser.getId());
+//        then
+        assertAll(
+                () -> assertEquals(expectedResultSize, testResult.size()),
+                () -> assertEquals(testRental.getUserId(), testResult.get(0).getUserId()),
+                () -> assertEquals(testRental.getIsbn(), testResult.get(0).getIsbn()),
+                () -> assertEquals(secondTestRental.getUserId(), testResult.get(1).getUserId()),
+                () -> assertEquals(secondTestRental.getIsbn(), testResult.get(1).getIsbn())
+        );
+    }
+
+    @Test
+    @DisplayName("getActiveRentals should return emppy list when no rentals are registerd")
+    void getActiveRentals() {
+//        when
+        List<RentalDto> testResult = objectUnderTest.getActiveRentals();
+//        then
+        assertEquals(0, testResult.size());
+    }
+
+    @Test
+    @DisplayName("getActiveRentals should return active rentals list")
+    void getActiveRentalsList() {
+//        given
+        Book testBook = rehisterBook();
+        RegisteredUserDto testUser = testUser();
+        SuccessfulRentalDto testRental = objectUnderTest.rentBookToUser(
+                testBook.getId(), testUser.getId());
+
+
+        bookRegistrationDto = BookRegistrationDto.builder()
+                .title("second")
+                .author("second")
+                .pages(555555)
+                .publisher("test publisher")
+                .isbn("987654321")
+                .build();
+        Book secondBook = bookService.registerBook(bookRegistrationDto);
+
+        SuccessfulRentalDto secondTestRental = objectUnderTest.rentBookToUser(secondBook.getId(), testUser.getId());
+
+        int expectedResultSize = List.of(testRental, secondTestRental).size();
+
+//        when
+        List<RentalDto> testResult = objectUnderTest.getRentalDataForUser(testUser.getId());
+//        then
+        assertEquals(expectedResultSize, testResult.size());
     }
 }
 

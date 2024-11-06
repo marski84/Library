@@ -3,7 +3,7 @@ package org.localhost.library.library.ValueObjects;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
-import org.localhost.library.book.utils.AppLogger;
+import org.localhost.library.utils.AppLogger;
 
 @Getter
 @EqualsAndHashCode

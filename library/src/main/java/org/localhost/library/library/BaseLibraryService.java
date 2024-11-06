@@ -3,28 +3,25 @@ package org.localhost.library.library;
 import org.localhost.library.book.BookService;
 import org.localhost.library.book.dto.BookDto;
 import org.localhost.library.book.model.Book;
-import org.localhost.library.book.utils.AppLogger;
 import org.localhost.library.config.ConfigService;
 import org.localhost.library.library.ValueObjects.BookUserAssociation;
 import org.localhost.library.library.dto.RentalDto;
 import org.localhost.library.library.dto.RentalStatisticsDto;
 import org.localhost.library.library.dto.SuccessfulRentalDto;
-import org.localhost.library.library.exceptions.NotValidReturnDateException;
-import org.localhost.library.library.exceptions.RentalExtensionNotAllowedException;
-import org.localhost.library.library.exceptions.RentalNotFoundException;
-import org.localhost.library.library.exceptions.RentalNotPossibleException;
+import org.localhost.library.library.exceptions.RentalException;
+import org.localhost.library.library.exceptions.messages.RentalError;
 import org.localhost.library.library.model.Rental;
 import org.localhost.library.user.UserService;
 import org.localhost.library.user.dto.UserDto;
 import org.localhost.library.user.model.User;
+import org.localhost.library.utils.AppLogger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BaseLibraryService implements LibraryService {
@@ -51,10 +48,10 @@ public class BaseLibraryService implements LibraryService {
      * @param bookId The ID of the book to be rented
      * @param userId The ID of the user renting the book
      * @return SuccessfulRentalDto containing details of the rental
-     * @throws RentalNotPossibleException if the book is unavailable or the user is blocked
+     * @throws RentalException if the book is unavailable or the user is blocked
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public SuccessfulRentalDto rentBookToUser(long bookId, long userId) {
         BookUserAssociation rentalData = new BookUserAssociation(bookId, userId);
 
@@ -66,14 +63,15 @@ public class BaseLibraryService implements LibraryService {
 
         int rentalPeriod = baseConfigService.getRentalPeriodDays();
 
-        Instant rentalDate = Instant.now();
-        Instant dueDate = rentalDate.plus(rentalPeriod, ChronoUnit.DAYS);
+        ZonedDateTime rentalDate = ZonedDateTime.now();
+        ZonedDateTime dueDate = rentalDate.plusDays(rentalPeriod);
 
         Rental rental = createRental(bookData, userData, rentalDate, dueDate);
 
         Rental savedRentalData = rentalRepository.save(rental);
         AppLogger.logInfo("Rental saved: " + savedRentalData);
 
+        AppLogger.logDebug("creating rental dto after successful rent: {}", rental.toString());
         return SuccessfulRentalDto.builder()
                 .isbn(savedRentalData.getBook().getIsbn())
                 .bookTitle(savedRentalData.getBook().getTitle())
@@ -88,7 +86,7 @@ public class BaseLibraryService implements LibraryService {
                 ).build();
     }
 
-    private Rental createRental(Book book, User user, Instant rentalDate, Instant dueDate) {
+    private Rental createRental(Book book, User user, ZonedDateTime rentalDate, ZonedDateTime dueDate) {
         Rental rental = new Rental();
         rental.setBook(book);
         rental.setUser(user);
@@ -103,19 +101,26 @@ public class BaseLibraryService implements LibraryService {
      * @param bookId The ID of the book to be returned
      * @param userId The ID of the user returning the book
      * @return SuccessfulRentalDto containing details of the rental
-     * @throws RentalNotPossibleException  if the book is unavailable or the user is blocked
-     * @throws NotValidReturnDateException if the return data is earlier than rent date
+     * @throws RentalException  if the book is unavailable or the user is blocked
+     * @throws RentalException if the return data is earlier than rent date
      */
     @Override
-    @Transactional
-    public Rental registerBookReturn(long bookId, long userId, Instant returnDate) {
+    @Transactional(rollbackFor = Exception.class)
+    public Rental registerBookReturn(long bookId, long userId, ZonedDateTime returnDate) {
         BookUserAssociation rentalData = new BookUserAssociation(bookId, userId);
 
         Rental rental = rentalRepository.findRentalByBookIdAndUserId(rentalData.getBookId(), userId)
-                .orElseThrow(RentalNotFoundException::new);
+                .orElseThrow(() -> {
+                            RentalException notFoundException = new RentalException(RentalError.RENTAL_NOT_FOUND);
+                            AppLogger.logError(notFoundException.getErrorCode() + ": " + rentalData.getBookId());
+                            return notFoundException;
+                        }
+                );
 
         if (rental.getRentDate().isAfter(returnDate)) {
-            throw new NotValidReturnDateException();
+            RentalException rentalException = new RentalException(RentalError.NOT_VALID_RETURN_DATE);
+            AppLogger.logError(rentalException.getErrorCode() + ": " + rentalData.getBookId());
+            throw rentalException;
         }
 
         rental.setReturnDate(returnDate);
@@ -134,13 +139,17 @@ public class BaseLibraryService implements LibraryService {
 
     private void validateBookAvailability(Book book) {
         if (rentalRepository.findByBookIdAndRentDateIsEmpty(book.getId()).isPresent()) {
-            throw new RentalNotPossibleException();
+            RentalException rentalException = new RentalException(RentalError.RENTAL_NOT_POSSIBLE);
+            AppLogger.logError(rentalException.getErrorCode() + ": " + book.getId());
+            throw rentalException;
         }
     }
 
     private void validateUserStatus(User user) {
         if (user.isBlocked()) {
-            throw new RentalNotPossibleException();
+            RentalException rentalException = new RentalException(RentalError.RENTAL_NOT_POSSIBLE);
+            AppLogger.logError(rentalException.getErrorCode() + "for: " + user.getId());
+            throw rentalException;
         }
     }
 
@@ -153,8 +162,7 @@ public class BaseLibraryService implements LibraryService {
         if (bookId <= 0) {
             throw new IllegalArgumentException("Book id must be greater than zero");
         }
-        List<Rental> rentalList = rentalRepository.findAllByBookId(bookId)
-                .orElseThrow(RentalNotFoundException::new);
+        List<Rental> rentalList = rentalRepository.findAllByBookId(bookId);
         return rentalList.stream()
                 .map(this::createRentalDto)
                 .toList();
@@ -165,8 +173,7 @@ public class BaseLibraryService implements LibraryService {
         if (userId <= 0) {
             throw new IllegalArgumentException("User id must be greater than zero");
         }
-        List<Rental> rentalList = rentalRepository.findAllByUserId(userId)
-                .orElseThrow(RentalNotFoundException::new);
+        List<Rental> rentalList = rentalRepository.findAllByUserId(userId);
         return rentalList.stream()
                 .map(this::createRentalDto)
                 .toList();
@@ -185,14 +192,21 @@ public class BaseLibraryService implements LibraryService {
 
     @Override
     public List<RentalDto> getOverdueRentals() {
-        return rentalRepository.findOverdueRentals(Instant.now()).stream()
+        return rentalRepository.findOverdueRentals(ZonedDateTime.now()).stream()
                 .map(this::createRentalDto)
                 .toList();
     }
 
     @Override
-    public Optional<RentalDto> getCurrentRentalForBook(long bookId) {
-        return Optional.empty();
+    public RentalDto getCurrentRentalForBook(long bookId) {
+        return rentalRepository.findByBookId(bookId)
+                .map(this::createRentalDto)
+                .orElseThrow(() -> {
+                            RentalException rentalException = new RentalException(RentalError.RENTAL_NOT_FOUND);
+                            AppLogger.logError(rentalException.getErrorCode() + ": " + bookId);
+                            return rentalException;
+                        }
+                );
     }
 
     @Override
@@ -221,11 +235,12 @@ public class BaseLibraryService implements LibraryService {
     }
 
     @Override
-    public void extendRental(long rentalId, int days) throws RentalExtensionNotAllowedException {
+    public void extendRental(long rentalId, int days) throws RentalException {
 
     }
 
     private RentalDto createRentalDto(Rental rental) {
+        AppLogger.logDebug("creating rental dto for {}", rental.toString());
         return RentalDto.builder()
                 .bookTitle(rental.getBook().getTitle())
                 .author(rental.getBook().getAuthor())
@@ -241,7 +256,7 @@ public class BaseLibraryService implements LibraryService {
 
     }
 
-    private RentalStatus checkRentalStatus(Instant dueDate, Instant returnDate) {
+    private RentalStatus checkRentalStatus(ZonedDateTime dueDate, ZonedDateTime returnDate) {
         return switch (dueDate.compareTo(returnDate)) {
             case OVERDUE -> RentalStatus.OVERDUE;
             case DUE_TODAY -> RentalStatus.DUE_TODAY;

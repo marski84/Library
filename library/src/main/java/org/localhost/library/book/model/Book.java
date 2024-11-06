@@ -3,7 +3,6 @@ package org.localhost.library.book.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.localhost.library.user.model.User;
 
 @Entity
 @Getter

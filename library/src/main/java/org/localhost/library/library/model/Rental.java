@@ -7,7 +7,7 @@ import lombok.Setter;
 import org.localhost.library.book.model.Book;
 import org.localhost.library.user.model.User;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @Entity
 @Getter
@@ -27,9 +27,9 @@ public class Rental {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private Instant rentDate;
-    private Instant dueDate;
-    private Instant returnDate;
+    private ZonedDateTime rentDate;
+    private ZonedDateTime dueDate;
+    private ZonedDateTime returnDate;
     private int penaltyPointsForDue;
 
     public Rental() {

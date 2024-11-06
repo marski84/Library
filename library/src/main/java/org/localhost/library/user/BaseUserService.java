@@ -1,14 +1,14 @@
 package org.localhost.library.user;
 
-import org.localhost.library.book.utils.AppLogger;
 import org.localhost.library.library.RentalStatus;
 import org.localhost.library.user.dto.EditUserDataDto;
 import org.localhost.library.user.dto.RegisteredUserDto;
 import org.localhost.library.user.dto.UserDto;
 import org.localhost.library.user.dto.UserRegistrationDto;
-import org.localhost.library.user.exceptions.UserAlreadyExistsException;
-import org.localhost.library.user.exceptions.UserNotFoundException;
+import org.localhost.library.user.exceptions.UserException;
+import org.localhost.library.user.exceptions.messages.UserError;
 import org.localhost.library.user.model.User;
+import org.localhost.library.utils.AppLogger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +33,9 @@ public class BaseUserService implements UserService {
         }
 
         if (userRepository.existsByUserName(userRegistrationDto.getUserName())) {
-            AppLogger.logError("User name already exists: " + userRegistrationDto.getUserName());
-            throw new UserAlreadyExistsException();
+            UserException userException = new UserException(UserError.USER_EXISTS);
+            AppLogger.logError(userException.getError().getCode() + "for username: " + userRegistrationDto.getUserName());
+            throw userException;
         }
 
         User newUser = new User();
@@ -44,7 +45,7 @@ public class BaseUserService implements UserService {
         newUser.setLastName(userRegistrationDto.getLastName());
 
         User registeredUser = userRepository.save(newUser);
-        AppLogger.logInfo("Registered user: " + registeredUser.toString());
+        AppLogger.logInfo("Registered user: " + registeredUser);
 
         return RegisteredUserDto.builder()
                 .id(registeredUser.getId())
@@ -58,7 +59,7 @@ public class BaseUserService implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public UserDto removeUser(long userId) {
         validateUserId(userId);
         User userToRemove = findUserById(userId);
@@ -74,7 +75,7 @@ public class BaseUserService implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public UserDto updateUser(long userId, EditUserDataDto userDto) {
         if (userDto == null) {
             AppLogger.logInfo("UserDto is null for " + userId);
@@ -108,7 +109,7 @@ public class BaseUserService implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void blockUser(long id) {
         validateUserId(id);
         User userToBlock = findUserById(id);
@@ -120,7 +121,7 @@ public class BaseUserService implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void unblockUser(long id) {
         validateUserId(id);
         User userToBlock = findUserById(id);
@@ -132,7 +133,7 @@ public class BaseUserService implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void updateUserPenaltyPoints(long userId, int maxPenaltyPoints, RentalStatus rentalStatus) {
         validateUserId(userId);
         User userToUpdate = findUserById(userId);
@@ -142,7 +143,7 @@ public class BaseUserService implements UserService {
         }
 
 
-        if (userToUpdate.getPenaltyPoints() >= maxPenaltyPoints ) {
+        if (userToUpdate.getPenaltyPoints() >= maxPenaltyPoints) {
             userToUpdate.setBlocked(true);
         }
 
@@ -184,9 +185,14 @@ public class BaseUserService implements UserService {
 
     public User findUserById(long id) {
         validateUserId(id);
-        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        return userRepository.findById(id).orElseThrow(
+                () -> {
+                    UserException userException = new UserException(UserError.USER_NOT_FOUND);
+                    AppLogger.logError(userException.getError().getCode() + "for username: " + id);
+                    return userException;
+                }
+        );
     }
-
 
 
     private void validateUserId(long userId) {

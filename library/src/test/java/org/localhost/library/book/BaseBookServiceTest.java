@@ -8,8 +8,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.localhost.library.book.dto.BookDto;
 import org.localhost.library.book.dto.BookRegistrationDto;
 import org.localhost.library.book.dto.EditBookDto;
-import org.localhost.library.book.exceptions.BookAlreadyExistsException;
-import org.localhost.library.book.exceptions.BookNotFoundException;
+import org.localhost.library.book.exceptions.BookException;
+import org.localhost.library.book.exceptions.messages.BookError;
 import org.localhost.library.book.model.Book;
 import org.localhost.library.repositories.InMemoryBookRepository;
 
@@ -21,7 +21,7 @@ class BaseBookServiceTest {
 
     private BaseBookService objectUnderTest;
     private BookRegistrationDto bookRegistrationDto;
-    private final long NON_EXISTING_BOOK_ID = 100l;
+    private final long NON_EXISTING_BOOK_ID = 100L;
 
     @BeforeEach
     void setUp() {
@@ -67,7 +67,7 @@ class BaseBookServiceTest {
         objectUnderTest.registerBook(bookRegistrationDto);
 //        when, then
         assertThrows(
-                BookAlreadyExistsException.class,
+                BookException.class,
                 () -> objectUnderTest.registerBook(bookRegistrationDto)
         );
     }
@@ -101,10 +101,11 @@ class BaseBookServiceTest {
     @Test
     @DisplayName("removeBook should throw when book not found")
     void removeBookWithBookNotFound() {
-        assertThrows(
-                BookNotFoundException.class,
+        BookException exception = assertThrows(
+                BookException.class,
                 () -> objectUnderTest.removeBook(NON_EXISTING_BOOK_ID)
         );
+        assertEquals(BookError.BOOK_NOT_FOUND, exception.getErrorCode());
     }
 
 
@@ -128,10 +129,11 @@ class BaseBookServiceTest {
     @Test
     @DisplayName("getBookById should throw when book not found")
     void getBookByIdWithBookNotFound() {
-        assertThrows(
-                BookNotFoundException.class,
+        BookException exception = assertThrows(
+                BookException.class,
                 () -> objectUnderTest.getBookById(NON_EXISTING_BOOK_ID)
         );
+        assertEquals(BookError.BOOK_NOT_FOUND, exception.getErrorCode());
     }
 
     @Test
@@ -193,10 +195,11 @@ class BaseBookServiceTest {
                 .publisher("updated publisher")
                 .build();
 
-        assertThrows(
-                BookNotFoundException.class,
+        BookException exception = assertThrows(
+                BookException.class,
                 ()-> objectUnderTest.editBook(NON_EXISTING_BOOK_ID, editBookDto)
         );
+        assertEquals(BookError.BOOK_NOT_FOUND, exception.getErrorCode());
     }
 
 }

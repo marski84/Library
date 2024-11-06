@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @Getter
 @Builder
@@ -15,6 +15,7 @@ public class SuccessfulRentalDto {
     private String isbn;
     private long userId;
     private int rentalTime;
-    private Instant rentalDate;
-    private Instant dueDate;
+    private ZonedDateTime rentalDate;
+    private ZonedDateTime dueDate;
+
 }
