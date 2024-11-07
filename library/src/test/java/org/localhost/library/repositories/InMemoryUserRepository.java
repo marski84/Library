@@ -6,12 +6,11 @@ import org.localhost.library.user.model.User;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class InMemoryUserRepository implements UserRepository {
-    private Map<Long, User> users = new HashMap<>();
-    private AtomicLong userId = new AtomicLong(1);
+    private final Map<Long, User> users = new HashMap<>();
+    private final AtomicLong userId = new AtomicLong(1);
 
     @Override
     public User save(User entity) {
@@ -21,6 +20,7 @@ public class InMemoryUserRepository implements UserRepository {
             users.put(userId, entity);
             return users.get(userId);
         } else {
+            System.out.println(entity);
             users.replace(entity.getId(), entity);
             return users.get(entity.getId());
         }
@@ -32,8 +32,9 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public Optional<User> findById(Long entity) {
-        return users.values().stream().filter(user -> user.getId() == entity).findFirst();
+    public Optional<User> findById(Long userId) {
+        System.out.println(users.values().stream().filter(user -> user.getId() == userId).findFirst());
+        return users.values().stream().filter(user -> user.getId() == userId).findFirst();
     }
 
     @Override

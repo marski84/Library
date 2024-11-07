@@ -12,6 +12,8 @@ import org.localhost.library.library.model.Rental;
 import org.localhost.library.library.services.RentalOperationsGateway.RentalOperationsGateway;
 import org.localhost.library.user.model.User;
 import org.localhost.library.utils.AppLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,7 @@ import java.time.ZonedDateTime;
 
 @Service
 public class BaseRentalCommandService implements RentalCommandService {
+    private static final Logger log = LoggerFactory.getLogger(BaseRentalCommandService.class);
     private final RentalRepository rentalRepository;
     private final RentalOperationsGateway rentalOperationsGateway;
     private final ConfigService baseConfigService;
@@ -55,6 +58,7 @@ public class BaseRentalCommandService implements RentalCommandService {
         validateUserStatus(userData);
 
         int rentalPeriod = baseConfigService.getRentalPeriodDays();
+
 
         ZonedDateTime rentalDate = ZonedDateTime.now();
         ZonedDateTime dueDate = rentalDate.plusDays(rentalPeriod);
@@ -109,6 +113,7 @@ public class BaseRentalCommandService implements RentalCommandService {
                             return notFoundException;
                         }
                 );
+
 
         if (rental.getRentDate().isAfter(returnDate)) {
             RentalException rentalException = new RentalException(RentalError.NOT_VALID_RETURN_DATE);

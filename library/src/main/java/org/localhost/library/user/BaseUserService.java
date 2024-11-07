@@ -1,5 +1,6 @@
 package org.localhost.library.user;
 
+import org.localhost.library.config.ConfigService;
 import org.localhost.library.library.RentalStatus;
 import org.localhost.library.user.dto.EditUserDataDto;
 import org.localhost.library.user.dto.RegisteredUserDto;
@@ -19,9 +20,11 @@ import java.util.stream.StreamSupport;
 public class BaseUserService implements UserService {
 
     private final UserRepository userRepository;
+    private final ConfigService configService;
 
-    public BaseUserService(UserRepository userRepository) {
+    public BaseUserService(UserRepository userRepository, ConfigService configService) {
         this.userRepository = userRepository;
+        this.configService = configService;
     }
 
     @Override
@@ -138,11 +141,9 @@ public class BaseUserService implements UserService {
         validateUserId(userId);
         User userToUpdate = findUserById(userId);
         switch (rentalStatus) {
-            case DUE_TODAY -> userToUpdate.setPenaltyPoints(2);
-            case OVERDUE -> userToUpdate.setPenaltyPoints(5);
+            case DUE_TODAY -> userToUpdate.setPenaltyPoints(configService.getOverduePoints());
+            case OVERDUE -> userToUpdate.setPenaltyPoints(configService.getLateOverduePoints());
         }
-
-
         if (userToUpdate.getPenaltyPoints() >= maxPenaltyPoints) {
             userToUpdate.setBlocked(true);
         }

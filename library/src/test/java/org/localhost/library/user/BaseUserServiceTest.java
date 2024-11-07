@@ -5,7 +5,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.localhost.library.config.ConfigService;
 import org.localhost.library.library.RentalStatus;
+import org.localhost.library.library.services.InMemoryConfigService;
 import org.localhost.library.repositories.InMemoryUserRepository;
 import org.localhost.library.user.dto.EditUserDataDto;
 import org.localhost.library.user.dto.RegisteredUserDto;
@@ -34,7 +36,8 @@ class BaseUserServiceTest {
     @BeforeEach
     void setUp() {
         UserRepository userRepository = new InMemoryUserRepository();
-        objectUnderTest = new BaseUserService(userRepository);
+        ConfigService configService = new InMemoryConfigService();
+        objectUnderTest = new BaseUserService(userRepository, configService);
         testUserDto = UserRegistrationDto.builder()
                 .userName(TEST_USER_NAME)
                 .firstName(TEST_FIRST_NAME)

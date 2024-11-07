@@ -22,3 +22,12 @@ logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+library:
+  max-penalty-points: 10
+  max-user-rentals: 3
+  rental-period-days: 14
+  allow-rental-extension: true
+  enable-notifications: true
+  reminder-days: 2
+  overdue-check-interval: 24

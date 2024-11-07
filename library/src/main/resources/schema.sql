@@ -62,18 +62,18 @@ CREATE UNIQUE INDEX idx_active_rental
     ON rentals (book_id)
     WHERE return_date IS NULL;
 -----
-CREATE TABLE library_config
-(
-    config_key   VARCHAR(50) PRIMARY KEY,
-    config_value INTEGER NOT NULL,
-    description  VARCHAR(255),
-    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-INSERT INTO library_config (config_key, config_value, description)
-VALUES ('max_penalty_points', 10, 'Maksymalna liczba punktów karnych dla użytkownika'),
-       ('max_user_rentals', 3, 'Maksymalna liczba wypożyczeń nsa użytkownika'),
-       ('rental_period_days', 14, 'Standardowy okres wypożyczenia w dniach'),
-       ('late_return_fee', 0.50, 'Opłata za każdy dzień spóźnienia (w PLN)');
-
--- Dodanie indeksu dla szybszego wyszukiwania (opcjonalne, ale zalecane dla większych tabel)
-CREATE INDEX IF NOT EXISTS idx_library_config_key ON library_config (config_key);
+-- CREATE TABLE library_config
+-- (
+--     config_key   VARCHAR(50) PRIMARY KEY,
+--     config_value INTEGER NOT NULL,
+--     description  VARCHAR(255),
+--     last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
+-- INSERT INTO library_config (config_key, config_value, description)
+-- VALUES ('max_penalty_points', 10, 'Maksymalna liczba punktów karnych dla użytkownika'),
+--        ('max_user_rentals', 3, 'Maksymalna liczba wypożyczeń nsa użytkownika'),
+--        ('rental_period_days', 14, 'Standardowy okres wypożyczenia w dniach'),
+--        ('late_return_fee', 0.50, 'Opłata za każdy dzień spóźnienia (w PLN)');
+--
+-- -- Dodanie indeksu dla szybszego wyszukiwania (opcjonalne, ale zalecane dla większych tabel)
+-- CREATE INDEX IF NOT EXISTS idx_library_config_key ON library_config (config_key);

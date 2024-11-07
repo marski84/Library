@@ -1,4 +1,4 @@
-package org.localhost.library.config;
+package org.localhost.library.config.dbConfig;
 
 import org.springframework.data.repository.CrudRepository;
 

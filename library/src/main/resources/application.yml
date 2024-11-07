@@ -19,3 +19,13 @@ spring:
     rest:
       base-path: /api/
 
+library:
+  max-penalty-points: 10
+  max-user-rentals: 3
+  overdue-penalty: 2
+  late-overdue-penalty: 5
+  rental-period-days: 14
+  allow-rental-extension: true
+  enable-notifications: true
+  reminder-days: 2
+  overdue-check-interval: 24

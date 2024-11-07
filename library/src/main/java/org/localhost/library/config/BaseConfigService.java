@@ -1,47 +1,60 @@
 package org.localhost.library.config;
 
 
+import org.localhost.library.config.properties.LibraryProperties;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.ZonedDateTime;
 
 @Service
 public class BaseConfigService implements ConfigService {
-    private final LibraryParamsRepository libraryParamsRepository;
+    private final LibraryProperties libraryProperties;
 
-    public BaseConfigService(LibraryParamsRepository libraryParamsRepository) {
-        this.libraryParamsRepository = libraryParamsRepository;
+    public BaseConfigService(LibraryProperties libraryProperties) {
+        this.libraryProperties = libraryProperties;
     }
 
+    public int getOverduePoints() {
+        return libraryProperties.getOverduePenalty();
+    }
+
+    public int getLateOverduePoints() {
+        return libraryProperties.getLateOverduePenalty();
+    }
+
+    @Override
     public int getMaxPenaltyPoints() {
-        return getValue(ConfigKeys.MAX_PENALTY_POINTS);
+        return libraryProperties.getMaxPenaltyPoints();
     }
 
+    @Override
     public int getMaxUserRentals() {
-        return getValue(ConfigKeys.MAX_RENTALS);
+        return libraryProperties.getMaxUserRentals();
     }
 
+    @Override
     public int getRentalPeriodDays() {
-        return getValue(ConfigKeys.RENTAL_PERIOD_DAYS);
+        return libraryProperties.getRentalPeriodDays();
     }
 
-    public int getValue(String key) {
-        return libraryParamsRepository.findById(key)
-                .map(LibraryParams::getValue).orElseThrow();
+    public boolean getIsRentalExtensionPossible() {
+        return libraryProperties.isAllowRentalExtension();
     }
 
-//    private BigDecimal getBigDecimalValue(String key, BigDecimal defaultValue) {
-//        return libraryParamsRepository.findById(key)
-//                .map(config -> new BigDecimal(config.getValue()));
-//    }
-
-    @Transactional(rollbackFor = Exception.class)
-    public void updateConfig(String key, int value) {
-        LibraryParams config = libraryParamsRepository.findById(key).orElseThrow();
-        config.setKey(key);
-        config.setValue(value);
-        config.setLastUpdated(ZonedDateTime.now());
-        libraryParamsRepository.save(config);
+    public boolean getAreNotificationsActive() {
+        return libraryProperties.isEnableNotifications();
     }
+
+    public int getNotificationInterval() {
+        if (getAreNotificationsActive()) {
+            return libraryProperties.getOverdueCheckInterval();
+        }
+        throw new IllegalStateException("Notifications are not active");
+    }
+
+    public int getReminderDays() {
+        if (getAreNotificationsActive()) {
+            return libraryProperties.getReminderDays();
+        }
+        throw new IllegalStateException("Notifications are not active");
+    }
+
 }

@@ -4,5 +4,16 @@ public interface ConfigService {
     int getMaxPenaltyPoints();
     int getMaxUserRentals();
     int getRentalPeriodDays();
-    int getValue(String key);
+
+    boolean getIsRentalExtensionPossible();
+
+    boolean getAreNotificationsActive();
+
+    int getNotificationInterval();
+
+    int getReminderDays();
+
+    int getOverduePoints();
+
+    int getLateOverduePoints();
 }

@@ -30,22 +30,4 @@ public class User {
     private int penaltyPoints = 0;
     private boolean isBlocked = false;
 
-
-    public void blockUser() {
-        isBlocked = true;
-    }
-
-    public void unblockUser() {
-        isBlocked = false;
-    }
-
-    public void increasePenaltyPoints() {
-        penaltyPoints++;
-    }
-
-    public void decreasePenaltyPoints() {
-        if (penaltyPoints > 0) {
-            penaltyPoints--;
-        }
-    }
 }

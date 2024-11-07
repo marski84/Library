@@ -1,4 +1,4 @@
-package org.localhost.library.config;
+package org.localhost.library.config.dbConfig;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

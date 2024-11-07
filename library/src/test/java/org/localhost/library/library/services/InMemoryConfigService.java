@@ -1,7 +1,6 @@
 package org.localhost.library.library.services;
 
 import org.localhost.library.config.ConfigService;
-import org.localhost.library.config.LibraryParamsRepository;
 
 public class InMemoryConfigService implements ConfigService {
 
@@ -24,7 +23,32 @@ public class InMemoryConfigService implements ConfigService {
     }
 
     @Override
-    public int getValue(String key) {
+    public boolean getIsRentalExtensionPossible() {
+        return false;
+    }
+
+    @Override
+    public boolean getAreNotificationsActive() {
+        return false;
+    }
+
+    @Override
+    public int getNotificationInterval() {
         return 0;
+    }
+
+    @Override
+    public int getReminderDays() {
+        return 0;
+    }
+
+    @Override
+    public int getOverduePoints() {
+        return 5;
+    }
+
+    @Override
+    public int getLateOverduePoints() {
+        return 10;
     }
 }

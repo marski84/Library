@@ -1,4 +1,4 @@
-package org.localhost.library.config;
+package org.localhost.library.config.dbConfig;
 
 public final class ConfigKeys {
     public static final String MAX_PENALTY_POINTS = "maxPenaltyPoints";

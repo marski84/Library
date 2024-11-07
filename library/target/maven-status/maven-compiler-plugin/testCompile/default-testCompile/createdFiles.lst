@@ -1,5 +1,0 @@
-org/localhost/library/book/BaseBookServiceTest.class
-org/localhost/library/repositories/InMemoryBookRepository.class
-org/localhost/library/repositories/InMemoryUserRepository.class
-org/localhost/library/user/BaseUserServiceTest.class
-org/localhost/library/LibraryApplicationTests.class
