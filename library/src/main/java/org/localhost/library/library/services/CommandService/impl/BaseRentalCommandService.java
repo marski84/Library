@@ -1,14 +1,15 @@
-package org.localhost.library.library.services.CommandService;
+package org.localhost.library.library.services.CommandService.impl;
 
 import org.localhost.library.book.model.Book;
-import org.localhost.library.config.ConfigService;
-import org.localhost.library.library.RentalRepository;
+import org.localhost.library.config.service.ConfigService;
 import org.localhost.library.library.RentalStatus;
 import org.localhost.library.library.ValueObjects.BookUserAssociation;
 import org.localhost.library.library.dto.SuccessfulRentalDto;
 import org.localhost.library.library.exceptions.RentalException;
 import org.localhost.library.library.exceptions.messages.RentalError;
 import org.localhost.library.library.model.Rental;
+import org.localhost.library.library.repository.RentalRepository;
+import org.localhost.library.library.services.CommandService.RentalCommandService;
 import org.localhost.library.library.services.RentalOperationsGateway.RentalOperationsGateway;
 import org.localhost.library.user.model.User;
 import org.localhost.library.utils.AppLogger;
@@ -141,7 +142,7 @@ public class BaseRentalCommandService implements RentalCommandService {
     }
 
     private void validateBookAvailability(Book book) {
-        if (rentalRepository.findByBookIdAndRentDateIsEmpty(book.getId()).isPresent()) {
+        if (rentalRepository.findByBookIdAndRentDateIsNull(book.getId()).isPresent()) {
             RentalException rentalException = new RentalException(RentalError.RENTAL_NOT_POSSIBLE);
             AppLogger.logError(rentalException.getErrorCode() + ": " + book.getId());
             throw rentalException;

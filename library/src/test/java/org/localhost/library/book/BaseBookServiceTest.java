@@ -11,6 +11,8 @@ import org.localhost.library.book.dto.EditBookDto;
 import org.localhost.library.book.exceptions.BookException;
 import org.localhost.library.book.exceptions.messages.BookError;
 import org.localhost.library.book.model.Book;
+import org.localhost.library.book.repository.BookRepository;
+import org.localhost.library.book.service.impl.BaseBookService;
 import org.localhost.library.repositories.InMemoryBookRepository;
 
 import java.util.List;

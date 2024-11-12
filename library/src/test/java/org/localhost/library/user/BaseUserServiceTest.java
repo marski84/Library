@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.localhost.library.config.ConfigService;
+import org.localhost.library.config.service.ConfigService;
 import org.localhost.library.library.RentalStatus;
 import org.localhost.library.library.services.InMemoryConfigService;
 import org.localhost.library.repositories.InMemoryUserRepository;
@@ -16,6 +16,9 @@ import org.localhost.library.user.dto.UserRegistrationDto;
 import org.localhost.library.user.exceptions.UserException;
 import org.localhost.library.user.exceptions.messages.UserError;
 import org.localhost.library.user.model.User;
+import org.localhost.library.user.repository.UserRepository;
+import org.localhost.library.user.service.UserService;
+import org.localhost.library.user.service.impl.BaseUserService;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package org.localhost.library.repositories;
 
-import org.localhost.library.library.RentalRepository;
 import org.localhost.library.library.model.Rental;
+import org.localhost.library.library.repository.RentalRepository;
 
 import java.time.ZonedDateTime;
 import java.util.HashMap;
@@ -16,7 +16,7 @@ public class InMemoryRentalRepository implements RentalRepository {
 
 
     @Override
-    public Optional<Rental> findByBookIdAndRentDateIsEmpty(long bookId) {
+    public Optional<Rental> findByBookIdAndRentDateIsNull(long bookId) {
         return rentals.values().stream()
                 .filter(r -> r.getBook().getId() == bookId)
                 .findFirst();

@@ -1,18 +1,19 @@
-package org.localhost.library.library.services.QueryService;
+package org.localhost.library.library.services.QueryService.impl;
 
-import org.localhost.library.book.BookService;
 import org.localhost.library.book.dto.BookDto;
 import org.localhost.library.book.model.Book;
-import org.localhost.library.library.RentalRepository;
+import org.localhost.library.book.service.BookService;
 import org.localhost.library.library.RentalStatus;
 import org.localhost.library.library.dto.RentalDto;
 import org.localhost.library.library.dto.RentalStatisticsDto;
 import org.localhost.library.library.exceptions.RentalException;
 import org.localhost.library.library.exceptions.messages.RentalError;
 import org.localhost.library.library.model.Rental;
-import org.localhost.library.user.UserService;
+import org.localhost.library.library.repository.RentalRepository;
+import org.localhost.library.library.services.QueryService.RentalQueryService;
 import org.localhost.library.user.dto.UserDto;
 import org.localhost.library.user.model.User;
+import org.localhost.library.user.service.UserService;
 import org.localhost.library.utils.AppLogger;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class BaseRentalQueryService implements RentalQueryService {
     }
 
     public void validateBookAvailability(Book book) {
-        if (rentalRepository.findByBookIdAndRentDateIsEmpty(book.getId()).isPresent()) {
+        if (rentalRepository.findByBookIdAndRentDateIsNull(book.getId()).isPresent()) {
             RentalException rentalException = new RentalException(RentalError.RENTAL_NOT_POSSIBLE);
             AppLogger.logError(rentalException.getErrorCode() + ": " + book.getId());
             throw rentalException;

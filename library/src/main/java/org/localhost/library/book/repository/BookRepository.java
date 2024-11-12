@@ -1,4 +1,4 @@
-package org.localhost.library.book;
+package org.localhost.library.book.repository;
 
 import org.localhost.library.book.model.Book;
 import org.springframework.data.repository.CrudRepository;

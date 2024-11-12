@@ -1,4 +1,4 @@
-package org.localhost.library.user;
+package org.localhost.library.user.service;
 
 import org.localhost.library.library.RentalStatus;
 import org.localhost.library.user.dto.EditUserDataDto;

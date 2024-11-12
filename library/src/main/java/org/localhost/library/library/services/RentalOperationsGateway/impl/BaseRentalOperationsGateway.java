@@ -1,10 +1,11 @@
-package org.localhost.library.library.services.RentalOperationsGateway;
+package org.localhost.library.library.services.RentalOperationsGateway.impl;
 
-import org.localhost.library.book.BookService;
 import org.localhost.library.book.model.Book;
+import org.localhost.library.book.service.BookService;
 import org.localhost.library.library.RentalStatus;
-import org.localhost.library.user.UserService;
+import org.localhost.library.library.services.RentalOperationsGateway.RentalOperationsGateway;
 import org.localhost.library.user.model.User;
+import org.localhost.library.user.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;

@@ -1,19 +1,31 @@
 spring:
   datasource:
-    url: jdbc:postgresql://db:5432//${POSTGRES_DB}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:h2:mem:librarydb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: false
   jpa:
     show-sql: true
     defer-datasource-initialization: true
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.H2Dialect
 
   sql:
     init:
       mode: always
       schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
   data:
     rest:
       base-path: /api/
@@ -22,6 +34,10 @@ logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.localhost.library.book.org.localhost.library.book.service.BookService: DEBUG
+    org.localhost.library.book: DEBUG
+    org.localhost.library.library: DEBUG
+    org.localhost.library.user: DEBUG
 
 library:
   max-penalty-points: 10

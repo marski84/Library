@@ -1,4 +1,4 @@
-package org.localhost.library.book;
+package org.localhost.library.book.service;
 
 import org.localhost.library.book.dto.BookDto;
 import org.localhost.library.book.dto.BookRegistrationDto;

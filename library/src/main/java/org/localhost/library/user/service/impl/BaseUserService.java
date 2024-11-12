@@ -1,6 +1,6 @@
 package org.localhost.library.user;
 
-import org.localhost.library.config.ConfigService;
+import org.localhost.library.config.service.ConfigService;
 import org.localhost.library.library.RentalStatus;
 import org.localhost.library.user.dto.EditUserDataDto;
 import org.localhost.library.user.dto.RegisteredUserDto;
@@ -9,6 +9,8 @@ import org.localhost.library.user.dto.UserRegistrationDto;
 import org.localhost.library.user.exceptions.UserException;
 import org.localhost.library.user.exceptions.messages.UserError;
 import org.localhost.library.user.model.User;
+import org.localhost.library.user.repository.UserRepository;
+import org.localhost.library.user.service.UserService;
 import org.localhost.library.utils.AppLogger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +30,7 @@ public class BaseUserService implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public RegisteredUserDto registerUser(UserRegistrationDto userRegistrationDto) {
         if (userRegistrationDto == null) {
             AppLogger.logError("UserRegistrationDto is null");

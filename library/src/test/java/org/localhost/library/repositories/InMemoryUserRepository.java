@@ -1,7 +1,7 @@
 package org.localhost.library.repositories;
 
-import org.localhost.library.user.UserRepository;
 import org.localhost.library.user.model.User;
+import org.localhost.library.user.repository.UserRepository;
 
 import java.util.HashMap;
 import java.util.Map;

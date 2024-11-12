@@ -6,9 +6,26 @@ spring:
   jpa:
     show-sql: false
 
+# Konfiguracja logowania
 logging:
+  file:
+    name: /var/log/library/application.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   level:
+    root: WARN
     org.springframework: WARN
+    org.hibernate: WARN
+    org.localhost.library: INFO
+    org.localhost.user: INFO
+    org.localhost.book: INFO
+    org.hibernate.SQL: ERROR
+    org.hibernate.type.descriptor.sql: ERROR
+  logback:
+    rolling policy:
+      max-file-size: 10MB
+      max-history: 30
 
 library:
   max-penalty-points: 10

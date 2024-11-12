@@ -1,13 +1,12 @@
 package org.localhost.library.repositories;
 
-import org.localhost.library.book.BookRepository;
 import org.localhost.library.book.model.Book;
+import org.localhost.library.book.repository.BookRepository;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.StreamSupport;
 
 public class InMemoryBookRepository implements BookRepository {
     Map<Long, Book> books = new HashMap<>();

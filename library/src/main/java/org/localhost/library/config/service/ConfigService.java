@@ -1,4 +1,4 @@
-package org.localhost.library.config;
+package org.localhost.library.config.service;
 
 public interface ConfigService {
     int getMaxPenaltyPoints();

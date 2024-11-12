@@ -1,4 +1,4 @@
-package org.localhost.library.user;
+package org.localhost.library.user.repository;
 
 import org.localhost.library.user.model.User;
 import org.springframework.data.repository.CrudRepository;

@@ -58,9 +58,8 @@ ALTER TABLE rentals
     ADD CONSTRAINT check_due_date
         CHECK (due_date > rent_date);
 
-CREATE UNIQUE INDEX idx_active_rental
-    ON rentals (book_id)
-    WHERE return_date IS NULL;
+CREATE INDEX idx_active_rental ON rentals (book_id, return_date);
+
 -----
 -- CREATE TABLE library_config
 -- (

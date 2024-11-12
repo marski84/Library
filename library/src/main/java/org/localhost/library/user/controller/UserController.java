@@ -1,9 +1,7 @@
-package org.localhost.library.library;
+package org.localhost.library.user.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class LibraryController {
-
-
+public class UserController {
 }

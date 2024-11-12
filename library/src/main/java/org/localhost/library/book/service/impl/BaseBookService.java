@@ -1,4 +1,4 @@
-package org.localhost.library.book;
+package org.localhost.library.book.service.impl;
 
 import org.localhost.library.book.dto.BookDto;
 import org.localhost.library.book.dto.BookRegistrationDto;
@@ -6,6 +6,8 @@ import org.localhost.library.book.dto.EditBookDto;
 import org.localhost.library.book.exceptions.BookException;
 import org.localhost.library.book.exceptions.messages.BookError;
 import org.localhost.library.book.model.Book;
+import org.localhost.library.book.repository.BookRepository;
+import org.localhost.library.book.service.BookService;
 import org.localhost.library.utils.AppLogger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

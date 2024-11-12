@@ -1,6 +1,6 @@
 package org.localhost.library.library.services;
 
-import org.localhost.library.config.ConfigService;
+import org.localhost.library.config.service.ConfigService;
 
 public class InMemoryConfigService implements ConfigService {
 

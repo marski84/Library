@@ -1,7 +1,8 @@
-package org.localhost.library.config;
+package org.localhost.library.config.service.impl;
 
 
 import org.localhost.library.config.properties.LibraryProperties;
+import org.localhost.library.config.service.ConfigService;
 import org.springframework.stereotype.Service;
 
 @Service

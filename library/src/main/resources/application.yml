@@ -18,6 +18,8 @@ spring:
   data:
     rest:
       base-path: /api/
+  profiles:
+    active: dev
 
 library:
   max-penalty-points: 10
