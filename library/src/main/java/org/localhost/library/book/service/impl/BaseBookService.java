@@ -94,6 +94,8 @@ public class BaseBookService implements BookService {
                         .id(book.getId())
                         .isbn(book.getIsbn())
                         .title(book.getTitle())
+                        .publisher(book.getPublisher())
+                        .pages(book.getPages())
                         .author(book.getAuthor())
                         .build()).toList();
     }
@@ -110,10 +112,18 @@ public class BaseBookService implements BookService {
 
         Book bookToEdit = bookRepository.findById(bookId).orElseThrow(() -> new BookException(BookError.BOOK_NOT_FOUND));
 
-        bookToEdit.setTitle(bookData.getTitle());
-        bookToEdit.setAuthor(bookData.getAuthor());
-        bookToEdit.setPublisher(bookData.getPublisher());
-        bookToEdit.setPages(bookData.getPages());
+        if (bookData.getTitle() != null && !bookData.getTitle().isEmpty()) {
+            bookToEdit.setTitle(bookData.getTitle());
+        }
+        if (bookData.getAuthor() != null && !bookData.getAuthor().isEmpty()) {
+            bookToEdit.setAuthor(bookData.getAuthor());
+        }
+        if (bookData.getPublisher() != null && !bookData.getPublisher().isEmpty()) {
+            bookToEdit.setPublisher(bookData.getPublisher());
+        }
+        if (bookData.getPublisher() != null && bookData.getPages() > 0 && bookData.getPages() != bookToEdit.getPages()) {
+            bookToEdit.setPages(bookData.getPages());
+        }
 
         Book updateBook = bookRepository.save(bookToEdit);
         AppLogger.logInfo("Book with ID " + bookId + " edited successfully");
