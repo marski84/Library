@@ -1,4 +1,4 @@
-package org.localhost.library.user;
+package org.localhost.library.user.service.impl;
 
 import org.localhost.library.config.service.ConfigService;
 import org.localhost.library.library.RentalStatus;
