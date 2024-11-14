@@ -13,6 +13,7 @@ public final class BookUserAssociation {
     private final long userId;
 
     public BookUserAssociation(long bookId, long userId) {
+        validateIds(bookId, userId);
         this.bookId = bookId;
         this.userId = userId;
     }

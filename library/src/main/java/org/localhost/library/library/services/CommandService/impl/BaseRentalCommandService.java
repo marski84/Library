@@ -138,7 +138,7 @@ public class BaseRentalCommandService implements RentalCommandService {
     //    TODO- maxPenalty points z spring config
     @Override
     public void calculatePenaltyPoints(long userId, int maxPenaltyPoints, RentalStatus rentalStatus) {
-        rentalOperationsGateway.calculatePenaltyPoints(userId, maxPenaltyPoints, rentalStatus);
+        rentalOperationsGateway.calculatePenaltyPoints(userId, rentalStatus);
     }
 
     private void validateBookAvailability(Book book) {

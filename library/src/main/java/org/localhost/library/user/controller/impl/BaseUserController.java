@@ -1,14 +1,11 @@
 package org.localhost.library.user.controller.impl;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Positive;
 import org.localhost.library.library.RentalStatus;
 import org.localhost.library.user.controller.UserController;
 import org.localhost.library.user.dto.EditUserDataDto;
 import org.localhost.library.user.dto.RegisteredUserDto;
 import org.localhost.library.user.dto.UserDto;
 import org.localhost.library.user.dto.UserRegistrationDto;
-import org.localhost.library.user.model.User;
 import org.localhost.library.user.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,19 +22,21 @@ public class BaseUserController implements UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<RegisteredUserDto> registerUser(@Valid UserRegistrationDto userRegistrationDto) {
+    public ResponseEntity<RegisteredUserDto> registerUser(@RequestBody UserRegistrationDto userRegistrationDto) {
         RegisteredUserDto user = userService.registerUser(userRegistrationDto);
         return ResponseEntity.ok(user);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<UserDto> updateUser(@Positive long userId, @Valid EditUserDataDto userDto) {
+    @PutMapping("/update/{userId}")
+    public ResponseEntity<UserDto> updateUser(
+            @PathVariable long userId,
+            @RequestBody EditUserDataDto userDto) {
         UserDto user = userService.updateUser(userId, userDto);
         return ResponseEntity.ok(user);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<UserDto> getUserStatus(@Positive @PathVariable long userId) {
+    public ResponseEntity<UserDto> getUserStatus(@PathVariable long userId) {
         UserDto user = userService.getUserStatus(userId);
         return ResponseEntity.ok(user);
     }
@@ -48,30 +47,23 @@ public class BaseUserController implements UserController {
         return ResponseEntity.ok(users);
     }
 
-    @GetMapping("/findUser/{id}")
-    public ResponseEntity<User> findUserById(@PathVariable @Positive long id) {
-        User user = userService.findUserById(id);
-        return ResponseEntity.ok(user);
-    }
-
     @GetMapping("/block/{id}")
-    public ResponseEntity<?> blockUser(@PathVariable @Positive long id) {
+    public ResponseEntity<?> blockUser(@PathVariable long id) {
         userService.blockUser(id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/unblock/{id}")
-    public ResponseEntity<?> unblockUser(@PathVariable @Positive long id) {
+    public ResponseEntity<?> unblockUser(@PathVariable long id) {
         userService.unblockUser(id);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/updatePenaltyPoints/{userId}/{maxPenaltyPoints}/{rentalStatus}")
+    @GetMapping("/updatePenaltyPoints/{userId}/{rentalStatus}")
     public ResponseEntity<?> updateUserPenaltyPoints(
-            @PathVariable @Positive long userId,
-            @PathVariable @Positive int maxPenaltyPoints,
+            @PathVariable long userId,
             @PathVariable RentalStatus rentalStatus) {
-        userService.updateUserPenaltyPoints(userId, maxPenaltyPoints, rentalStatus);
+        userService.updateUserPenaltyPoints(userId, rentalStatus);
         return ResponseEntity.ok().build();
     }
 }

@@ -4,20 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="403a4fd3-44df-4d17-8575-c8aa065debfd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../.idea/Library.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/controller/impl/BaseUserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/exceptions/handler/UserExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application-test.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+    <list default="true" id="403a4fd3-44df-4d17-8575-c8aa065debfd" name="Changes" comment="added user controller and exception handling">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/utils/AppLogger.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/ValueObjects/BookUserAssociation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/ValueObjects/BookUserAssociation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/impl/BaseRentalCommandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/impl/BaseRentalCommandService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/RentalOperationsGateway/RentalOperationsGateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/RentalOperationsGateway/RentalOperationsGateway.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/RentalOperationsGateway/impl/BaseRentalOperationsGateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/RentalOperationsGateway/impl/BaseRentalOperationsGateway.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/controller/impl/BaseUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/controller/impl/BaseUserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/dto/EditUserDataDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/dto/EditUserDataDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/dto/UserRegistrationDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/dto/UserRegistrationDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/service/impl/BaseUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/service/impl/BaseUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/localhost/library/user/BaseUserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/user/BaseUserServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,12 +40,12 @@
     &quot;assignee&quot;: &quot;marski84&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/marski84/Library&quot;,
-    &quot;accountId&quot;: &quot;527a4ce3-8cc0-4044-a7b3-862b8ea4eb28&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/marski84/Library.git",
+    "accountId": "e8c8e266-6c97-4999-af4b-e68f57be15aa"
   }
-}</component>
+}]]></component>
   <component name="JpbToolWindowState">
     <option name="isToolWindowVisible" value="false" />
   </component>
@@ -122,11 +121,24 @@
       <workItem from="1727529851194" duration="3678000" />
       <workItem from="1731575245561" duration="477000" />
       <workItem from="1731575812502" duration="362000" />
-      <workItem from="1731576246341" duration="3013000" />
+      <workItem from="1731576246341" duration="8344000" />
     </task>
+    <task id="LOCAL-00001" summary="added user controller and exception handling">
+      <option name="closed" value="true" />
+      <created>1731579339461</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1731579339461</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added user controller and exception handling" />
+    <option name="LAST_COMMIT_MESSAGE" value="added user controller and exception handling" />
   </component>
 </project>

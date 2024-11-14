@@ -26,5 +26,5 @@ public interface UserService {
 
     void unblockUser(long id);
 
-    void updateUserPenaltyPoints(long userId, int maxPenaltyPoints, RentalStatus rentalStatus);
+    void updateUserPenaltyPoints(long userId, RentalStatus rentalStatus);
 }

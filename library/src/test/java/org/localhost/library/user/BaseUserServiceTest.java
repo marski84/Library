@@ -279,7 +279,7 @@ class BaseUserServiceTest {
 //        given
         RegisteredUserDto testUser = objectUnderTest.registerUser(testUserDto);
 //        when
-        objectUnderTest.updateUserPenaltyPoints(testUser.getId(), 5, RentalStatus.OVERDUE);
+        objectUnderTest.updateUserPenaltyPoints(testUser.getId(), RentalStatus.OVERDUE);
         User testResult = objectUnderTest.findUserById(testUser.getId());
 //        then
         assertEquals(testUser.getPenaltyPoints() + 5, testResult.getPenaltyPoints());
@@ -291,7 +291,7 @@ class BaseUserServiceTest {
 //        given
         RegisteredUserDto testUser = objectUnderTest.registerUser(testUserDto);
 //        when
-        objectUnderTest.updateUserPenaltyPoints(testUser.getId(), 1, RentalStatus.OVERDUE);
+        objectUnderTest.updateUserPenaltyPoints(testUser.getId(), RentalStatus.OVERDUE);
         User testResult = objectUnderTest.findUserById(testUser.getId());
 //        then
         assertTrue(testResult.isBlocked());

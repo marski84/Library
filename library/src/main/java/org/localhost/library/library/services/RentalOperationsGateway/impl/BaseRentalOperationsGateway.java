@@ -36,8 +36,8 @@ public class BaseRentalOperationsGateway implements RentalOperationsGateway {
     }
 
     @Override
-    public void calculatePenaltyPoints(long userId, int maxPenaltyPoints, RentalStatus rentalStatus) {
-        userService.updateUserPenaltyPoints(userId, maxPenaltyPoints, rentalStatus);
+    public void calculatePenaltyPoints(long userId, RentalStatus rentalStatus) {
+        userService.updateUserPenaltyPoints(userId, rentalStatus);
     }
 
     public RentalStatus checkRentalStatus(ZonedDateTime dueDate, ZonedDateTime returnDate) {

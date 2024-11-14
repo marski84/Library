@@ -106,6 +106,7 @@ public class BaseUserService implements UserService {
 
 
         return UserDto.builder()
+                .id(updatedUser.getId())
                 .userName(updatedUser.getUserName())
                 .firstName(userDto.getFirstName())
                 .lastName(updatedUser.getLastName())
@@ -139,14 +140,14 @@ public class BaseUserService implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateUserPenaltyPoints(long userId, int maxPenaltyPoints, RentalStatus rentalStatus) {
+    public void updateUserPenaltyPoints(long userId, RentalStatus rentalStatus) {
         validateUserId(userId);
         User userToUpdate = findUserById(userId);
         switch (rentalStatus) {
             case DUE_TODAY -> userToUpdate.setPenaltyPoints(configService.getOverduePoints());
             case OVERDUE -> userToUpdate.setPenaltyPoints(configService.getLateOverduePoints());
         }
-        if (userToUpdate.getPenaltyPoints() >= maxPenaltyPoints) {
+        if (userToUpdate.getPenaltyPoints() >= configService.getMaxPenaltyPoints()) {
             userToUpdate.setBlocked(true);
         }
 

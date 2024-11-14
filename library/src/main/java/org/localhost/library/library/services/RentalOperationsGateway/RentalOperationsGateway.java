@@ -9,5 +9,5 @@ public interface RentalOperationsGateway {
 
     User getUserById(long id);
 
-    void calculatePenaltyPoints(long userId, int maxPenaltyPoints, RentalStatus rentalStatus);
+    void calculatePenaltyPoints(long userId, RentalStatus rentalStatus);
 }
