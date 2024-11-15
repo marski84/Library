@@ -50,7 +50,7 @@ public class BaseRentalCommandService implements RentalCommandService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public SuccessfulRentalDto rentBookToUser(long bookId, long userId) {
-        BookUserAssociation rentalData = new BookUserAssociation(bookId, userId);
+                BookUserAssociation rentalData = new BookUserAssociation(bookId, userId);
 
         Book bookData = rentalOperationsGateway.getBookById(rentalData.getBookId());
         User userData = rentalOperationsGateway.getUserById(rentalData.getUserId());
@@ -125,24 +125,18 @@ public class BaseRentalCommandService implements RentalCommandService {
         rental.setReturnDate(returnDate);
         RentalStatus rentalStatus = checkRentalStatus(rental.getDueDate(), returnDate);
 
-        int maxPenaltyPoints = baseConfigService.getMaxPenaltyPoints();
-
         if (rentalStatus == RentalStatus.DUE_TODAY || rentalStatus == RentalStatus.OVERDUE) {
-            calculatePenaltyPoints(rentalData.getUserId(), maxPenaltyPoints, rentalStatus);
+            rentalOperationsGateway.calculatePenaltyPoints(userId, rentalStatus);
         }
         rentalRepository.save(rental);
         AppLogger.logInfo("Rental saved: " + rental);
         return rental;
     }
 
-    //    TODO- maxPenalty points z spring config
-    @Override
-    public void calculatePenaltyPoints(long userId, int maxPenaltyPoints, RentalStatus rentalStatus) {
-        rentalOperationsGateway.calculatePenaltyPoints(userId, rentalStatus);
-    }
+
 
     private void validateBookAvailability(Book book) {
-        if (rentalRepository.findByBookIdAndRentDateIsNull(book.getId()).isPresent()) {
+        if (rentalRepository.findByBookIdAndRentDateIsNotNull(book.getId()).isPresent()) {
             RentalException rentalException = new RentalException(RentalError.RENTAL_NOT_POSSIBLE);
             AppLogger.logError(rentalException.getErrorCode() + ": " + book.getId());
             throw rentalException;

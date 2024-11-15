@@ -15,4 +15,5 @@ public class RentalDto {
     private int rentalTime;
     private ZonedDateTime rentalDate;
     private ZonedDateTime dueDate;
+    private ZonedDateTime returnDate;
 }

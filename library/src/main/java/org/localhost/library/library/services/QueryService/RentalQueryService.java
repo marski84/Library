@@ -19,6 +19,8 @@ public interface RentalQueryService {
 
     List<RentalDto> getOverdueRentals();
 
+    List<RentalDto> getOverdueRentals(ZonedDateTime date);
+
     RentalDto getCurrentRentalForBook(long bookId);
 
     boolean isBookAvailableForRental(long bookId);

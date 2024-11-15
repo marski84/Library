@@ -11,5 +11,4 @@ public interface RentalCommandService {
 
     Rental registerBookReturn(long bookId, long userId, ZonedDateTime returnDate);
 
-    void calculatePenaltyPoints(long userId, int maxPenaltyPoints, RentalStatus rentalStatus);
 }

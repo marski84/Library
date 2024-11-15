@@ -11,6 +11,8 @@ import org.localhost.library.book.service.impl.BaseBookService;
 import org.localhost.library.config.service.ConfigService;
 import org.localhost.library.library.dto.RentalDto;
 import org.localhost.library.library.dto.SuccessfulRentalDto;
+import org.localhost.library.library.exceptions.RentalException;
+import org.localhost.library.library.exceptions.messages.RentalError;
 import org.localhost.library.library.repository.RentalRepository;
 import org.localhost.library.library.services.CommandService.impl.BaseRentalCommandService;
 import org.localhost.library.library.services.InMemoryConfigService;
@@ -26,10 +28,10 @@ import org.localhost.library.user.repository.UserRepository;
 import org.localhost.library.user.service.UserService;
 import org.localhost.library.user.service.impl.BaseUserService;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class BaseRentalQueryServiceTest {
 
@@ -54,16 +56,16 @@ class BaseRentalQueryServiceTest {
 
     @BeforeEach
     void setUp() {
+        configService = new InMemoryConfigService();
         RentalRepository InMemoryRepository = new InMemoryRentalRepository();
         UserRepository inMemoryUserRepository = new InMemoryUserRepository();
         BookRepository inMemoryBookrepository = new InMemoryBookRepository();
+        userService = new BaseUserService(inMemoryUserRepository, configService);
+        bookService = new BaseBookService(inMemoryBookrepository);
+
         RentalOperationsGateway rentalOperationsGateway = new BaseRentalOperationsGateway(bookService, userService);
         baseRentalCommandService = new BaseRentalCommandService(InMemoryRepository, rentalOperationsGateway, configService);
 
-
-        userService = new BaseUserService(inMemoryUserRepository, configService);
-        bookService = new BaseBookService(inMemoryBookrepository);
-        configService = new InMemoryConfigService();
 
         objectUnderTest = new BaseRentalQueryService(InMemoryRepository, bookService, userService);
 
@@ -86,7 +88,7 @@ class BaseRentalQueryServiceTest {
 
     }
 
-    Book rehisterBook() {
+    Book registerBook() {
         return bookService.registerBook(bookRegistrationDto);
     }
 
@@ -99,7 +101,7 @@ class BaseRentalQueryServiceTest {
     @DisplayName("getRentalDataForBook should return rental data for book id")
     void getRentalDataForBook() {
 //        given
-        Book testBook = rehisterBook();
+        Book testBook = registerBook();
         RegisteredUserDto testUser = testUser();
         SuccessfulRentalDto testRental = baseRentalCommandService.rentBookToUser(
                 testBook.getId(), testUser.getId()
@@ -121,7 +123,7 @@ class BaseRentalQueryServiceTest {
     @DisplayName("getRentalDataForUser should return rentals for user")
     void getRentalDataForUser() {
 //        given
-        Book testBook = rehisterBook();
+        Book testBook = registerBook();
         RegisteredUserDto testUser = testUser();
         SuccessfulRentalDto testRental = baseRentalCommandService.rentBookToUser(
                 testBook.getId(), testUser.getId());
@@ -158,14 +160,14 @@ class BaseRentalQueryServiceTest {
 //        when
         List<RentalDto> testResult = objectUnderTest.getActiveRentals();
 //        then
-        assertEquals(0, testResult.size());
+        assertTrue(testResult.isEmpty());
     }
 
     @Test
     @DisplayName("getActiveRentals should return active rentals list")
     void getActiveRentalsList() {
 //        given
-        Book testBook = rehisterBook();
+        Book testBook = registerBook();
         RegisteredUserDto testUser = testUser();
         SuccessfulRentalDto testRental = baseRentalCommandService.rentBookToUser(
                 testBook.getId(), testUser.getId());
@@ -191,19 +193,126 @@ class BaseRentalQueryServiceTest {
     }
 
     @Test
+    @DisplayName("getOverdueRentals should return empty list when no rentals are overdue")
     void getOverdueRentals() {
+//        given
+        Book testBook = registerBook();
+        RegisteredUserDto testUser = testUser();
+        SuccessfulRentalDto testRental = baseRentalCommandService.rentBookToUser(
+                testBook.getId(), testUser.getId());
+        baseRentalCommandService.registerBookReturn(testBook.getId(), testUser.getId(),
+                ZonedDateTime.now().plusDays(configService.getRentalPeriodDays() + 1));
+//        when
+        List<RentalDto> testResult = objectUnderTest.getOverdueRentals();
+//        then
+        assertTrue(testResult.isEmpty());
     }
 
     @Test
-    void getCurrentRentalForBook() {
+    @DisplayName("getOverdueRentals should return overdue rentals")
+    void getOverdueRentalsList() {
+        //        given
+        Book testBook = registerBook();
+        RegisteredUserDto testUser = testUser();
+        SuccessfulRentalDto testRental = baseRentalCommandService.rentBookToUser(
+                testBook.getId(), testUser.getId());
+//        when
+        List<RentalDto> testResult = objectUnderTest.getOverdueRentals(
+                ZonedDateTime.now().plusDays(configService.getRentalPeriodDays() + 1));
+//        then
+        assertFalse(testResult.isEmpty());
     }
 
     @Test
+    @DisplayName("getCurrentRentalForBook should return current rental for book")
+    void getCurrentRentalForBook() throws InterruptedException {
+//        given
+        Book testBook = registerBook();
+        RegisteredUserDto testUser = testUser();
+        SuccessfulRentalDto initialRental = baseRentalCommandService.rentBookToUser(
+                testBook.getId(), testUser.getId());
+
+        baseRentalCommandService.registerBookReturn(testBook.getId(), testUser.getId(), ZonedDateTime.now());
+
+        Thread.sleep(100);
+
+        SuccessfulRentalDto secondRental = baseRentalCommandService.rentBookToUser(
+                testBook.getId(), testUser.getId());
+//        when
+        RentalDto testResult = objectUnderTest.getCurrentRentalForBook(testBook.getId());
+//        then
+        assertAll(
+                () -> assertEquals(secondRental.getIsbn(), testResult.getIsbn()),
+                () -> assertEquals(secondRental.getAuthor(), testResult.getAuthor()),
+                () -> assertEquals(secondRental.getUserId(), testResult.getUserId()),
+                () -> assertEquals(secondRental.getRentalTime(), testResult.getRentalTime()),
+                () -> assertNotEquals(initialRental.getRentalDate(), testResult.getRentalDate())
+        );
+    }
+
+    @Test
+    @DisplayName("getCurrentRentalForBook should throw when no rental registered")
+    void getCurrentRentalForBookShouldReturnNull() {
+//        given
+        Book testBook = registerBook();
+//        when
+        Exception e = assertThrows(
+                RentalException.class,
+                () -> objectUnderTest.getCurrentRentalForBook(testBook.getId())
+        );
+//        then
+        assertEquals(RentalError.RENTAL_NOT_FOUND.getMessage(), e.getMessage());
+    }
+
+    @Test
+    @DisplayName("isBookAvailableForRental should return true when book is available")
     void isBookAvailableForRental() {
+        //        given
+        Book testBook = registerBook();
+        RegisteredUserDto testUser = testUser();
+        SuccessfulRentalDto testRental = baseRentalCommandService.rentBookToUser(
+                testBook.getId(), testUser.getId());
+        baseRentalCommandService.registerBookReturn(testBook.getId(), testUser.getId(), ZonedDateTime.now());
+//        when
+        boolean testResult = objectUnderTest.isBookAvailableForRental(testBook.getId());
+//        then
+        assertTrue(testResult);
     }
 
     @Test
+    @DisplayName("isBookAvailableForRental should return false when book is not available")
+    void isBookAvailableForRentalShouldReturnFalse() {
+        //        given
+        Book testBook = registerBook();
+        RegisteredUserDto testUser = testUser();
+        baseRentalCommandService.rentBookToUser(testBook.getId(), testUser.getId());
+//        when
+        boolean testResult = objectUnderTest.isBookAvailableForRental(testBook.getId());
+//        then
+        assertFalse(testResult);
+    }
+
+    @Test
+    @DisplayName("getNumberOfActiveRentalsForUser should return number of active rentals for user")
     void getNumberOfActiveRentalsForUser() {
+//        given
+        Book testBook = registerBook();
+        RegisteredUserDto testUser = testUser();
+        baseRentalCommandService.rentBookToUser(testBook.getId(), testUser.getId());
+        bookRegistrationDto = BookRegistrationDto.builder()
+                .title("second")
+                .author("second")
+                .pages(555555)
+                .publisher("test publisher")
+                .isbn("987654321")
+                .build();
+        Book secondBook = bookService.registerBook(bookRegistrationDto);
+        baseRentalCommandService.rentBookToUser(secondBook.getId(), testUser.getId());
+        int amountOfRentals = objectUnderTest.getActiveRentals().size();
+//        when
+        int testResult = objectUnderTest.getNumberOfActiveRentalsForUser(testUser.getId());
+//        then
+        assertEquals(amountOfRentals, testResult);
     }
 
     @Test

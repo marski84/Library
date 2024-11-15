@@ -23,6 +23,11 @@ public class InMemoryRentalRepository implements RentalRepository {
     }
 
     @Override
+    public Optional<Rental> findByBookIdAndRentDateIsNotNull(long bookId) {
+        return Optional.empty();
+    }
+
+    @Override
     public Optional<Rental> findByUserId(long userId) {
         return null;
     }
@@ -53,9 +58,13 @@ public class InMemoryRentalRepository implements RentalRepository {
                 .toList();
     }
 
+//    @Query("SELECT r FROM Rental r WHERE r.returnDate IS NULL AND r.dueDate < :date ORDER BY r.dueDate DESC")
+
     @Override
-    public List<Rental> findOverdueRentals(ZonedDateTime now) {
-        return List.of();
+    public List<Rental> findOverdueRentals(ZonedDateTime date) {
+        return rentals.values().stream()
+                .filter(rental -> rental.getReturnDate() == null && rental.getDueDate().isBefore(date))
+                .toList();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package org.localhost.library.library.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,8 +28,12 @@ public class Rental {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @NotNull
     private ZonedDateTime rentDate;
+
+    @NotNull
     private ZonedDateTime dueDate;
+
     private ZonedDateTime returnDate;
     private int penaltyPointsForDue;
 

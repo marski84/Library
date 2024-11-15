@@ -6,16 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="403a4fd3-44df-4d17-8575-c8aa065debfd" name="Changes" comment="added user controller and exception handling">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/ValueObjects/BookUserAssociation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/ValueObjects/BookUserAssociation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/dto/RentalDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/dto/RentalDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/model/Rental.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/model/Rental.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/repository/RentalRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/repository/RentalRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/RentalCommandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/RentalCommandService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/impl/BaseRentalCommandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/impl/BaseRentalCommandService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/RentalOperationsGateway/RentalOperationsGateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/RentalOperationsGateway/RentalOperationsGateway.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/RentalOperationsGateway/impl/BaseRentalOperationsGateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/RentalOperationsGateway/impl/BaseRentalOperationsGateway.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/controller/impl/BaseUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/controller/impl/BaseUserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/dto/EditUserDataDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/dto/EditUserDataDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/dto/UserRegistrationDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/dto/UserRegistrationDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/service/impl/BaseUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/user/service/impl/BaseUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/QueryService/RentalQueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/QueryService/RentalQueryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/QueryService/impl/BaseRentalQueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/QueryService/impl/BaseRentalQueryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/services/QueryService/BaseRentalQueryServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/services/QueryService/BaseRentalQueryServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/localhost/library/repositories/InMemoryRentalRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/repositories/InMemoryRentalRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/org/localhost/library/user/BaseUserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/user/BaseUserServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,12 +40,12 @@
     &quot;assignee&quot;: &quot;marski84&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/marski84/Library.git",
-    "accountId": "e8c8e266-6c97-4999-af4b-e68f57be15aa"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/marski84/Library.git&quot;,
+    &quot;accountId&quot;: &quot;e8c8e266-6c97-4999-af4b-e68f57be15aa&quot;
   }
-}]]></component>
+}</component>
   <component name="JpbToolWindowState">
     <option name="isToolWindowVisible" value="false" />
   </component>
@@ -68,6 +68,12 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.LibraryApplication.executor": "Run",
+    "JUnit.BaseBookServiceTest.executor": "Run",
+    "JUnit.BaseRentalCommandServiceTest.executor": "Run",
+    "JUnit.BaseRentalQueryServiceTest.executor": "Run",
+    "JUnit.BaseRentalQueryServiceTest.getRentalDataForBook.executor": "Run",
+    "JUnit.BaseRentalQueryServiceTest.getRentalDataForUser.executor": "Run",
+    "JUnit.BaseUserServiceTest.executor": "Run",
     "Maven.library [install].executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
@@ -91,7 +97,84 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.BaseRentalQueryServiceTest">
+    <configuration name="BaseRentalCommandServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.localhost.library.library.services.CommandService.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.localhost.library.library.services.CommandService" />
+      <option name="MAIN_CLASS_NAME" value="org.localhost.library.library.services.CommandService.BaseRentalCommandServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BaseRentalQueryServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.localhost.library.library.services.QueryService.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.localhost.library.library.services.QueryService" />
+      <option name="MAIN_CLASS_NAME" value="org.localhost.library.library.services.QueryService.BaseRentalQueryServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BaseRentalQueryServiceTest.getRentalDataForBook" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.localhost.library.library.services.QueryService.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.localhost.library.library.services.QueryService" />
+      <option name="MAIN_CLASS_NAME" value="org.localhost.library.library.services.QueryService.BaseRentalQueryServiceTest" />
+      <option name="METHOD_NAME" value="getRentalDataForBook" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BaseRentalQueryServiceTest.getRentalDataForUser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.localhost.library.library.services.QueryService.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.localhost.library.library.services.QueryService" />
+      <option name="MAIN_CLASS_NAME" value="org.localhost.library.library.services.QueryService.BaseRentalQueryServiceTest" />
+      <option name="METHOD_NAME" value="getRentalDataForUser" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BaseUserServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.localhost.library.user.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.localhost.library.user" />
+      <option name="MAIN_CLASS_NAME" value="org.localhost.library.user.BaseUserServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="LibraryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="library" />
@@ -100,6 +183,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.BaseRentalQueryServiceTest" />
+        <item itemvalue="JUnit.BaseRentalQueryServiceTest.getRentalDataForBook" />
+        <item itemvalue="JUnit.BaseRentalQueryServiceTest.getRentalDataForUser" />
+        <item itemvalue="JUnit.BaseUserServiceTest" />
+        <item itemvalue="JUnit.BaseRentalCommandServiceTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -121,7 +213,8 @@
       <workItem from="1727529851194" duration="3678000" />
       <workItem from="1731575245561" duration="477000" />
       <workItem from="1731575812502" duration="362000" />
-      <workItem from="1731576246341" duration="8344000" />
+      <workItem from="1731576246341" duration="11860000" />
+      <workItem from="1731662393579" duration="13879000" />
     </task>
     <task id="LOCAL-00001" summary="added user controller and exception handling">
       <option name="closed" value="true" />
@@ -131,7 +224,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731579339461</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="added user controller and exception handling">
+      <option name="closed" value="true" />
+      <created>1731587865319</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1731587865319</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

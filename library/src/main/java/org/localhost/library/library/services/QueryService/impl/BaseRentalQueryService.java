@@ -89,9 +89,17 @@ public class BaseRentalQueryService implements RentalQueryService {
                 .toList();
     }
 
-    public RentalDto getCurrentRentalForBook(long bookId) {
-        return rentalRepository.findByBookId(bookId)
+    public List<RentalDto> getOverdueRentals(ZonedDateTime date) {
+        return rentalRepository.findOverdueRentals(date).stream()
                 .map(this::createRentalDto)
+                .toList();
+    }
+
+    public RentalDto getCurrentRentalForBook(long bookId) {
+        return rentalRepository.findAllByBookId(bookId).stream()
+                .filter(rental -> rental.getReturnDate() == null)
+                .map(this::createRentalDto)
+                .findFirst()
                 .orElseThrow(() -> {
                             RentalException rentalException = new RentalException(RentalError.RENTAL_NOT_FOUND);
                             AppLogger.logError(rentalException.getErrorCode() + ": " + bookId);
@@ -101,11 +109,15 @@ public class BaseRentalQueryService implements RentalQueryService {
     }
 
     public boolean isBookAvailableForRental(long bookId) {
-        return false;
+        List<RentalDto> bookRentals =  getRentalDataForBook(bookId);
+        return !bookRentals.stream().filter(rental -> rental.getReturnDate() != null).toList().isEmpty();
     }
 
     public int getNumberOfActiveRentalsForUser(long userId) {
-        return 0;
+        return rentalRepository.findAllByUserId(userId).stream()
+                .filter(rental -> rental.getReturnDate() == null)
+                .toList()
+                .size();
     }
 
     public List<BookDto> getMostPopularBooks(int limit) {
@@ -138,6 +150,7 @@ public class BaseRentalQueryService implements RentalQueryService {
                         rental.getDueDate()
                 ).toDays())
                 .dueDate(rental.getDueDate())
+                .returnDate(rental.getReturnDate())
                 .build();
     }
 

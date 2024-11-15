@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BaseUserServiceTest {
 
     private UserService objectUnderTest;
+    private ConfigService configService;
     private UserRegistrationDto testUserDto;
     private final String TEST_USER_NAME = "testName";
     private final String TEST_FIRST_NAME = "firstName";
@@ -39,7 +40,7 @@ class BaseUserServiceTest {
     @BeforeEach
     void setUp() {
         UserRepository userRepository = new InMemoryUserRepository();
-        ConfigService configService = new InMemoryConfigService();
+        configService = new InMemoryConfigService();
         objectUnderTest = new BaseUserService(userRepository, configService);
         testUserDto = UserRegistrationDto.builder()
                 .userName(TEST_USER_NAME)
@@ -282,7 +283,7 @@ class BaseUserServiceTest {
         objectUnderTest.updateUserPenaltyPoints(testUser.getId(), RentalStatus.OVERDUE);
         User testResult = objectUnderTest.findUserById(testUser.getId());
 //        then
-        assertEquals(testUser.getPenaltyPoints() + 5, testResult.getPenaltyPoints());
+        assertEquals(testUser.getPenaltyPoints() + configService.getLateOverduePoints() , testResult.getPenaltyPoints());
     }
 
     @Test

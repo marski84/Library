@@ -11,6 +11,8 @@ import java.util.Optional;
 
 public interface RentalRepository extends CrudRepository<Rental, Long> {
     Optional<Rental> findByBookIdAndRentDateIsNull(long bookId);
+
+    Optional<Rental> findByBookIdAndRentDateIsNotNull(long bookId);
     Optional<Rental> findByUserId(long userId);
     Optional<Rental> findByBookId(long bookId);
 
@@ -19,8 +21,8 @@ public interface RentalRepository extends CrudRepository<Rental, Long> {
     List<Rental> findAllByUserId(long userId);
     List<Rental> findAllByReturnDateIsNull();
 
-    @Query("SELECT r FROM Rental r WHERE r.returnDate IS NULL AND r.dueDate < :now ORDER BY r.dueDate DESC")
-    List<Rental> findOverdueRentals(@Param("now") ZonedDateTime now);
+    @Query("SELECT r FROM Rental r WHERE r.returnDate IS NULL AND r.dueDate < :date ORDER BY r.dueDate DESC")
+    List<Rental> findOverdueRentals(@Param("now") ZonedDateTime date);
 
     Optional<Rental> findRentalByBookIdAndUserId(long bookId, long userId);
 }
