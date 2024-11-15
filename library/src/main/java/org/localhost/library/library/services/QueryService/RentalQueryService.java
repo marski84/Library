@@ -33,7 +33,4 @@ public interface RentalQueryService {
 
     RentalStatisticsDto getRentalStatistics();
 
-    void extendRental(long rentalId, int days) throws RentalException;
-
-    RentalStatus checkRentalStatus(ZonedDateTime dueDate, ZonedDateTime returnDate);
 }

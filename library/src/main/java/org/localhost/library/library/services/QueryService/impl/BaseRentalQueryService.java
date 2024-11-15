@@ -1,9 +1,6 @@
 package org.localhost.library.library.services.QueryService.impl;
 
 import org.localhost.library.book.dto.BookDto;
-import org.localhost.library.book.model.Book;
-import org.localhost.library.book.service.BookService;
-import org.localhost.library.library.RentalStatus;
 import org.localhost.library.library.dto.RentalDto;
 import org.localhost.library.library.dto.RentalStatisticsDto;
 import org.localhost.library.library.exceptions.RentalException;
@@ -12,8 +9,6 @@ import org.localhost.library.library.model.Rental;
 import org.localhost.library.library.repository.RentalRepository;
 import org.localhost.library.library.services.QueryService.RentalQueryService;
 import org.localhost.library.user.dto.UserDto;
-import org.localhost.library.user.model.User;
-import org.localhost.library.user.service.UserService;
 import org.localhost.library.utils.AppLogger;
 import org.springframework.stereotype.Service;
 
@@ -24,33 +19,10 @@ import java.util.List;
 @Service
 public class BaseRentalQueryService implements RentalQueryService {
     private final RentalRepository rentalRepository;
-    private final BookService bookService;
-    private final UserService userService;
 
-    private final int OVERDUE = -1;
-    private final int DUE_TODAY = 0;
-    private final int ON_TIME = 1;
 
-    public BaseRentalQueryService(RentalRepository rentalRepository, BookService bookService, UserService userService) {
+    public BaseRentalQueryService(RentalRepository rentalRepository) {
         this.rentalRepository = rentalRepository;
-        this.bookService = bookService;
-        this.userService = userService;
-    }
-
-    public void validateBookAvailability(Book book) {
-        if (rentalRepository.findByBookIdAndRentDateIsNull(book.getId()).isPresent()) {
-            RentalException rentalException = new RentalException(RentalError.RENTAL_NOT_POSSIBLE);
-            AppLogger.logError(rentalException.getErrorCode() + ": " + book.getId());
-            throw rentalException;
-        }
-    }
-
-    public void validateUserStatus(User user) {
-        if (user.isBlocked()) {
-            RentalException rentalException = new RentalException(RentalError.RENTAL_NOT_POSSIBLE);
-            AppLogger.logError(rentalException.getErrorCode() + "for: " + user.getId());
-            throw rentalException;
-        }
     }
 
     public List<RentalDto> getRentalDataForBook(long bookId) {
@@ -109,7 +81,7 @@ public class BaseRentalQueryService implements RentalQueryService {
     }
 
     public boolean isBookAvailableForRental(long bookId) {
-        List<RentalDto> bookRentals =  getRentalDataForBook(bookId);
+        List<RentalDto> bookRentals = getRentalDataForBook(bookId);
         return !bookRentals.stream().filter(rental -> rental.getReturnDate() != null).toList().isEmpty();
     }
 
@@ -133,9 +105,7 @@ public class BaseRentalQueryService implements RentalQueryService {
         return null;
     }
 
-    public void extendRental(long rentalId, int days) throws RentalException {
 
-    }
 
     private RentalDto createRentalDto(Rental rental) {
         AppLogger.logDebug("creating rental dto for {}", rental.toString());
@@ -152,14 +122,5 @@ public class BaseRentalQueryService implements RentalQueryService {
                 .dueDate(rental.getDueDate())
                 .returnDate(rental.getReturnDate())
                 .build();
-    }
-
-    public RentalStatus checkRentalStatus(ZonedDateTime dueDate, ZonedDateTime returnDate) {
-        return switch (dueDate.compareTo(returnDate)) {
-            case OVERDUE -> RentalStatus.OVERDUE;
-            case DUE_TODAY -> RentalStatus.DUE_TODAY;
-            case ON_TIME -> RentalStatus.ON_TIME;
-            default -> throw new IllegalStateException("Unexpected comparison result");
-        };
     }
 }

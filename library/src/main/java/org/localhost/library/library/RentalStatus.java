@@ -1,5 +1,8 @@
 package org.localhost.library.library;
 
+import lombok.Getter;
+
+@Getter
 public enum RentalStatus {
     OVERDUE(-1),
     DUE_TODAY(0),
@@ -9,9 +12,5 @@ public enum RentalStatus {
 
     RentalStatus(int value) {
         this.value = value;
-    }
-
-    public int getValue() {
-        return value;
     }
 }

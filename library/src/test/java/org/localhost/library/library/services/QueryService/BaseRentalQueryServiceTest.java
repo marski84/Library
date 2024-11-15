@@ -67,7 +67,7 @@ class BaseRentalQueryServiceTest {
         baseRentalCommandService = new BaseRentalCommandService(InMemoryRepository, rentalOperationsGateway, configService);
 
 
-        objectUnderTest = new BaseRentalQueryService(InMemoryRepository, bookService, userService);
+        objectUnderTest = new BaseRentalQueryService(InMemoryRepository);
 
         testRentalTime = configService.getRentalPeriodDays();
 

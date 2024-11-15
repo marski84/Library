@@ -15,9 +15,6 @@ public class BaseRentalOperationsGateway implements RentalOperationsGateway {
     private final BookService bookService;
     private final UserService userService;
 
-    private final int OVERDUE = -1;
-    private final int DUE_TODAY = 0;
-    private final int ON_TIME = 1;
 
     public BaseRentalOperationsGateway(BookService bookService, UserService userService) {
         this.bookService = bookService;
@@ -41,6 +38,10 @@ public class BaseRentalOperationsGateway implements RentalOperationsGateway {
     }
 
     public RentalStatus checkRentalStatus(ZonedDateTime dueDate, ZonedDateTime returnDate) {
+        final int OVERDUE = -1;
+        final int DUE_TODAY = 0;
+        final int ON_TIME = 1;
+
         return switch (dueDate.compareTo(returnDate)) {
             case OVERDUE -> RentalStatus.OVERDUE;
             case DUE_TODAY -> RentalStatus.DUE_TODAY;

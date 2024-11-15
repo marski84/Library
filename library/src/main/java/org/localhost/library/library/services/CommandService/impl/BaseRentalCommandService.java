@@ -28,10 +28,6 @@ public class BaseRentalCommandService implements RentalCommandService {
     private final RentalOperationsGateway rentalOperationsGateway;
     private final ConfigService baseConfigService;
 
-    private final int OVERDUE = -1;
-    private final int DUE_TODAY = 0;
-    private final int ON_TIME = 1;
-
     public BaseRentalCommandService(RentalRepository rentalRepository, RentalOperationsGateway rentalOperationsGateway, ConfigService baseConfigService) {
         this.rentalRepository = rentalRepository;
         this.rentalOperationsGateway = rentalOperationsGateway;
@@ -123,7 +119,7 @@ public class BaseRentalCommandService implements RentalCommandService {
         }
 
         rental.setReturnDate(returnDate);
-        RentalStatus rentalStatus = checkRentalStatus(rental.getDueDate(), returnDate);
+        RentalStatus rentalStatus = rentalOperationsGateway.checkRentalStatus(rental.getDueDate(), returnDate);
 
         if (rentalStatus == RentalStatus.DUE_TODAY || rentalStatus == RentalStatus.OVERDUE) {
             rentalOperationsGateway.calculatePenaltyPoints(userId, rentalStatus);
@@ -131,6 +127,19 @@ public class BaseRentalCommandService implements RentalCommandService {
         rentalRepository.save(rental);
         AppLogger.logInfo("Rental saved: " + rental);
         return rental;
+    }
+
+
+    public ZonedDateTime extendRental(long rentalId, int days) throws RentalException {
+        Rental rental = rentalRepository.findById(rentalId)
+                .orElseThrow(() -> {
+                            RentalException rentalException = new RentalException(RentalError.RENTAL_NOT_FOUND);
+                            AppLogger.logError(rentalException.getErrorCode() + ": " + rentalId);
+                            return rentalException;
+                        }
+                );
+        Rental rental = rentalOperationsGateway.checkRentalStatus()
+        return new ZonedaDateTime(rental.getDueDate().plusDays(days));
     }
 
 
@@ -151,14 +160,6 @@ public class BaseRentalCommandService implements RentalCommandService {
         }
     }
 
-    private RentalStatus checkRentalStatus(ZonedDateTime dueDate, ZonedDateTime returnDate) {
-        return switch (dueDate.compareTo(returnDate)) {
-            case OVERDUE -> RentalStatus.OVERDUE;
-            case DUE_TODAY -> RentalStatus.DUE_TODAY;
-            case ON_TIME -> RentalStatus.ON_TIME;
-            default -> throw new IllegalStateException("Unexpected comparison result");
-        };
-    }
 
 
 }
