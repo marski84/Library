@@ -80,7 +80,6 @@ class BaseRentalCommandServiceTest {
                 .publisher("some publisher")
                 .isbn("12412341")
                 .build();
-
     }
 
     Book registerBook() {
@@ -103,8 +102,8 @@ class BaseRentalCommandServiceTest {
 //        then
         assertAll(
                 () -> assertEquals(testUser.getId(), testRental.getUserId()),
-                () -> assertEquals(testBook.getId(), testBook.getId()),
                 () -> assertEquals(testBook.getTitle(), testRental.getBookTitle()),
+                () -> assertEquals(testBook.getIsbn(), testRental.getIsbn()),
                 () -> assertEquals(testBook.getAuthor(), testRental.getAuthor()),
                 () -> assertEquals(testRentalTime, testRental.getRentalTime())
         );
@@ -215,6 +214,23 @@ class BaseRentalCommandServiceTest {
 //        then
         User testResult = userService.findUserById(testUser.getId());
         assertEquals(configService.getLateOverduePoints(), testResult.getPenaltyPoints());
-//
+    }
+
+    @DisplayName("extendRental should extend rental period")
+    @Test
+    void extendRental() {
+//        given
+        Book testBook = registerBook();
+        RegisteredUserDto testUser = testUser();
+        SuccessfulRentalDto testRental = objectUnderTest.rentBookToUser(
+                testBook.getId(), testUser.getId());
+        int AMOUNT_OF_DAYS_TO_EXTEND = 5;
+
+//        when
+       ZonedDateTime extendedDueDate =  objectUnderTest.extendRental(testRental.getRentalId(), AMOUNT_OF_DAYS_TO_EXTEND);
+//        then
+    assertEquals(testRental.getDueDate().plusDays(AMOUNT_OF_DAYS_TO_EXTEND), extendedDueDate);
+
+
     }
 }

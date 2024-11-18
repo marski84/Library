@@ -66,18 +66,7 @@ public class BaseRentalCommandService implements RentalCommandService {
         AppLogger.logInfo("Rental saved: " + savedRentalData);
 
         AppLogger.logDebug("creating rental dto after successful rent: {}", rental.toString());
-        return SuccessfulRentalDto.builder()
-                .isbn(savedRentalData.getBook().getIsbn())
-                .bookTitle(savedRentalData.getBook().getTitle())
-                .author(savedRentalData.getBook().getAuthor())
-                .userId(savedRentalData.getUser().getId())
-                .rentalDate(savedRentalData.getRentDate())
-                .dueDate(savedRentalData.getDueDate())
-                .rentalTime((int) Duration.between(
-                                savedRentalData.getRentDate(),
-                                savedRentalData.getDueDate()
-                        ).toDays()
-                ).build();
+        return SuccessfulRentalDto.fromRental(savedRentalData);
     }
 
     private Rental createRental(Book book, User user, ZonedDateTime rentalDate, ZonedDateTime dueDate) {
@@ -119,14 +108,16 @@ public class BaseRentalCommandService implements RentalCommandService {
         }
 
         rental.setReturnDate(returnDate);
-        RentalStatus rentalStatus = rentalOperationsGateway.checkRentalStatus(rental.getDueDate(), returnDate);
+        rental.setRentDate(null);
+        RentalStatus rentalStatus = rentalOperationsGateway.checkRentalStatus(rental.getDueDate(), rental.getReturnDate());
 
+        System.out.println(rental.getReturnDate());
         if (rentalStatus == RentalStatus.DUE_TODAY || rentalStatus == RentalStatus.OVERDUE) {
             rentalOperationsGateway.calculatePenaltyPoints(userId, rentalStatus);
         }
-        rentalRepository.save(rental);
+
         AppLogger.logInfo("Rental saved: " + rental);
-        return rental;
+        return rentalRepository.save(rental);
     }
 
 
@@ -138,14 +129,26 @@ public class BaseRentalCommandService implements RentalCommandService {
                             return rentalException;
                         }
                 );
-        Rental rental = rentalOperationsGateway.checkRentalStatus()
-        return new ZonedaDateTime(rental.getDueDate().plusDays(days));
+        ZonedDateTime currentDate = ZonedDateTime.now();
+        if (currentDate.isBefore(rental.getDueDate())) {
+            rental.setDueDate(rental.getDueDate().plusDays(days));
+            Rental extendedRental = rentalRepository.save(rental);
+
+            AppLogger.logInfo("Rental extended: " + extendedRental);
+            return extendedRental.getDueDate();
+        }
+        else {
+            RentalException rentalException = new RentalException(RentalError.RENTAL_NOT_EXTENDABLE);
+            AppLogger.logError(rentalException.getErrorCode() + ": " + rentalId);
+            throw rentalException;
+        }
     }
 
 
 
     private void validateBookAvailability(Book book) {
         if (rentalRepository.findByBookIdAndRentDateIsNotNull(book.getId()).isPresent()) {
+            System.out.println("wyjatek");
             RentalException rentalException = new RentalException(RentalError.RENTAL_NOT_POSSIBLE);
             AppLogger.logError(rentalException.getErrorCode() + ": " + book.getId());
             throw rentalException;

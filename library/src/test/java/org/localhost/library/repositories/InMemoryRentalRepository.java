@@ -4,10 +4,7 @@ import org.localhost.library.library.model.Rental;
 import org.localhost.library.library.repository.RentalRepository;
 
 import java.time.ZonedDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class InMemoryRentalRepository implements RentalRepository {
@@ -24,7 +21,9 @@ public class InMemoryRentalRepository implements RentalRepository {
 
     @Override
     public Optional<Rental> findByBookIdAndRentDateIsNotNull(long bookId) {
-        return Optional.empty();
+        return rentals.values().stream()
+                .filter(r -> r.getBook().getId() == bookId && r.getRentDate() != null)
+                .findFirst();
     }
 
     @Override
@@ -92,7 +91,9 @@ public class InMemoryRentalRepository implements RentalRepository {
 
     @Override
     public Optional<Rental> findById(Long aLong) {
-        return Optional.empty();
+        return rentals.values().stream()
+                .filter(rental -> Objects.equals(rental.getId(), aLong))
+                .findFirst();
     }
 
     @Override

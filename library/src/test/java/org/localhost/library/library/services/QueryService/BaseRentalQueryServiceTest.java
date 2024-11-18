@@ -266,12 +266,14 @@ class BaseRentalQueryServiceTest {
 
     @Test
     @DisplayName("isBookAvailableForRental should return true when book is available")
-    void isBookAvailableForRental() {
+    void isBookAvailableForRental() throws InterruptedException {
         //        given
         Book testBook = registerBook();
         RegisteredUserDto testUser = testUser();
         SuccessfulRentalDto testRental = baseRentalCommandService.rentBookToUser(
                 testBook.getId(), testUser.getId());
+        Thread thraed = new Thread();
+        Thread.sleep(100);
         baseRentalCommandService.registerBookReturn(testBook.getId(), testUser.getId(), ZonedDateTime.now());
 //        when
         boolean testResult = objectUnderTest.isBookAvailableForRental(testBook.getId());

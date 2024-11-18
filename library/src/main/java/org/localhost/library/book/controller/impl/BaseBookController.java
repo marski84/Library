@@ -26,7 +26,7 @@ public class BaseBookController implements BookController {
     @PostMapping("/register")
     public ResponseEntity<BookDto> registerNewBook(@Valid @RequestBody BookRegistrationDto book) {
         Book newBook = bookService.registerBook(book);
-        BookDto result = BookDto.builder().id(newBook.getId()).title(newBook.getTitle()).author(newBook.getAuthor()).isbn(newBook.getIsbn()).publisher(newBook.getPublisher()).pages(newBook.getPages()).build();
+        BookDto result = BookDto.fromBook(newBook);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
@@ -45,7 +45,7 @@ public class BaseBookController implements BookController {
     public ResponseEntity<BookDto> getBookById(@PathVariable @Positive(message = "ID must be positive") Long id) {
         Book book = bookService.getBookById(id);
 
-        BookDto result = BookDto.builder().id(book.getId()).title(book.getTitle()).author(book.getAuthor()).isbn(book.getIsbn()).publisher(book.getPublisher()).pages(book.getPages()).build();
+        BookDto result = BookDto.fromBook(book);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

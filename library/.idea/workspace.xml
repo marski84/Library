@@ -5,17 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="403a4fd3-44df-4d17-8575-c8aa065debfd" name="Changes" comment="added methods to RentalQueryService, added initial data for rentals + unit tests">
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/library.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/RentalStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/RentalStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/RentalCommandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/RentalCommandService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/controller/impl/BaseBookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/controller/impl/BaseBookController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/dto/BookDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/dto/BookDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/service/impl/BaseBookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/service/impl/BaseBookService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/dto/RentalDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/dto/RentalDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/dto/SuccessfulRentalDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/dto/SuccessfulRentalDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/exceptions/messages/RentalError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/exceptions/messages/RentalError.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/impl/BaseRentalCommandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/impl/BaseRentalCommandService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/QueryService/RentalQueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/QueryService/RentalQueryService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/QueryService/impl/BaseRentalQueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/QueryService/impl/BaseRentalQueryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/RentalOperationsGateway/RentalOperationsGateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/RentalOperationsGateway/RentalOperationsGateway.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/RentalOperationsGateway/impl/BaseRentalOperationsGateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/RentalOperationsGateway/impl/BaseRentalOperationsGateway.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/services/CommandService/BaseRentalCommandServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/services/CommandService/BaseRentalCommandServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/services/QueryService/BaseRentalQueryServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/services/QueryService/BaseRentalQueryServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/localhost/library/repositories/InMemoryRentalRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/repositories/InMemoryRentalRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,38 +66,38 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.LibraryApplication.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BaseBookServiceTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BaseRentalCommandServiceTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BaseRentalQueryServiceTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BaseRentalQueryServiceTest.getRentalDataForBook.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BaseRentalQueryServiceTest.getRentalDataForUser.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BaseUserServiceTest.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.library [install].executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.LibraryApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/marcinochmanski/Desktop/java/Library/library&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.LibraryApplication.executor": "Run",
+    "JUnit.BaseBookServiceTest.executor": "Run",
+    "JUnit.BaseRentalCommandServiceTest.executor": "Run",
+    "JUnit.BaseRentalQueryServiceTest.executor": "Run",
+    "JUnit.BaseRentalQueryServiceTest.getRentalDataForBook.executor": "Run",
+    "JUnit.BaseRentalQueryServiceTest.getRentalDataForUser.executor": "Run",
+    "JUnit.BaseUserServiceTest.executor": "Run",
+    "Maven.library [install].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.LibraryApplication.executor": "Run",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/marcinochmanski/Desktop/java/Library/library",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="JUnit.BaseRentalQueryServiceTest">
     <configuration name="BaseRentalCommandServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="library" />
@@ -185,10 +187,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.BaseRentalQueryServiceTest" />
+        <item itemvalue="JUnit.BaseRentalCommandServiceTest" />
         <item itemvalue="JUnit.BaseRentalQueryServiceTest.getRentalDataForBook" />
         <item itemvalue="JUnit.BaseRentalQueryServiceTest.getRentalDataForUser" />
         <item itemvalue="JUnit.BaseUserServiceTest" />
-        <item itemvalue="JUnit.BaseRentalCommandServiceTest" />
       </list>
     </recent_temporary>
   </component>
@@ -214,7 +216,9 @@
       <workItem from="1731575812502" duration="362000" />
       <workItem from="1731576246341" duration="11860000" />
       <workItem from="1731662393579" duration="18877000" />
-      <workItem from="1731685251940" duration="1566000" />
+      <workItem from="1731685251940" duration="1583000" />
+      <workItem from="1731688893655" duration="58000" />
+      <workItem from="1731930230355" duration="9492000" />
     </task>
     <task id="LOCAL-00001" summary="added user controller and exception handling">
       <option name="closed" value="true" />
@@ -240,7 +244,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731679503372</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="added methods to RentalQueryService, added initial data for rentals + unit tests">
+      <option name="closed" value="true" />
+      <created>1731687058116</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1731687058116</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

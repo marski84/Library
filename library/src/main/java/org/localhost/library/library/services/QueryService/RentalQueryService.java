@@ -1,10 +1,8 @@
 package org.localhost.library.library.services.QueryService;
 
 import org.localhost.library.book.dto.BookDto;
-import org.localhost.library.library.RentalStatus;
 import org.localhost.library.library.dto.RentalDto;
 import org.localhost.library.library.dto.RentalStatisticsDto;
-import org.localhost.library.library.exceptions.RentalException;
 import org.localhost.library.user.dto.UserDto;
 
 import java.time.ZonedDateTime;

@@ -31,7 +31,7 @@ public class BaseRentalQueryService implements RentalQueryService {
         }
         List<Rental> rentalList = rentalRepository.findAllByBookId(bookId);
         return rentalList.stream()
-                .map(this::createRentalDto)
+                .map(RentalDto::fromRental)
                 .toList();
     }
 
@@ -41,7 +41,7 @@ public class BaseRentalQueryService implements RentalQueryService {
         }
         List<Rental> rentalList = rentalRepository.findAllByUserId(userId);
         return rentalList.stream()
-                .map(this::createRentalDto)
+                .map(RentalDto::fromRental)
                 .toList();
     }
 
@@ -51,26 +51,26 @@ public class BaseRentalQueryService implements RentalQueryService {
             return List.of();
         }
         return activeRentals.stream()
-                .map(this::createRentalDto)
+                .map(RentalDto::fromRental)
                 .toList();
     }
 
     public List<RentalDto> getOverdueRentals() {
         return rentalRepository.findOverdueRentals(ZonedDateTime.now()).stream()
-                .map(this::createRentalDto)
+                .map(RentalDto::fromRental)
                 .toList();
     }
 
     public List<RentalDto> getOverdueRentals(ZonedDateTime date) {
         return rentalRepository.findOverdueRentals(date).stream()
-                .map(this::createRentalDto)
+                .map(RentalDto::fromRental)
                 .toList();
     }
 
     public RentalDto getCurrentRentalForBook(long bookId) {
         return rentalRepository.findAllByBookId(bookId).stream()
                 .filter(rental -> rental.getReturnDate() == null)
-                .map(this::createRentalDto)
+                .map(RentalDto::fromRental)
                 .findFirst()
                 .orElseThrow(() -> {
                             RentalException rentalException = new RentalException(RentalError.RENTAL_NOT_FOUND);
@@ -82,7 +82,8 @@ public class BaseRentalQueryService implements RentalQueryService {
 
     public boolean isBookAvailableForRental(long bookId) {
         List<RentalDto> bookRentals = getRentalDataForBook(bookId);
-        return !bookRentals.stream().filter(rental -> rental.getReturnDate() != null).toList().isEmpty();
+        System.out.println(bookRentals.stream().noneMatch(rental -> rental.getRentalDate() != null));
+            return bookRentals.stream().noneMatch(rental -> rental.getReturnDate() == null);
     }
 
     public int getNumberOfActiveRentalsForUser(long userId) {
@@ -103,24 +104,5 @@ public class BaseRentalQueryService implements RentalQueryService {
 
     public RentalStatisticsDto getRentalStatistics() {
         return null;
-    }
-
-
-
-    private RentalDto createRentalDto(Rental rental) {
-        AppLogger.logDebug("creating rental dto for {}", rental.toString());
-        return RentalDto.builder()
-                .bookTitle(rental.getBook().getTitle())
-                .author(rental.getBook().getAuthor())
-                .isbn(rental.getBook().getIsbn())
-                .userId(rental.getUser().getId())
-                .rentalDate(rental.getRentDate())
-                .rentalTime((int) Duration.between(
-                        rental.getRentDate(),
-                        rental.getDueDate()
-                ).toDays())
-                .dueDate(rental.getDueDate())
-                .returnDate(rental.getReturnDate())
-                .build();
     }
 }

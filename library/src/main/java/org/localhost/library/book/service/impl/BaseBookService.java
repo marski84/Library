@@ -64,11 +64,7 @@ public class BaseBookService implements BookService {
 
         bookRepository.delete(bookToRemove);
         AppLogger.logInfo("Book with ID " + bookId + " removed successfully");
-        return BookDto.builder()
-                .id(bookToRemove.getId())
-                .isbn(bookToRemove.getIsbn())
-                .title(bookToRemove.getTitle())
-                .build();
+        return BookDto.fromBook(bookToRemove);
     }
 
     @Override
@@ -129,14 +125,7 @@ public class BaseBookService implements BookService {
         AppLogger.logInfo("Book with ID " + bookId + " edited successfully");
 
         AppLogger.logDebug("creating book dto " + bookData);
-        return BookDto.builder()
-                .id(updateBook.getId())
-                .isbn(updateBook.getIsbn())
-                .author(updateBook.getAuthor())
-                .title(updateBook.getTitle())
-                .pages(updateBook.getPages())
-                .publisher(updateBook.getPublisher())
-                .build();
+        return BookDto.fromBook(updateBook);
     }
 
 
