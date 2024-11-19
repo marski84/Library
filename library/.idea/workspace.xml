@@ -4,20 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="403a4fd3-44df-4d17-8575-c8aa065debfd" name="Changes" comment="added methods to RentalQueryService, added initial data for rentals + unit tests">
+    <list default="true" id="403a4fd3-44df-4d17-8575-c8aa065debfd" name="Changes" comment="refactroring">
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/book/controller/BookIntegrationTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/book/controller/TestConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/application-test.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/data-test.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/schema-test.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/controller/impl/BaseBookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/controller/impl/BaseBookController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/dto/BookDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/dto/BookDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/service/impl/BaseBookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/service/impl/BaseBookService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/model/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/model/Book.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/dto/RentalDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/dto/RentalDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/dto/SuccessfulRentalDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/dto/SuccessfulRentalDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/exceptions/messages/RentalError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/exceptions/messages/RentalError.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/impl/BaseRentalCommandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/impl/BaseRentalCommandService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/QueryService/RentalQueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/QueryService/RentalQueryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/repository/RentalRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/repository/RentalRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/QueryService/impl/BaseRentalQueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/QueryService/impl/BaseRentalQueryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/services/CommandService/BaseRentalCommandServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/services/CommandService/BaseRentalCommandServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/localhost/library/book/BaseBookServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/book/service/BaseBookServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/services/QueryService/BaseRentalQueryServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/services/QueryService/BaseRentalQueryServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/localhost/library/repositories/InMemoryRentalRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/repositories/InMemoryRentalRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/application.yml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +29,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
+        <option value="JUnit5 Test Class" />
         <option value="Class" />
       </list>
     </option>
@@ -74,7 +76,10 @@
     "JUnit.BaseRentalQueryServiceTest.executor": "Run",
     "JUnit.BaseRentalQueryServiceTest.getRentalDataForBook.executor": "Run",
     "JUnit.BaseRentalQueryServiceTest.getRentalDataForUser.executor": "Run",
+    "JUnit.BaseRentalQueryServiceTest.isBookAvailableForRental.executor": "Run",
     "JUnit.BaseUserServiceTest.executor": "Run",
+    "JUnit.BookIntegrationTest.executor": "Run",
+    "JUnit.BookIntegrationTest.shouldGetAllBooks.executor": "Run",
     "Maven.library [install].executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
@@ -84,6 +89,8 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.LibraryApplication.executor": "Run",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/marcinochmanski/Desktop/java/Library/library",
@@ -98,17 +105,29 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.BaseRentalQueryServiceTest">
-    <configuration name="BaseRentalCommandServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.localhost.library.book.controller" />
+      <recent name="org.localhost.library.book.service" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="org.localhost.library.book.controller.impl" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.BookIntegrationTest">
+    <configuration name="BaseBookServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="library" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.localhost.library.library.services.CommandService.*" />
+          <option name="PATTERN" value="org.localhost.library.book.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.localhost.library.library.services.CommandService" />
-      <option name="MAIN_CLASS_NAME" value="org.localhost.library.library.services.CommandService.BaseRentalCommandServiceTest" />
+      <option name="PACKAGE_NAME" value="org.localhost.library.book.service" />
+      <option name="MAIN_CLASS_NAME" value="org.localhost.library.book.service.BaseBookServiceTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -129,7 +148,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BaseRentalQueryServiceTest.getRentalDataForBook" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BaseRentalQueryServiceTest.isBookAvailableForRental" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="library" />
       <extension name="coverage">
         <pattern>
@@ -139,39 +158,39 @@
       </extension>
       <option name="PACKAGE_NAME" value="org.localhost.library.library.services.QueryService" />
       <option name="MAIN_CLASS_NAME" value="org.localhost.library.library.services.QueryService.BaseRentalQueryServiceTest" />
-      <option name="METHOD_NAME" value="getRentalDataForBook" />
+      <option name="METHOD_NAME" value="isBookAvailableForRental" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BaseRentalQueryServiceTest.getRentalDataForUser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BookIntegrationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="library" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.localhost.library.library.services.QueryService.*" />
+          <option name="PATTERN" value="org.localhost.library.book.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.localhost.library.library.services.QueryService" />
-      <option name="MAIN_CLASS_NAME" value="org.localhost.library.library.services.QueryService.BaseRentalQueryServiceTest" />
-      <option name="METHOD_NAME" value="getRentalDataForUser" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="BaseUserServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="library" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.localhost.library.user.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.localhost.library.user" />
-      <option name="MAIN_CLASS_NAME" value="org.localhost.library.user.BaseUserServiceTest" />
+      <option name="PACKAGE_NAME" value="org.localhost.library.book.controller" />
+      <option name="MAIN_CLASS_NAME" value="org.localhost.library.book.controller.BookIntegrationTest" />
       <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BookIntegrationTest.shouldGetAllBooks" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.localhost.library.book.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.localhost.library.book.controller" />
+      <option name="MAIN_CLASS_NAME" value="org.localhost.library.book.controller.BookIntegrationTest" />
+      <option name="METHOD_NAME" value="shouldGetAllBooks" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -186,11 +205,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.BookIntegrationTest" />
+        <item itemvalue="JUnit.BookIntegrationTest.shouldGetAllBooks" />
+        <item itemvalue="JUnit.BaseBookServiceTest" />
+        <item itemvalue="JUnit.BaseRentalQueryServiceTest.isBookAvailableForRental" />
         <item itemvalue="JUnit.BaseRentalQueryServiceTest" />
-        <item itemvalue="JUnit.BaseRentalCommandServiceTest" />
-        <item itemvalue="JUnit.BaseRentalQueryServiceTest.getRentalDataForBook" />
-        <item itemvalue="JUnit.BaseRentalQueryServiceTest.getRentalDataForUser" />
-        <item itemvalue="JUnit.BaseUserServiceTest" />
       </list>
     </recent_temporary>
   </component>
@@ -218,7 +237,8 @@
       <workItem from="1731662393579" duration="18877000" />
       <workItem from="1731685251940" duration="1583000" />
       <workItem from="1731688893655" duration="58000" />
-      <workItem from="1731930230355" duration="9492000" />
+      <workItem from="1731930230355" duration="9591000" />
+      <workItem from="1732005739767" duration="7722000" />
     </task>
     <task id="LOCAL-00001" summary="added user controller and exception handling">
       <option name="closed" value="true" />
@@ -252,7 +272,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731687058116</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="refactroring">
+      <option name="closed" value="true" />
+      <created>1731944252694</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1731944252694</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -261,6 +289,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added user controller and exception handling" />
     <MESSAGE value="added methods to RentalQueryService, added initial data for rentals + unit tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="added methods to RentalQueryService, added initial data for rentals + unit tests" />
+    <MESSAGE value="refactroring" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactroring" />
   </component>
 </project>

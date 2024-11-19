@@ -8,7 +8,6 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 @Table(name = "books")
 public class Book {
@@ -30,4 +29,7 @@ public class Book {
 
     @Column(nullable = false)
     private int pages;
+
+    public Book(Object o, String cleanCode, String s, String s1, int i) {
+    }
 }

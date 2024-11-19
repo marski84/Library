@@ -21,8 +21,12 @@ public interface RentalRepository extends CrudRepository<Rental, Long> {
     List<Rental> findAllByUserId(long userId);
     List<Rental> findAllByReturnDateIsNull();
 
-    @Query("SELECT r FROM Rental r WHERE r.returnDate IS NULL AND r.dueDate < :date ORDER BY r.dueDate DESC")
-    List<Rental> findOverdueRentals(@Param("now") ZonedDateTime date);
+//    @Query("SELECT r FROM Rental r WHERE r.returnDate IS NULL AND r.dueDate < :date ORDER BY r.dueDate DESC")
+//    List<Rental> findOverdueRentals(@Param("now") ZonedDateTime date);
+
+    @Query("SELECT r FROM Rental r WHERE r.returnDate IS NULL AND r.dueDate < :now ORDER BY r.dueDate DESC")
+    List<Rental> findOverdueRentals(@Param("now") ZonedDateTime now);
+
 
     Optional<Rental> findRentalByBookIdAndUserId(long bookId, long userId);
 }

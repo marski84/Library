@@ -13,6 +13,7 @@ import org.localhost.library.library.dto.RentalDto;
 import org.localhost.library.library.dto.SuccessfulRentalDto;
 import org.localhost.library.library.exceptions.RentalException;
 import org.localhost.library.library.exceptions.messages.RentalError;
+import org.localhost.library.library.model.Rental;
 import org.localhost.library.library.repository.RentalRepository;
 import org.localhost.library.library.services.CommandService.impl.BaseRentalCommandService;
 import org.localhost.library.library.services.InMemoryConfigService;
@@ -272,13 +273,12 @@ class BaseRentalQueryServiceTest {
         RegisteredUserDto testUser = testUser();
         SuccessfulRentalDto testRental = baseRentalCommandService.rentBookToUser(
                 testBook.getId(), testUser.getId());
-        Thread thraed = new Thread();
-        Thread.sleep(100);
-        baseRentalCommandService.registerBookReturn(testBook.getId(), testUser.getId(), ZonedDateTime.now());
-//        when
-        boolean testResult = objectUnderTest.isBookAvailableForRental(testBook.getId());
+
+        Rental testResult = baseRentalCommandService.registerBookReturn(testBook.getId(), testUser.getId(), ZonedDateTime.now());
+        //        when
+        boolean isAvailable = objectUnderTest.isBookAvailableForRental(testResult.getBook().getId());
 //        then
-        assertTrue(testResult);
+        assertTrue(isAvailable);
     }
 
     @Test

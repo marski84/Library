@@ -1,4 +1,4 @@
-package org.localhost.library.book;
+package org.localhost.library.book.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

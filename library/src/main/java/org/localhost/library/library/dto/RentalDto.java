@@ -20,20 +20,31 @@ public class RentalDto {
     private ZonedDateTime returnDate;
 
     public static RentalDto fromRental(Rental rental) {
-        long rentalTime = Duration.between(
-                rental.getRentDate(),
-                rental.getDueDate()
-        ).toDays();
-        return RentalDto.builder()
+        if (rental.getRentDate() != null && rental.getDueDate() != null) {
+            long rentalTime = Duration.between(
+                    rental.getRentDate(),
+                    rental.getDueDate()
+            ).toDays();
+
+            return RentalDto.builder()
+                    .bookTitle(rental.getBook().getTitle())
+                    .author(rental.getBook().getAuthor())
+                    .isbn(rental.getBook().getIsbn())
+                    .userId(rental.getUser().getId())
+                    .rentalTime(rentalTime)
+                    .rentalDate(rental.getRentDate())
+                    .dueDate(rental.getDueDate())
+                    .returnDate(rental.getReturnDate())
+                    .build();
+        }
+         return RentalDto.builder()
                 .bookTitle(rental.getBook().getTitle())
                 .author(rental.getBook().getAuthor())
                 .isbn(rental.getBook().getIsbn())
                 .userId(rental.getUser().getId())
-                .rentalTime(rentalTime)
                 .rentalDate(rental.getRentDate())
                 .dueDate(rental.getDueDate())
                 .returnDate(rental.getReturnDate())
                 .build();
-
     }
 }

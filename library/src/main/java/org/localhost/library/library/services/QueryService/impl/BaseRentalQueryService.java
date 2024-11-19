@@ -29,6 +29,7 @@ public class BaseRentalQueryService implements RentalQueryService {
         if (bookId <= 0) {
             throw new IllegalArgumentException("Book id must be greater than zero");
         }
+        System.out.println(bookId);
         List<Rental> rentalList = rentalRepository.findAllByBookId(bookId);
         return rentalList.stream()
                 .map(RentalDto::fromRental)
