@@ -3,10 +3,12 @@ package org.localhost.library.book.exceptions.handler;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.localhost.library.book.exceptions.BookException;
+import org.localhost.library.user.exceptions.handler.UserExceptionHandler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -42,6 +44,19 @@ public class BookExceptionHandler {
                         new BookExceptionErrorResponse(
                                 ex.getMessage(),
                                 ex.getErrorCode().getCode(),
+                                ZonedDateTime.now()
+                        )
+                );
+    }
+
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    public ResponseEntity<BookExceptionErrorResponse> handleHandlerMethodValidationException(HandlerMethodValidationException ex) {
+        return ResponseEntity
+                .badRequest()
+                .body(
+                        new BookExceptionErrorResponse(
+                                "Edit dto validation failure",
+                                600,
                                 ZonedDateTime.now()
                         )
                 );

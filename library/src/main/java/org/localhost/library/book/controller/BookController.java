@@ -18,7 +18,7 @@ public interface BookController {
 
     ResponseEntity<Long> removeBook(@PathVariable @Positive Long id);
 
-    ResponseEntity<BookDto> getBookById(@PathVariable @Positive Long id);
+    ResponseEntity<BookDto> getBookById(@PathVariable Long id);
 
     ResponseEntity<BookDto> editBook(@PathVariable @Positive Long id, @Valid @RequestBody EditBookDto bookDto);
 }

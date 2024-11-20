@@ -1,5 +1,6 @@
 package org.localhost.library.book.service.impl;
 
+import jakarta.validation.Valid;
 import org.localhost.library.book.dto.BookDto;
 import org.localhost.library.book.dto.BookRegistrationDto;
 import org.localhost.library.book.dto.EditBookDto;

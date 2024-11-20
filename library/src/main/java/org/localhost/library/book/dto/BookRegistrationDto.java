@@ -29,4 +29,5 @@ public class BookRegistrationDto {
 
     @Min(value = 1, message = "Pages must be greater than 0")
     private int pages;
+
 }
