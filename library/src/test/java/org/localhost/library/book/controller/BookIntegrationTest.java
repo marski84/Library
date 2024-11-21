@@ -182,6 +182,18 @@ class BookIntegrationTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void removeBookShouldReturn400() throws Exception {
+        String ERROR_MESSAGE = "Book with given ID does not exist";
+        int ERROR_CODE = 300;
+        mockMvc.perform(MockMvcRequestBuilders.delete(BOOKS_URL + "/{id}", NOT_EXISTING_BOOK_ID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value(ERROR_MESSAGE))
+                .andExpect(jsonPath("$.errorCode").value(ERROR_CODE));
+    }
+
 
 
 

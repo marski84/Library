@@ -8,6 +8,7 @@ import org.localhost.library.user.dto.UserDto;
 import org.localhost.library.user.dto.UserRegistrationDto;
 import org.localhost.library.user.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class BaseUserController implements UserController {
     @PutMapping("/update/{userId}")
     public ResponseEntity<UserDto> updateUser(
             @PathVariable long userId,
-            @RequestBody EditUserDataDto userDto) {
+            @RequestBody @Validated EditUserDataDto userDto) {
         UserDto user = userService.updateUser(userId, userDto);
         return ResponseEntity.ok(user);
     }

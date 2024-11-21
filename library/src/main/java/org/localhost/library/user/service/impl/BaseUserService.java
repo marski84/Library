@@ -39,7 +39,7 @@ public class BaseUserService implements UserService {
 
         if (userRepository.existsByUserName(userRegistrationDto.getUserName())) {
             UserException userException = new UserException(UserError.USER_EXISTS);
-            AppLogger.logError(userException.getError().getCode() + "for username: " + userRegistrationDto.getUserName());
+            AppLogger.logError(userException.getError().getCode() + " for username: " + userRegistrationDto.getUserName());
             throw userException;
         }
 
@@ -73,10 +73,7 @@ public class BaseUserService implements UserService {
 
         AppLogger.logInfo("Removed user with id: " + userToRemove.getId());
 
-        return UserDto.builder()
-                .id(userToRemove.getId())
-                .userName(userToRemove.getUserName())
-                .build();
+        return UserDto.fromUser(userToRemove);
     }
 
     @Override
@@ -105,13 +102,7 @@ public class BaseUserService implements UserService {
         AppLogger.logInfo("Updated user with id: " + updatedUser.getId());
 
 
-        return UserDto.builder()
-                .id(updatedUser.getId())
-                .userName(updatedUser.getUserName())
-                .firstName(userDto.getFirstName())
-                .lastName(updatedUser.getLastName())
-                .age(updatedUser.getAge())
-                .build();
+        return UserDto.fromUser(updatedUser);
     }
 
     @Override
@@ -143,9 +134,10 @@ public class BaseUserService implements UserService {
     public void updateUserPenaltyPoints(long userId, RentalStatus rentalStatus) {
         validateUserId(userId);
         User userToUpdate = findUserById(userId);
+        int penaltyPoints = userToUpdate.getPenaltyPoints();
         switch (rentalStatus) {
-            case DUE_TODAY -> userToUpdate.setPenaltyPoints(configService.getOverduePoints());
-            case OVERDUE -> userToUpdate.setPenaltyPoints(configService.getLateOverduePoints());
+            case DUE_TODAY -> userToUpdate.setPenaltyPoints(penaltyPoints + configService.getOverduePoints());
+            case OVERDUE -> userToUpdate.setPenaltyPoints(penaltyPoints + configService.getLateOverduePoints());
         }
         if (userToUpdate.getPenaltyPoints() >= configService.getMaxPenaltyPoints()) {
             userToUpdate.setBlocked(true);
@@ -164,12 +156,7 @@ public class BaseUserService implements UserService {
         AppLogger.logInfo("Collected data for user with id: " + user.getId());
 
 
-        return UserDto.builder()
-                .id(user.getId())
-                .userName(user.getUserName())
-                .penaltyPoints(user.getPenaltyPoints())
-                .isBlocked(user.isBlocked())
-                .build();
+        return UserDto.fromUser(user);
     }
 
     @Override
@@ -179,12 +166,7 @@ public class BaseUserService implements UserService {
                 .toList();
 
         AppLogger.logInfo("Found " + userList.size() + " users");
-        return userList.stream()
-                .map(user -> UserDto.builder()
-                        .id(user.getId())
-                        .userName(user.getUserName())
-                        .build()
-                ).toList();
+        return userList.stream().map(UserDto::fromUser).toList();
     }
 
     public User findUserById(long id) {

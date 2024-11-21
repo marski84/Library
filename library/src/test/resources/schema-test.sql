@@ -10,4 +10,17 @@ CREATE TABLE books (
                        pages INT,
                        publisher VARCHAR(255)
 );
-ALTER TABLE books ALTER COLUMN id RESTART WITH 5;
+
+
+CREATE TABLE users
+(
+    id             SERIAL PRIMARY KEY,
+    user_name      VARCHAR(255)          NOT NULL,
+    first_name     VARCHAR(255)          NOT NULL,
+    last_name      VARCHAR(255)          NOT NULL,
+    age            INTEGER               NOT NULL,
+    penalty_points INTEGER DEFAULT 0     NOT NULL,
+    is_blocked     BOOLEAN DEFAULT FALSE NOT NULL,
+    CONSTRAINT uq_users_user_name UNIQUE (user_name),
+    CONSTRAINT chk_penalty_points_non_negative CHECK (penalty_points >= 0)
+    );

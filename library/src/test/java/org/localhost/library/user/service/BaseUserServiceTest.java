@@ -1,4 +1,4 @@
-package org.localhost.library.user;
+package org.localhost.library.user.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +17,6 @@ import org.localhost.library.user.exceptions.UserException;
 import org.localhost.library.user.exceptions.messages.UserError;
 import org.localhost.library.user.model.User;
 import org.localhost.library.user.repository.UserRepository;
-import org.localhost.library.user.service.UserService;
 import org.localhost.library.user.service.impl.BaseUserService;
 
 import java.util.List;
