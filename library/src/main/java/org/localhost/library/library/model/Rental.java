@@ -35,9 +35,9 @@ public class Rental {
     private ZonedDateTime dueDate;
 
     private ZonedDateTime returnDate;
-    private int penaltyPointsForDue;
+    private int penaltyPoints;
 
     public Rental() {
-        this.penaltyPointsForDue = 0;
+        this.penaltyPoints = 0;
     }
 }

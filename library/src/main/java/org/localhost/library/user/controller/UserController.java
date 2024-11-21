@@ -14,10 +14,10 @@ import java.util.List;
 
 public interface UserController {
     ResponseEntity<RegisteredUserDto> registerUser(@Valid UserRegistrationDto userRegistrationDto);
-    ResponseEntity<UserDto> updateUser(@Positive @NotNull long userId, @Valid EditUserDataDto userDto);
-    ResponseEntity<UserDto> getUserStatus(@Positive @NotNull long userId);
+    ResponseEntity<UserDto> updateUser(@Positive @NotNull Long userId, @Valid EditUserDataDto userDto);
+    ResponseEntity<UserDto> getUserStatus(@Positive @NotNull Long userId);
     ResponseEntity<List<UserDto>> getAllUsers();
-    ResponseEntity<?> blockUser(@Positive @NotNull long id);
-    ResponseEntity<?> unblockUser(@Positive @NotNull long id);
-    ResponseEntity<?> updateUserPenaltyPoints(@Positive @NotNull long userId, RentalStatus rentalStatus);
+    ResponseEntity<?> blockUser(@Positive @NotNull Long id);
+    ResponseEntity<?> unblockUser(@Positive @NotNull Long id);
+    ResponseEntity<?> updateUserPenaltyPoints(@Positive @NotNull Long userId, RentalStatus rentalStatus);
 }

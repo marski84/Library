@@ -24,3 +24,21 @@ CREATE TABLE users
     CONSTRAINT uq_users_user_name UNIQUE (user_name),
     CONSTRAINT chk_penalty_points_non_negative CHECK (penalty_points >= 0)
     );
+
+
+CREATE TABLE IF NOT EXISTS rentals
+(
+    id             SERIAL PRIMARY KEY,
+    book_id        BIGINT NOT NULL,
+    user_id        BIGINT NOT NULL,
+    rent_date      DATE   NOT NULL,
+    due_date       DATE   NOT NULL,
+    return_date    DATE,
+    penalty_points INT DEFAULT 0,
+    CONSTRAINT fk_book
+        FOREIGN KEY (book_id)
+            REFERENCES books (id),
+    CONSTRAINT fk_user
+        FOREIGN KEY (user_id)
+            REFERENCES users (id)
+);

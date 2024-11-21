@@ -17,6 +17,7 @@ public class SuccessfulRentalDto {
     private String author;
     private String isbn;
     private long userId;
+    private long bookId;
     private long rentalTime;
     private ZonedDateTime rentalDate;
     private ZonedDateTime dueDate;
@@ -32,6 +33,7 @@ public class SuccessfulRentalDto {
                 .author(rental.getBook().getAuthor())
                 .isbn(rental.getBook().getIsbn())
                 .userId(rental.getUser().getId())
+                .bookId(rental.getBook().getId())
                 .rentalTime(rentalTime)
                 .rentalDate(rental.getRentDate())
                 .dueDate(rental.getDueDate())

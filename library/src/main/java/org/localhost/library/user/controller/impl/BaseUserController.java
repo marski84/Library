@@ -30,14 +30,14 @@ public class BaseUserController implements UserController {
 
     @PutMapping("/update/{userId}")
     public ResponseEntity<UserDto> updateUser(
-            @PathVariable long userId,
+            @PathVariable Long userId,
             @RequestBody @Validated EditUserDataDto userDto) {
         UserDto user = userService.updateUser(userId, userDto);
         return ResponseEntity.ok(user);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<UserDto> getUserStatus(@PathVariable long userId) {
+    public ResponseEntity<UserDto> getUserStatus(@PathVariable Long userId) {
         UserDto user = userService.getUserStatus(userId);
         return ResponseEntity.ok(user);
     }
@@ -49,20 +49,20 @@ public class BaseUserController implements UserController {
     }
 
     @GetMapping("/block/{id}")
-    public ResponseEntity<?> blockUser(@PathVariable long id) {
+    public ResponseEntity<?> blockUser(@PathVariable Long id) {
         userService.blockUser(id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/unblock/{id}")
-    public ResponseEntity<?> unblockUser(@PathVariable long id) {
+    public ResponseEntity<?> unblockUser(@PathVariable Long id) {
         userService.unblockUser(id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/updatePenaltyPoints/{userId}/{rentalStatus}")
     public ResponseEntity<?> updateUserPenaltyPoints(
-            @PathVariable long userId,
+            @PathVariable Long userId,
             @PathVariable RentalStatus rentalStatus) {
         userService.updateUserPenaltyPoints(userId, rentalStatus);
         return ResponseEntity.ok().build();
