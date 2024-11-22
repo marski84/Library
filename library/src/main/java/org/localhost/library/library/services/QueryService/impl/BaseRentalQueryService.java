@@ -12,7 +12,6 @@ import org.localhost.library.user.dto.UserDto;
 import org.localhost.library.utils.AppLogger;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -29,7 +28,6 @@ public class BaseRentalQueryService implements RentalQueryService {
         if (bookId <= 0) {
             throw new IllegalArgumentException("Book id must be greater than zero");
         }
-        System.out.println(bookId);
         List<Rental> rentalList = rentalRepository.findAllByBookId(bookId);
         return rentalList.stream()
                 .map(RentalDto::fromRental)

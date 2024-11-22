@@ -92,6 +92,8 @@ public class BaseRentalCommandService implements RentalCommandService {
     public Rental registerBookReturn(long bookId, long userId, ZonedDateTime returnDate) {
         BookUserAssociation rentalData = new BookUserAssociation(bookId, userId);
 
+        System.out.println(rentalRepository.findRentalByBookIdAndUserId(rentalData.getBookId(), userId));
+
         Rental rental = rentalRepository.findRentalByBookIdAndUserId(rentalData.getBookId(), userId)
                 .orElseThrow(() -> {
                             RentalException notFoundException = new RentalException(RentalError.RENTAL_NOT_FOUND);

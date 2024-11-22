@@ -9,7 +9,6 @@ import java.time.ZonedDateTime;
 
 public interface RentalCommandService {
     SuccessfulRentalDto rentBookToUser(long bookId, long userId);
-
     Rental registerBookReturn(long bookId, long userId, ZonedDateTime returnDate);
     ZonedDateTime extendRental(long rentalId, int days) throws RentalException;
 

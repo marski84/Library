@@ -4,17 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="403a4fd3-44df-4d17-8575-c8aa065debfd" name="Changes" comment="configured and added integration testing">
+    <list default="true" id="403a4fd3-44df-4d17-8575-c8aa065debfd" name="Changes" comment="added integration tests for RENTALS endpoint- beginning">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/controller/RentalQueryController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/controller/impl/BaseRentalQueryController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/controller/impl/RentalCommandIntegrationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/controller/impl/RentalQueryIntegrationTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/controller/BookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/controller/BookController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/controller/impl/BaseBookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/controller/impl/BaseBookController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/dto/BookRegistrationDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/dto/BookRegistrationDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/dto/EditBookDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/dto/EditBookDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/exceptions/handler/BookExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/exceptions/handler/BookExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/service/impl/BaseBookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/book/service/impl/BaseBookService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/localhost/library/book/controller/BookIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/book/controller/BookIntegrationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/data-test.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/data-test.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/schema-test.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/schema-test.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/controller/LibraryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/controller/RentalCommandController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/controller/impl/BaseLibraryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/controller/impl/BaseRentalCommandController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/RentalCommandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/RentalCommandService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/impl/BaseRentalCommandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/impl/BaseRentalCommandService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/QueryService/impl/BaseRentalQueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/QueryService/impl/BaseRentalQueryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/controller/impl/BaseLibraryControllerTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +25,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="JUnit5 Test Class" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -68,6 +69,8 @@
   "keyToString": {
     "Application.LibraryApplication.executor": "Run",
     "JUnit.BaseBookServiceTest.executor": "Run",
+    "JUnit.BaseLibraryControllerTest.executor": "Run",
+    "JUnit.BaseLibraryControllerTest.rentBookToUserShouldReturn200.executor": "Run",
     "JUnit.BaseRentalCommandServiceTest.executor": "Run",
     "JUnit.BaseRentalQueryServiceTest.executor": "Run",
     "JUnit.BaseRentalQueryServiceTest.getRentalDataForBook.executor": "Run",
@@ -77,6 +80,9 @@
     "JUnit.BookIntegrationTest.executor": "Run",
     "JUnit.BookIntegrationTest.shouldGetAllBooks.executor": "Run",
     "JUnit.BookIntegrationTest.shouldReturn404ForNonExistentBook.executor": "Run",
+    "JUnit.LibraryIntegrationTests.executor": "Run",
+    "JUnit.RentalQueryIntegrationTests.executor": "Run",
+    "JUnit.UserIntegrationTest.executor": "Run",
     "Maven.library [install].executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
@@ -107,45 +113,17 @@
       <recent name="" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.localhost.library.user.service" />
       <recent name="org.localhost.library.book.controller" />
       <recent name="org.localhost.library.book.service" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="org.localhost.library.library.controller.impl" />
+      <recent name="org.localhost.library.user.controller.impl" />
       <recent name="org.localhost.library.book.controller.impl" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.BookIntegrationTest">
-    <configuration name="BaseBookServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="library" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.localhost.library.book.controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.localhost.library.book.service" />
-      <option name="MAIN_CLASS_NAME" value="org.localhost.library.book.service.BaseBookServiceTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="BaseRentalQueryServiceTest.isBookAvailableForRental" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="library" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.localhost.library.library.services.QueryService.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.localhost.library.library.services.QueryService" />
-      <option name="MAIN_CLASS_NAME" value="org.localhost.library.library.services.QueryService.BaseRentalQueryServiceTest" />
-      <option name="METHOD_NAME" value="isBookAvailableForRental" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.RentalQueryIntegrationTests">
     <configuration name="BookIntegrationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="library" />
       <extension name="coverage">
@@ -161,34 +139,63 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BookIntegrationTest.shouldGetAllBooks" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="RentalCommandIntegrationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="library" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.localhost.library.book.controller.*" />
+          <option name="PATTERN" value="org.localhost.library.library.controller.impl.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.localhost.library.book.controller" />
-      <option name="MAIN_CLASS_NAME" value="org.localhost.library.book.controller.BookIntegrationTest" />
-      <option name="METHOD_NAME" value="shouldGetAllBooks" />
+      <option name="PACKAGE_NAME" value="org.localhost.library.library.controller.impl" />
+      <option name="MAIN_CLASS_NAME" value="org.localhost.library.library.controller.impl.RentalCommandIntegrationTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RentalCommandIntegrationTests.rentBookToUserShouldReturn200" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.localhost.library.library.controller.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.localhost.library.library.controller.impl" />
+      <option name="MAIN_CLASS_NAME" value="org.localhost.library.library.controller.impl.RentalCommandIntegrationTests" />
+      <option name="METHOD_NAME" value="rentBookToUserShouldReturn200" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BookIntegrationTest.shouldReturn404ForNonExistentBook" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="RentalQueryIntegrationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="library" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.localhost.library.book.controller.*" />
+          <option name="PATTERN" value="org.localhost.library.library.controller.impl.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.localhost.library.book.controller" />
-      <option name="MAIN_CLASS_NAME" value="org.localhost.library.book.controller.BookIntegrationTest" />
-      <option name="METHOD_NAME" value="shouldReturn404ForNonExistentBook" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="org.localhost.library.library.controller.impl" />
+      <option name="MAIN_CLASS_NAME" value="org.localhost.library.library.controller.impl.RentalQueryIntegrationTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserIntegrationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.localhost.library.user.controller.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.localhost.library.user.controller.impl" />
+      <option name="MAIN_CLASS_NAME" value="org.localhost.library.user.controller.impl.UserIntegrationTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -203,11 +210,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.RentalQueryIntegrationTests" />
+        <item itemvalue="JUnit.RentalCommandIntegrationTests" />
+        <item itemvalue="JUnit.RentalCommandIntegrationTests.rentBookToUserShouldReturn200" />
+        <item itemvalue="JUnit.UserIntegrationTest" />
         <item itemvalue="JUnit.BookIntegrationTest" />
-        <item itemvalue="JUnit.BookIntegrationTest.shouldReturn404ForNonExistentBook" />
-        <item itemvalue="JUnit.BookIntegrationTest.shouldGetAllBooks" />
-        <item itemvalue="JUnit.BaseBookServiceTest" />
-        <item itemvalue="JUnit.BaseRentalQueryServiceTest.isBookAvailableForRental" />
       </list>
     </recent_temporary>
   </component>
@@ -236,7 +243,7 @@
       <workItem from="1731685251940" duration="1583000" />
       <workItem from="1731688893655" duration="58000" />
       <workItem from="1731930230355" duration="9591000" />
-      <workItem from="1732005739767" duration="22644000" />
+      <workItem from="1732005739767" duration="62912000" />
     </task>
     <task id="LOCAL-00001" summary="added user controller and exception handling">
       <option name="closed" value="true" />
@@ -286,7 +293,31 @@
       <option name="project" value="LOCAL" />
       <updated>1732013559556</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="added integration tests for BOOKS endpoint">
+      <option name="closed" value="true" />
+      <created>1732108803957</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1732108803957</updated>
+    </task>
+    <task id="LOCAL-00008" summary="added integration tests for USERS endpoint">
+      <option name="closed" value="true" />
+      <created>1732188871550</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1732188871550</updated>
+    </task>
+    <task id="LOCAL-00009" summary="added integration tests for RENTALS endpoint- beginning">
+      <option name="closed" value="true" />
+      <created>1732200782327</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1732200782327</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -297,6 +328,9 @@
     <MESSAGE value="added methods to RentalQueryService, added initial data for rentals + unit tests" />
     <MESSAGE value="refactroring" />
     <MESSAGE value="configured and added integration testing" />
-    <option name="LAST_COMMIT_MESSAGE" value="configured and added integration testing" />
+    <MESSAGE value="added integration tests for BOOKS endpoint" />
+    <MESSAGE value="added integration tests for USERS endpoint" />
+    <MESSAGE value="added integration tests for RENTALS endpoint- beginning" />
+    <option name="LAST_COMMIT_MESSAGE" value="added integration tests for RENTALS endpoint- beginning" />
   </component>
 </project>
