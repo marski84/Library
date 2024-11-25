@@ -3,7 +3,7 @@ package org.localhost.library.library.services.QueryService;
 import org.localhost.library.book.dto.BookDto;
 import org.localhost.library.library.dto.RentalDto;
 import org.localhost.library.library.dto.RentalStatisticsDto;
-import org.localhost.library.user.dto.UserDto;
+import org.localhost.library.user.model.User;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -27,7 +27,7 @@ public interface RentalQueryService {
 
     List<BookDto> getMostPopularBooks(int limit);
 
-    List<UserDto> getMostActiveUsers(int limit);
+    List<User> getMostActiveUsers(int limit);
 
     RentalStatisticsDto getRentalStatistics();
 

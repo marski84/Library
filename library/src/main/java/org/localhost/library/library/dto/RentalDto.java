@@ -10,6 +10,8 @@ import java.time.ZonedDateTime;
 @Builder
 @Getter
 public class RentalDto {
+    private long id;
+    private long bookId;
     private String bookTitle;
     private String author;
     private String isbn;
@@ -27,6 +29,8 @@ public class RentalDto {
             ).toDays();
 
             return RentalDto.builder()
+                    .id(rental.getId())
+                    .bookId(rental.getBook().getId())
                     .bookTitle(rental.getBook().getTitle())
                     .author(rental.getBook().getAuthor())
                     .isbn(rental.getBook().getIsbn())
@@ -37,10 +41,12 @@ public class RentalDto {
                     .returnDate(rental.getReturnDate())
                     .build();
         }
-         return RentalDto.builder()
+        return RentalDto.builder()
+                .id(rental.getId())
                 .bookTitle(rental.getBook().getTitle())
                 .author(rental.getBook().getAuthor())
                 .isbn(rental.getBook().getIsbn())
+                .bookTitle(rental.getBook().getTitle())
                 .userId(rental.getUser().getId())
                 .rentalDate(rental.getRentDate())
                 .dueDate(rental.getDueDate())

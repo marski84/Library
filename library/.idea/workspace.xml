@@ -4,18 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="403a4fd3-44df-4d17-8575-c8aa065debfd" name="Changes" comment="added integration tests for RENTALS endpoint- beginning">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/controller/RentalQueryController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/controller/impl/BaseRentalQueryController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/controller/impl/RentalCommandIntegrationTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/controller/impl/RentalQueryIntegrationTests.java" afterDir="false" />
+    <list default="true" id="403a4fd3-44df-4d17-8575-c8aa065debfd" name="Changes" comment="added integration tests for RENTALS endpoint- finished RentalCommandController, started RentalQueryController">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/controller/LibraryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/controller/RentalCommandController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/controller/impl/BaseLibraryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/controller/impl/BaseRentalCommandController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/RentalCommandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/RentalCommandService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/impl/BaseRentalCommandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/CommandService/impl/BaseRentalCommandService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library.iml" beforeDir="false" afterPath="$PROJECT_DIR$/library.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/controller/RentalQueryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/controller/RentalQueryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/controller/impl/BaseRentalQueryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/controller/impl/BaseRentalQueryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/dto/RentalDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/dto/RentalDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/repository/RentalRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/repository/RentalRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/QueryService/RentalQueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/QueryService/RentalQueryService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/QueryService/impl/BaseRentalQueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/localhost/library/library/services/QueryService/impl/BaseRentalQueryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/controller/impl/BaseLibraryControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/controller/impl/RentalQueryIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/controller/impl/RentalQueryIntegrationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/services/QueryService/BaseRentalQueryServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/library/services/QueryService/BaseRentalQueryServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/localhost/library/repositories/InMemoryRentalRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/localhost/library/repositories/InMemoryRentalRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/data-test.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/data-test.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +78,7 @@
     "JUnit.BaseRentalQueryServiceTest.getRentalDataForBook.executor": "Run",
     "JUnit.BaseRentalQueryServiceTest.getRentalDataForUser.executor": "Run",
     "JUnit.BaseRentalQueryServiceTest.isBookAvailableForRental.executor": "Run",
+    "JUnit.BaseRentalQueryServiceTest.isBookAvailableForRentalShouldThrow.executor": "Run",
     "JUnit.BaseUserServiceTest.executor": "Run",
     "JUnit.BookIntegrationTest.executor": "Run",
     "JUnit.BookIntegrationTest.shouldGetAllBooks.executor": "Run",
@@ -124,17 +127,34 @@
     </key>
   </component>
   <component name="RunManager" selected="JUnit.RentalQueryIntegrationTests">
-    <configuration name="BookIntegrationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BaseRentalQueryServiceTest.isBookAvailableForRental" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="library" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.localhost.library.book.controller.*" />
+          <option name="PATTERN" value="org.localhost.library.library.services.QueryService.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.localhost.library.book.controller" />
-      <option name="MAIN_CLASS_NAME" value="org.localhost.library.book.controller.BookIntegrationTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="org.localhost.library.library.services.QueryService" />
+      <option name="MAIN_CLASS_NAME" value="org.localhost.library.library.services.QueryService.BaseRentalQueryServiceTest" />
+      <option name="METHOD_NAME" value="isBookAvailableForRental" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BaseRentalQueryServiceTest.isBookAvailableForRentalShouldThrow" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.localhost.library.library.services.QueryService.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.localhost.library.library.services.QueryService" />
+      <option name="MAIN_CLASS_NAME" value="org.localhost.library.library.services.QueryService.BaseRentalQueryServiceTest" />
+      <option name="METHOD_NAME" value="isBookAvailableForRentalShouldThrow" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -185,21 +205,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserIntegrationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="library" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.localhost.library.user.controller.impl.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.localhost.library.user.controller.impl" />
-      <option name="MAIN_CLASS_NAME" value="org.localhost.library.user.controller.impl.UserIntegrationTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="LibraryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="library" />
@@ -211,10 +216,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.RentalQueryIntegrationTests" />
+        <item itemvalue="JUnit.BaseRentalQueryServiceTest.isBookAvailableForRentalShouldThrow" />
+        <item itemvalue="JUnit.BaseRentalQueryServiceTest.isBookAvailableForRental" />
         <item itemvalue="JUnit.RentalCommandIntegrationTests" />
         <item itemvalue="JUnit.RentalCommandIntegrationTests.rentBookToUserShouldReturn200" />
-        <item itemvalue="JUnit.UserIntegrationTest" />
-        <item itemvalue="JUnit.BookIntegrationTest" />
       </list>
     </recent_temporary>
   </component>
@@ -243,7 +248,7 @@
       <workItem from="1731685251940" duration="1583000" />
       <workItem from="1731688893655" duration="58000" />
       <workItem from="1731930230355" duration="9591000" />
-      <workItem from="1732005739767" duration="62912000" />
+      <workItem from="1732005739767" duration="79903000" />
     </task>
     <task id="LOCAL-00001" summary="added user controller and exception handling">
       <option name="closed" value="true" />
@@ -317,7 +322,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732200782327</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="added integration tests for RENTALS endpoint- finished RentalCommandController, started RentalQueryController">
+      <option name="closed" value="true" />
+      <created>1732291022524</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1732291022524</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -331,6 +344,7 @@
     <MESSAGE value="added integration tests for BOOKS endpoint" />
     <MESSAGE value="added integration tests for USERS endpoint" />
     <MESSAGE value="added integration tests for RENTALS endpoint- beginning" />
-    <option name="LAST_COMMIT_MESSAGE" value="added integration tests for RENTALS endpoint- beginning" />
+    <MESSAGE value="added integration tests for RENTALS endpoint- finished RentalCommandController, started RentalQueryController" />
+    <option name="LAST_COMMIT_MESSAGE" value="added integration tests for RENTALS endpoint- finished RentalCommandController, started RentalQueryController" />
   </component>
 </project>

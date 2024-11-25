@@ -28,10 +28,11 @@ VALUES
     -- Zakończone wypożyczenia na czas
     (3, 3, 4, '2024-02-01', '2024-02-15', '2024-02-14', 0),  -- Marek Wiśniewski oddał "Effective Java" przed terminem
     (4, 4, 1, '2024-02-01', '2024-02-15', '2024-02-15', 0),  -- Jan Kowalski oddał "Domain-Driven Design" w terminie
+    (5, 4, 4, '2024-03-01', '2024-04-15', '2024-04-12', 0),  -- Jan Kowalski oddał "Domain-Driven Design" w terminie
 
     -- Zakończone wypożyczenia po terminie (z punktami karnymi)
-    (5, 1, 2, '2024-01-15', '2024-01-29', '2024-02-05', 3),  -- Anna Nowak oddała z opóźnieniem
-    (6, 2, 3, '2024-01-01', '2024-01-15', '2024-02-01', 8);  -- Piotr Malinowski oddał z dużym opóźnieniem
+    (6, 1, 2, '2024-01-15', '2024-01-29', '2024-02-05', 3),  -- Anna Nowak oddała z opóźnieniem
+    (7, 2, 3, '2024-01-01', '2024-01-15', '2024-02-01', 8);  -- Piotr Malinowski oddał z dużym opóźnieniem
 
-ALTER TABLE rentals ALTER COLUMN id RESTART WITH 7;
+ALTER TABLE rentals ALTER COLUMN id RESTART WITH 8;
 

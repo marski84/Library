@@ -8,7 +8,7 @@ import org.localhost.library.library.exceptions.messages.RentalError;
 import org.localhost.library.library.model.Rental;
 import org.localhost.library.library.repository.RentalRepository;
 import org.localhost.library.library.services.QueryService.RentalQueryService;
-import org.localhost.library.user.dto.UserDto;
+import org.localhost.library.user.model.User;
 import org.localhost.library.utils.AppLogger;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +29,7 @@ public class BaseRentalQueryService implements RentalQueryService {
             throw new IllegalArgumentException("Book id must be greater than zero");
         }
         List<Rental> rentalList = rentalRepository.findAllByBookId(bookId);
+        System.out.println(rentalList);
         return rentalList.stream()
                 .map(RentalDto::fromRental)
                 .toList();
@@ -81,8 +82,10 @@ public class BaseRentalQueryService implements RentalQueryService {
 
     public boolean isBookAvailableForRental(long bookId) {
         List<RentalDto> bookRentals = getRentalDataForBook(bookId);
-        System.out.println(bookRentals.stream().noneMatch(rental -> rental.getRentalDate() != null));
-            return bookRentals.stream().noneMatch(rental -> rental.getReturnDate() == null);
+        if (bookRentals.isEmpty()) {
+            throw new RentalException(RentalError.RENTAL_NOT_FOUND);
+        }
+        return bookRentals.stream().noneMatch(rental -> rental.getReturnDate() == null);
     }
 
     public int getNumberOfActiveRentalsForUser(long userId) {
@@ -93,12 +96,14 @@ public class BaseRentalQueryService implements RentalQueryService {
     }
 
     public List<BookDto> getMostPopularBooks(int limit) {
-        return List.of();
+        return rentalRepository.findMostPopularBooks(limit).stream()
+                .map(rental -> BookDto.fromBook(rental.getBook()))
+                .toList();
     }
 
 
-    public List<UserDto> getMostActiveUsers(int limit) {
-        return List.of();
+    public List<User> getMostActiveUsers(int limit) {
+        return rentalRepository.findMostActiveUsers(limit);
     }
 
     public RentalStatisticsDto getRentalStatistics() {

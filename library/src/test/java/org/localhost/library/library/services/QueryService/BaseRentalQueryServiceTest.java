@@ -295,6 +295,19 @@ class BaseRentalQueryServiceTest {
     }
 
     @Test
+    @DisplayName("isBookAvailableForRental should throw when no book is registered")
+    void isBookAvailableForRentalShouldThrow() {
+//        when
+        Exception testResult = assertThrows(
+                RentalException.class,
+                () -> objectUnderTest.isBookAvailableForRental(NON_EXISTING_BOOK_ID)
+        );
+//        then
+                assertEquals(testResult.getMessage(), RentalError.RENTAL_NOT_FOUND.getMessage());
+//                assertEquals(testResult.getMessage(), RentalError.RENTAL_NOT_FOUND.getMessage());
+    }
+
+    @Test
     @DisplayName("getNumberOfActiveRentalsForUser should return number of active rentals for user")
     void getNumberOfActiveRentalsForUser() {
 //        given

@@ -2,6 +2,7 @@ package org.localhost.library.repositories;
 
 import org.localhost.library.library.model.Rental;
 import org.localhost.library.library.repository.RentalRepository;
+import org.localhost.library.user.model.User;
 
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -27,16 +28,6 @@ public class InMemoryRentalRepository implements RentalRepository {
     }
 
     @Override
-    public Optional<Rental> findByUserId(long userId) {
-        return null;
-    }
-
-    @Override
-    public Optional<Rental> findByBookId(long bookId) {
-        return Optional.empty();
-    }
-
-    @Override
     public List<Rental> findAllByBookId(long bookId) {
         return rentals.values().stream()
                 .filter(rental -> rental.getBook().getId() == bookId)
@@ -55,6 +46,16 @@ public class InMemoryRentalRepository implements RentalRepository {
         return rentals.values().stream()
                 .filter(rental -> rental.getReturnDate() == null)
                 .toList();
+    }
+
+    @Override
+    public List<Rental> findMostPopularBooks(int limit) {
+        return List.of();
+    }
+
+    @Override
+    public List<User> findMostActiveUsers(int limit) {
+        return List.of();
     }
 
 //    @Query("SELECT r FROM Rental r WHERE r.returnDate IS NULL AND r.dueDate < :date ORDER BY r.dueDate DESC")
