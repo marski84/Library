@@ -20,10 +20,14 @@ public interface RentalRepository extends CrudRepository<Rental, Long> {
     List<Rental> findAllByUserId(long userId);
     List<Rental> findAllByReturnDateIsNull();
 
-    @Query("SELECT r.book, COUNT(r) as rentCount FROM Rental r " +
-            "GROUP BY r.book.id " +
-            "ORDER BY r.rentDate DESC " +
-            "LIMIT :limit")
+    @Query(value = """
+            SELECT b.* FROM books b 
+            JOIN rentals r ON b.id = r.book_id 
+            GROUP BY b.id, b.title, b.author, b.isbn, b.pages, b.publisher 
+            ORDER BY COUNT(r.id) DESC 
+            FETCH FIRST :limit ROWS ONLY
+            """,
+            nativeQuery = true)
     List<Rental> findMostPopularBooks(@Param("limit") int limit);
 
     @Query("SELECT r.user as user, COUNT(r) as rentalCount " +

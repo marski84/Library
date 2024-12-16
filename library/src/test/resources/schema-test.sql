@@ -29,16 +29,18 @@ CREATE TABLE users
 CREATE TABLE IF NOT EXISTS rentals
 (
     id             SERIAL PRIMARY KEY,
-    book_id        BIGINT NOT NULL,
-    user_id        BIGINT NOT NULL,
+    book_id BIGINT,
+    user_id BIGINT,
     rent_date      DATE   NOT NULL,
     due_date       DATE   NOT NULL,
     return_date    DATE,
     penalty_points INT DEFAULT 0,
     CONSTRAINT fk_book
         FOREIGN KEY (book_id)
-            REFERENCES books (id),
+            REFERENCES books (id)
+            ON DELETE SET NULL,
     CONSTRAINT fk_user
         FOREIGN KEY (user_id)
             REFERENCES users (id)
+            ON DELETE SET NULL
 );

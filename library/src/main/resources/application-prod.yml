@@ -5,6 +5,15 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD}
   jpa:
     show-sql: false
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+      schema: classpath:schema.sql
+      data: classpath:data.sql
+
 
 # Konfiguracja logowania
 logging:

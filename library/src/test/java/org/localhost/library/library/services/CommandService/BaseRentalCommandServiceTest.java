@@ -45,6 +45,7 @@ class BaseRentalCommandServiceTest {
     private RentalCommandService objectUnderTest;
     private UserRegistrationDto testUserDto;
     private BookRegistrationDto bookRegistrationDto;
+    private RentalOperationsGateway rentalOperationsGateway;
 
     private UserService userService;
     private BookService bookService;
@@ -60,7 +61,7 @@ class BaseRentalCommandServiceTest {
 
         userService = new BaseUserService(inMemoryUserRepository, configService);
         bookService = new BaseBookService(inMemoryBookrepository);
-        RentalOperationsGateway rentalOperationsGateway = new BaseRentalOperationsGateway(bookService, userService);
+        rentalOperationsGateway = new BaseRentalOperationsGateway(bookService, userService);
 
         objectUnderTest = new BaseRentalCommandService(InMemoryRepository, rentalOperationsGateway, configService);
 
@@ -218,7 +219,7 @@ class BaseRentalCommandServiceTest {
 
     @DisplayName("extendRental should extend rental period")
     @Test
-    void extendRental() {
+    void extendRentalPeriod() {
 //        given
         Book testBook = registerBook();
         RegisteredUserDto testUser = testUser();
@@ -233,4 +234,17 @@ class BaseRentalCommandServiceTest {
 
 
     }
+
+//    @DisplayName("extendRental should extend due date")
+//    @Test
+//    void extendRentalDate(){
+//// given
+//        Book testBook = registerBook();
+//        RegisteredUserDto testUser = testUser();
+//        SuccessfulRentalDto testRental = objectUnderTest.rentBookToUser(testUser.getId(), testBook.getId());
+//        int extendedRentalPeriodDays = 10;
+////        when
+//        ZonedDateTime testResult = objectUnderTest.extendRental(testRental.getRentalId(), extendedRentalPeriodDays);
+//        assertEquals(testRental.getDueDate().plusDays(extendedRentalPeriodDays), testResult);
+//    }
 }

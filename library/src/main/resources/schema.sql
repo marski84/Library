@@ -43,10 +43,12 @@ CREATE TABLE IF NOT EXISTS rentals
     penalty_points INT DEFAULT 0,
     CONSTRAINT fk_book
         FOREIGN KEY (book_id)
-            REFERENCES books (id),
+            REFERENCES books (id)
+            ON DELETE SET NULL,
     CONSTRAINT fk_user
         FOREIGN KEY (user_id)
             REFERENCES users (id)
+            ON DELETE SET NULL
 );
 
 CREATE INDEX IF NOT EXISTS idx_rental_id ON rentals (id);

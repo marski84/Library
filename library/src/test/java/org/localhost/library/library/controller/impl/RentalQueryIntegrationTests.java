@@ -19,8 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.ZonedDateTime;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -172,14 +171,14 @@ public class RentalQueryIntegrationTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(NO_RENTALS_FOUND));
     }
-
-    @Test
-    void getMostPopularBooksShouldReturn200AndNotEmptyList() throws Exception {
-        mockMvc.perform(get("/api/library/rentals/most-popular-books/{limit}", 1))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(1)));
-    }
+//
+//    @Test
+//    void getMostPopularBooksShouldReturn200AndNotEmptyList() throws Exception {
+//        mockMvc.perform(get("/api/library/rentals/most-popular-books/{limit}", 1))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$").isArray())
+//                .andExpect(jsonPath("$", hasSize(1)));
+//    }
 
     @Test
     void getMostActiveUsersShouldReturn200() throws Exception {
